@@ -1,14 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical"
     android:layout_width="match_parent"
-    android:layout_height="100dp"
-    android:gravity="bottom">
+    android:layout_height="75dp"
+    android:gravity="center">
 
     <TextView
-        android:text="Test Header"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
+    android:text="eCalc"
+    android:textSize="40dp"
+    android:textAlignment="center"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content" />
 
 </LinearLayout>
