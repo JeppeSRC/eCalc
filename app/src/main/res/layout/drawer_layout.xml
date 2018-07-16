@@ -36,7 +36,7 @@
         android:layout_height="match_parent"
         android:layout_gravity="left"
         android:fitsSystemWindows="false"
-        app:headerLayout="@layout/navigation_header_layout"
-        app:menu="@menu/drawer_view"/>
+        app:menu="@menu/drawer_view"
+        app:headerLayout="@layout/navigation_header_layout"/>
 
 </android.support.v4.widget.DrawerLayout>
