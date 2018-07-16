@@ -91,7 +91,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         trans.replace(R.id.container_layout, frag);
         trans.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE);
         trans.addToBackStack(null);
-
+        trans.setReorderingAllowed(true);
         trans.commit();
 
         drawerLayout.closeDrawers();
