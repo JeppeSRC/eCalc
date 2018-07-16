@@ -8,6 +8,7 @@ import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.ActionBar;
+import android.support.v7.preference.PreferenceManager;
 import android.view.View;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
@@ -44,6 +45,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         transaction.add(R.id.container_layout, new Home()).commit();
 
         navigationView.setNavigationItemSelectedListener(this);
+
+        PreferenceManager.setDefaultValues(this, R.xml.preferences, false);
     }
 
     public boolean onOptionsItemSelected(MenuItem item) {
@@ -59,7 +62,10 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
     public boolean onNavigationItemSelected(MenuItem item) {
 
-        if (item == null) return false;
+        if (item == null || prevItem == item) {
+            drawerLayout.closeDrawers();
+            return false;
+        }
 
         item.setChecked(true);
 
@@ -70,9 +76,11 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         prevItem = item;
 
         Fragment frag = new Home();
+        FragmentTransaction trans = getSupportFragmentManager().beginTransaction();
 
         switch (item.getItemId()) {
             case R.id.navigation_settings:
+                frag = new PreferenceFrag();
                 break;
             case R.id.navigation_about:
                 break;
@@ -85,8 +93,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             case R.id.navigation_opamp_differential:
                 break;
         }
-
-        FragmentTransaction trans = getSupportFragmentManager().beginTransaction();
 
         trans.replace(R.id.container_layout, frag);
         trans.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE);
