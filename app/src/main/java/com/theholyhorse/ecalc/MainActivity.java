@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
+import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.ActionBar;
 import android.view.View;
@@ -54,14 +55,24 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         return super.onOptionsItemSelected(item);
     }
 
+    private MenuItem prevItem = null;
 
     public boolean onNavigationItemSelected(MenuItem item) {
 
+        if (item == null) return false;
+
+        item.setChecked(true);
+
+        if (prevItem != null) {
+            prevItem.setChecked(false);
+        }
+
+        prevItem = item;
+
+        Fragment frag = new Home();
+
         switch (item.getItemId()) {
-            case R.id.navigation_home:
-                break;
             case R.id.navigation_settings:
-                Snackbar.make(navigationView, "Settings", Snackbar.LENGTH_LONG).show();
                 break;
             case R.id.navigation_about:
                 break;
@@ -74,6 +85,16 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             case R.id.navigation_opamp_differential:
                 break;
         }
+
+        FragmentTransaction trans = getSupportFragmentManager().beginTransaction();
+
+        trans.replace(R.id.container_layout, frag);
+        trans.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE);
+        trans.addToBackStack(null);
+
+        trans.commit();
+
+        drawerLayout.closeDrawers();
 
         return false;
     }

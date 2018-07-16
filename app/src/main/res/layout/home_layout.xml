@@ -1,12 +1,24 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout
+<RelativeLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
     <TextView
+        android:id="@+id/home_header"
+        android:layout_width="match_parent"
+        android:layout_height="70dp"
+        android:layout_alignParentTop="true"
+        android:text="eCalc"
+        android:textSize="50sp"
+        android:textColor="#af00fa"
+        android:gravity="center_horizontal"/>
+
+    <TextView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:text="This is something"/>
+        android:layout_below="@id/home_header"
+        android:text="eCalc is a tool to simplify common calculations in electronics"
+        android:textSize="15sp"/>
 
-</FrameLayout>
+</RelativeLayout>

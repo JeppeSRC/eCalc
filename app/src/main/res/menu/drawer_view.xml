@@ -18,7 +18,8 @@
             android:title="About"/>
     </group>
 
-    <item android:title="Op-Amps">
+    <item android:title="Op-Amps"
+        android:checkableBehavior="single">
         <menu>
             <item
                 android:id="@+id/navigation_opamp_noninverting"
