@@ -76,23 +76,29 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         prevItem = item;
 
         Fragment frag = new Home();
-        FragmentTransaction trans = getSupportFragmentManager().beginTransaction();
 
-        switch (item.getItemId()) {
-            case R.id.navigation_settings:
-                frag = new PreferenceFrag();
-                break;
-            case R.id.navigation_about:
-                break;
-            case R.id.navigation_opamp_inverting:
-                break;
-            case R.id.navigation_opamp_noninverting:
-                break;
-            case R.id.navigation_opamp_schmitt:
-                break;
-            case R.id.navigation_opamp_differential:
-                break;
+       switch (item.getItemId()) {
+           case R.id.navigation_home:
+               if (prevItem == item) {
+                   drawerLayout.closeDrawers();
+                   return false;
+               }
+           case R.id.navigation_settings:
+               frag = new PreferenceFrag();
+               break;
+           case R.id.navigation_about:
+               break;
+           case R.id.navigation_opamp_inverting:
+               break;
+           case R.id.navigation_opamp_noninverting:
+               break;
+           case R.id.navigation_opamp_schmitt:
+               break;
+           case R.id.navigation_opamp_differential:
+               break;
         }
+
+        FragmentTransaction trans = getSupportFragmentManager().beginTransaction();
 
         trans.replace(R.id.container_layout, frag);
         trans.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE);
