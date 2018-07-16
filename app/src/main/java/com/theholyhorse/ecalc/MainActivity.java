@@ -22,16 +22,18 @@ import com.theholyhorse.ecalc.fragments.*;
 public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
 
     private DrawerLayout drawerLayout;
+    private NavigationView navigationView;
 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.drawer_layout);
 
         drawerLayout = findViewById(R.id.drawer_layout);
+        navigationView = findViewById(R.id.navigation_view);
 
-      /*  Toolbar toolbar = findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);*/
-
+        /*Toolbar toolbar = findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
+*/
         ActionBar actionBar = getSupportActionBar();
         actionBar.setDisplayHomeAsUpEnabled(true);
         actionBar.setHomeAsUpIndicator(R.drawable.ic_menu_black);
@@ -40,6 +42,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
         transaction.add(R.id.container_layout, new Home()).commit();
 
+        navigationView.setNavigationItemSelectedListener(this);
     }
 
     public boolean onOptionsItemSelected(MenuItem item) {
@@ -58,6 +61,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             case R.id.navigation_home:
                 break;
             case R.id.navigation_settings:
+                Snackbar.make(navigationView, "Settings", Snackbar.LENGTH_LONG).show();
                 break;
             case R.id.navigation_about:
                 break;
