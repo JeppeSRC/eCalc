@@ -20,6 +20,7 @@
         android:layout_height="match_parent"
         android:layout_margin="7dp"
         android:layout_below="@id/home_header"
+        android:layout_above="@id/ad_view_home"
         android:text="@string/home_text"
         android:textSize="15sp"/>
 
