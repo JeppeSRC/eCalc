@@ -24,7 +24,7 @@
         android:textSize="15sp"/>
 
     <com.google.android.gms.ads.AdView
-        android:id="@+id/ad_view"
+        android:id="@+id/ad_view_home"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
