@@ -61,9 +61,8 @@
         android:layout_marginEnd="4dp"
         android:layout_marginStart="4dp"
         android:layout_marginTop="8dp"
-        android:enabled="false"
         android:inputType="numberDecimal"
-        android:text="GND"
+        android:text="-5"
         app:layout_constraintEnd_toStartOf="@id/lbl_vcc_prefix"
         app:layout_constraintStart_toEndOf="@id/lbl_gnd"
         app:layout_constraintTop_toBottomOf="@id/opamp_image" />
@@ -91,7 +90,7 @@
         app:layout_constraintStart_toEndOf="@id/lbl_vcc_prefix"
         app:layout_constraintTop_toBottomOf="@id/opamp_image" />
 
-<!-- Second Row -->
+    <!-- Second Row -->
 
     <TextView
         android:id="@+id/lbl_r1"
@@ -199,7 +198,7 @@
         android:layout_height="50dp"
         android:layout_marginTop="8dp"
         android:gravity="center_vertical"
-        android:text="K\u2126"
+        android:text="V"
         android:textSize="@dimen/text_size"
         app:layout_constraintEnd_toStartOf="@id/sp_vin"
         app:layout_constraintStart_toEndOf="@id/edt_vin"
@@ -264,7 +263,7 @@
         android:layout_height="50dp"
         android:layout_marginTop="8dp"
         android:gravity="center_vertical"
-        android:text="K\u2126"
+        android:text="V"
         android:textSize="@dimen/text_size"
         app:layout_constraintEnd_toStartOf="@id/sp_vout"
         app:layout_constraintStart_toEndOf="@id/lbl_vout"
@@ -281,7 +280,7 @@
         app:layout_constraintStart_toEndOf="@id/lbl_vout_prefix"
         app:layout_constraintTop_toBottomOf="@id/lbl_vin" />
 
-       <!-- Status View -->
+    <!-- Status View -->
     <!--
     <TextView
         android:id="@+id/tv_status"

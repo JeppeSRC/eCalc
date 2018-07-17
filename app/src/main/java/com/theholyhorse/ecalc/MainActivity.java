@@ -14,6 +14,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.MenuItem;
 
 import com.theholyhorse.ecalc.fragments.*;
+import com.theholyhorse.ecalc.fragments.opamp.OpAmpInverting;
 import com.theholyhorse.ecalc.fragments.opamp.OpAmpNonInverting;
 
 import java.util.ArrayList;
@@ -89,6 +90,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 frag = new OpAmpNonInverting();
                break;
            case R.id.navigation_opamp_inverting:
+               frag = new OpAmpInverting();
                break;
            case R.id.navigation_opamp_schmitt:
                break;

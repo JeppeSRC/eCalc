@@ -1,12 +1,9 @@
 package com.theholyhorse.ecalc.fragments.opamp;
 
 import android.os.Bundle;
-import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
 import android.text.Editable;
 import android.text.TextWatcher;
-import android.util.Log;
-import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -16,12 +13,11 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.Spinner;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.theholyhorse.ecalc.MainActivity;
 import com.theholyhorse.ecalc.R;
 
-public class OpAmpNonInverting extends Fragment implements AdapterView.OnItemSelectedListener {
+public class OpAmpInverting extends Fragment implements AdapterView.OnItemSelectedListener {
 
     private View view;
     private ImageView imageView;
@@ -45,7 +41,7 @@ public class OpAmpNonInverting extends Fragment implements AdapterView.OnItemSel
 
 
     private float vcc = 5.0f;
-    private float gnd = 0.0f;
+    private float gnd = -5.0f;
     private float r1 = 0.0f;
     private float rfb = 0.0f;
     private float vin = 0.0f;
@@ -64,10 +60,10 @@ public class OpAmpNonInverting extends Fragment implements AdapterView.OnItemSel
     private ArrayAdapter<CharSequence> spVoutAdapter;
 
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstance) {
-        view = inflater.inflate(R.layout.opamp_noninverting_layout, container, false);
+        view = inflater.inflate(R.layout.opamp_inverting_layout, container, false);
 
         imageView = view.findViewById(R.id.opamp_image);
-        imageView.setImageResource(R.drawable.op_amp_noninverting);
+        imageView.setImageResource(R.drawable.op_amp_inverting);
 
         edtVcc = view.findViewById(R.id.edt_vcc);
         edtGnd = view.findViewById(R.id.edt_gnd);
@@ -124,7 +120,7 @@ public class OpAmpNonInverting extends Fragment implements AdapterView.OnItemSel
 
             public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
                 vcc = getFloatFromView(edtVcc) * getPrefixMultiplier(lblVccPrefix);
-                gnd = 0.0f;//getFloatFromView(edtGnd);
+                gnd = getFloatFromView(edtGnd) * getPrefixMultiplier(lblVccPrefix);
                 recalculateStuff();
             }
 
@@ -144,7 +140,7 @@ public class OpAmpNonInverting extends Fragment implements AdapterView.OnItemSel
 
 
 
-                gain = rfb / r1 + 1;
+                gain = -r1 / rfb;
 
                 edtGain.removeTextChangedListener(gain_);
                 edtGain.setText(Float.toString(gain));
@@ -181,7 +177,7 @@ public class OpAmpNonInverting extends Fragment implements AdapterView.OnItemSel
             public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
                 gain = getFloatFromView(edtGain);
 
-                r1 = rfb / (gain - 1);
+                r1 = -gain * rfb;
 
                 edtR1.removeTextChangedListener(r1rfb);
                 edtR1.setText(Float.toString(r1));
@@ -215,7 +211,7 @@ public class OpAmpNonInverting extends Fragment implements AdapterView.OnItemSel
         float res = 0.0f;
 
         try {
-           res = Float.parseFloat(s);
+            res = Float.parseFloat(s);
         } catch (NumberFormatException e) {
             res = -0.123f;
         }
@@ -253,28 +249,31 @@ public class OpAmpNonInverting extends Fragment implements AdapterView.OnItemSel
 
         if (vout > vcc) {
             vout = vcc;
+        } else if (vout < gnd) {
+            vout = gnd;
         }
 
         lblVout.setText("Vout: " + Float.toString(vout / getPrefixMultiplier(lblVoutPrefix)));
     }
 
     public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
-       if (adapterView.getAdapter() == spVccAdapter) {
-           lblVccPrefix.setText((CharSequence)adapterView.getItemAtPosition(i));
-           vcc = getFloatFromView(edtVcc) * getPrefixMultiplier(lblVccPrefix);
-           recalculateStuff();
-       } else if (adapterView.getAdapter() == spOhmAdapter) {
-           lblOhmPrefix.setText((CharSequence)adapterView.getItemAtPosition(i));
-           r1 = getFloatFromView(edtR1) * getPrefixMultiplier(lblOhmPrefix);
-           rfb = getFloatFromView(edtRfb) * getPrefixMultiplier(lblOhmPrefix);
-       } else if (adapterView.getAdapter() == spVinAdapter) {
-           lblVinPrefix.setText((CharSequence)adapterView.getItemAtPosition(i));
-           vin = getFloatFromView(edtVcc) * getPrefixMultiplier(lblVinPrefix);
-           recalculateStuff();
-       } else if (adapterView.getAdapter() == spVoutAdapter) {
-           lblVoutPrefix.setText((CharSequence)adapterView.getItemAtPosition(i));
-           recalculateStuff();
-       }
+        if (adapterView.getAdapter() == spVccAdapter) {
+            lblVccPrefix.setText((CharSequence)adapterView.getItemAtPosition(i));
+            vcc = getFloatFromView(edtVcc) * getPrefixMultiplier(lblVccPrefix);
+            gnd = getFloatFromView(edtGnd) * getPrefixMultiplier(lblVccPrefix);
+            recalculateStuff();
+        } else if (adapterView.getAdapter() == spOhmAdapter) {
+            lblOhmPrefix.setText((CharSequence)adapterView.getItemAtPosition(i));
+            r1 = getFloatFromView(edtR1) * getPrefixMultiplier(lblOhmPrefix);
+            rfb = getFloatFromView(edtRfb) * getPrefixMultiplier(lblOhmPrefix);
+        } else if (adapterView.getAdapter() == spVinAdapter) {
+            lblVinPrefix.setText((CharSequence)adapterView.getItemAtPosition(i));
+            vin = getFloatFromView(edtVcc) * getPrefixMultiplier(lblVinPrefix);
+            recalculateStuff();
+        } else if (adapterView.getAdapter() == spVoutAdapter) {
+            lblVoutPrefix.setText((CharSequence)adapterView.getItemAtPosition(i));
+            recalculateStuff();
+        }
     }
 
     public void onNothingSelected(AdapterView<?> adapterView) { }
