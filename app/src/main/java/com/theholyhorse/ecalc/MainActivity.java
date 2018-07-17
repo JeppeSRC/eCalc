@@ -15,6 +15,8 @@ import android.view.MenuItem;
 
 import com.theholyhorse.ecalc.fragments.*;
 
+import java.util.ArrayList;
+
 public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
 
     private DrawerLayout drawerLayout;
@@ -39,6 +41,9 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
         transaction.add(R.id.container_layout, new Home()).commit();
 
+        currentItem = navigationView.getMenu().getItem(0);
+        currentItem.setChecked(true);
+
         navigationView.setNavigationItemSelectedListener(this);
 
         PreferenceManager.setDefaultValues(this, R.xml.preferences, false);
@@ -55,6 +60,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     }
 
     private MenuItem currentItem = null;
+    private ArrayList<MenuItem> prevItems = new ArrayList<>();
 
     public boolean onNavigationItemSelected(MenuItem item) {
 
@@ -65,20 +71,14 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
         item.setChecked(true);
 
-        if (currentItem != null) {
-            currentItem.setChecked(false);
-        }
-
-        if (currentItem == null && item.getItemId() == R.id.navigation_home) {
-            currentItem = item;
-            return false;
-        }
-
+        currentItem.setChecked(false);
+        prevItems.add(currentItem);
+        
         currentItem = item;
 
         Fragment frag = null;
 
-       switch (item.getItemId()) {
+        switch (item.getItemId()) {
            case R.id.navigation_home:
                frag = new Home();
                break;
@@ -100,12 +100,24 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         trans.replace(R.id.container_layout, frag);
         trans.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE);
         trans.addToBackStack(null);
-        trans.setReorderingAllowed(true);
         trans.commit();
 
         drawerLayout.closeDrawers();
 
         return false;
+    }
+
+    public void onBackPressed() {
+        super.onBackPressed();
+        int prevIndex = prevItems.size()-1;
+
+        if (prevIndex < 0) return;
+
+        currentItem.setChecked(false);
+        currentItem = prevItems.get(prevIndex);
+        currentItem.setChecked(true);
+
+        prevItems.remove(prevIndex);
     }
 
     public static SharedPreferences getSharedPreferences() {
