@@ -30,9 +30,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         drawerLayout = findViewById(R.id.drawer_layout);
         navigationView = findViewById(R.id.navigation_view);
 
-        /*Toolbar toolbar = findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
-*/
         ActionBar actionBar = getSupportActionBar();
         actionBar.setDisplayHomeAsUpEnabled(true);
         actionBar.setHomeAsUpIndicator(R.drawable.ic_menu_black);
@@ -73,7 +70,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
         currentItem.setChecked(false);
         prevItems.add(currentItem);
-        
+
         currentItem = item;
 
         Fragment frag = null;
