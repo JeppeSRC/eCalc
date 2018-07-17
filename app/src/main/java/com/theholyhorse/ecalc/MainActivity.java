@@ -1,30 +1,25 @@
 package com.theholyhorse.ecalc;
 
 
+import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.support.annotation.NonNull;
-import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.ActionBar;
 import android.support.v7.preference.PreferenceManager;
-import android.view.View;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
-import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.Toolbar;
-import android.view.Menu;
 import android.view.MenuItem;
-import android.widget.FrameLayout;
+
 import com.theholyhorse.ecalc.fragments.*;
 
 public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
 
     private DrawerLayout drawerLayout;
     private NavigationView navigationView;
+    private static SharedPreferences sharedPreferences;
 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -47,6 +42,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         navigationView.setNavigationItemSelectedListener(this);
 
         PreferenceManager.setDefaultValues(this, R.xml.preferences, false);
+        sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
     }
 
     public boolean onOptionsItemSelected(MenuItem item) {
@@ -58,35 +54,36 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         return super.onOptionsItemSelected(item);
     }
 
-    private MenuItem prevItem = null;
+    private MenuItem currentItem = null;
 
     public boolean onNavigationItemSelected(MenuItem item) {
 
-        if (item == null || prevItem == item) {
+        if (item == null || currentItem == item) {
             drawerLayout.closeDrawers();
             return false;
         }
 
         item.setChecked(true);
 
-        if (prevItem != null) {
-            prevItem.setChecked(false);
+        if (currentItem != null) {
+            currentItem.setChecked(false);
         }
 
-        prevItem = item;
+        if (currentItem == null && item.getItemId() == R.id.navigation_home) {
+            currentItem = item;
+            return false;
+        }
 
-        Fragment frag = new Home();
+        currentItem = item;
+
+        Fragment frag = null;
 
        switch (item.getItemId()) {
            case R.id.navigation_home:
-               if (prevItem == item) {
-                   drawerLayout.closeDrawers();
-                   return false;
-               }
+               frag = new Home();
+               break;
            case R.id.navigation_settings:
                frag = new PreferenceFrag();
-               break;
-           case R.id.navigation_about:
                break;
            case R.id.navigation_opamp_inverting:
                break;
@@ -109,5 +106,9 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         drawerLayout.closeDrawers();
 
         return false;
+    }
+
+    public static SharedPreferences getSharedPreferences() {
+        return sharedPreferences;
     }
 }

@@ -12,10 +12,11 @@
             android:icon="@drawable/ic_settings"
             android:title="Settings"/>
 
-        <item
+ <!--       <item
             android:id="@+id/navigation_about"
             android:icon="@drawable/ic_about"
             android:title="About"/>
+        -->
     </group>
 
     <item android:title="Op-Amps"

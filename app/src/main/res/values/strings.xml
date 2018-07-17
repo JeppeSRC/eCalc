@@ -1,3 +1,4 @@
 <resources>
     <string name="app_name">eCalc</string>
+    <string name="home_text">eCalc is tool to simplify common calculations in the world of electronics.\n\nCurrent Features:\n<li>Op-Amp: Non-Inverting</li>\n<li>Op-Amp: Inverting</li>\n<li>Op-Amp: Schmitt Trigger</li>\n<li>Op-Amp: Differential</li> </string>
 </resources>
