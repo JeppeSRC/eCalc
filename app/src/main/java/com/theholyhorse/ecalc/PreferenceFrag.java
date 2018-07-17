@@ -25,14 +25,26 @@ public class PreferenceFrag extends PreferenceFragmentCompat implements SharedPr
     }
 
     public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String key) {
+        Preference pref = findPreference(key);
         if (key.equals("pref_ads")) {
-            Preference pref = findPreference(key);
-
             if (sharedPreferences.getBoolean(key, false)) {
-                pref.setSummary("Ads will be hidden");
-            } else {
                 pref.setSummary("Ads will be shown!");
+                pref = findPreference("pref_ads_extra");
+
+                pref.setEnabled(true);
+            } else {
+                pref.setSummary("All Ads will be hidden");
+                pref = findPreference("pref_ads_extra");
+
+                pref.setEnabled(false);
             }
+        } else if (key.equals("pref_ads_extra")) {
+            if (sharedPreferences.getBoolean(key, false)) {
+                pref.setSummary("Ads will be shown in the calculator!");
+            } else {
+                pref.setSummary("Ads will only be shown at the home menu");
+            }
+
         }
     }
 }

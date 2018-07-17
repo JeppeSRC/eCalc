@@ -14,6 +14,8 @@ import android.widget.ImageView;
 import android.widget.Spinner;
 import android.widget.TextView;
 
+import com.google.android.gms.ads.AdRequest;
+import com.google.android.gms.ads.AdView;
 import com.theholyhorse.ecalc.MainActivity;
 import com.theholyhorse.ecalc.R;
 
@@ -199,6 +201,13 @@ public class OpAmpInverting extends Fragment implements AdapterView.OnItemSelect
         edtGain.addTextChangedListener(gain_);
 
         recalculateStuff();
+
+        if (MainActivity.getSharedPreferences().getBoolean("pref_ads", true) && MainActivity.getSharedPreferences().getBoolean("pref_ads_extra", false)) {
+            AdView adView = view.findViewById(R.id.ad_view_inverting);
+            AdRequest request = new AdRequest.Builder().build();
+
+            adView.loadAd(request);
+        }
 
         return view;
     }

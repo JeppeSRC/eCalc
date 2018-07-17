@@ -22,7 +22,7 @@ public class Home extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstance) {
         homeView = inflater.inflate(R.layout.home_layout, container, false);
 
-        if (MainActivity.getSharedPreferences().getBoolean("pref_ads", false) == false) {
+        if (MainActivity.getSharedPreferences().getBoolean("pref_ads", true)) {
             adView = homeView.findViewById(R.id.ad_view_home);
             adRequest = new AdRequest.Builder().build();
             adView.loadAd(adRequest);
