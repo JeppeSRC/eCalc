@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="volts" >
+        <item>MV</item>
+        <item>KV</item>
+        <item>V</item>
+        <item>mV</item>
+        <item>µV</item>
+        <item>nV</item>
+        <item>pV</item>
+    </string-array>
+
+    <string-array name="ohms" >
+        <item>M\u2126</item>
+        <item>K\u2126</item>
+        <item>\u2126</item>
+        <item>m\u2126</item>
+        <item>µ\u2126</item>
+        <item>n\u2126</item>
+        <item>p\u2126</item>
+    </string-array>
+
+</resources>

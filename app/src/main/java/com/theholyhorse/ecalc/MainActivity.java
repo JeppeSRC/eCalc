@@ -23,8 +23,10 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     private DrawerLayout drawerLayout;
     private NavigationView navigationView;
     private static SharedPreferences sharedPreferences;
+    private static MainActivity mainActivity;
 
     protected void onCreate(Bundle savedInstanceState) {
+        mainActivity = this;
         super.onCreate(savedInstanceState);
         setContentView(R.layout.drawer_layout);
 
@@ -121,5 +123,9 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
     public static SharedPreferences getSharedPreferences() {
         return sharedPreferences;
+    }
+
+    public static MainActivity get() {
+        return mainActivity;
     }
 }
