@@ -100,14 +100,6 @@ public class OpAmpSchmittInverting extends OpAmp {
         edtRfb.addTextChangedListener(r1rfb);
         edtTh.addTextChangedListener(th);
 
-
-        if (MainActivity.getSharedPreferences().getBoolean("pref_ads", true) && MainActivity.getSharedPreferences().getBoolean("pref_ads_extra", false)) {
-            AdView adView = view.findViewById(R.id.ad_view_noninverting);
-            AdRequest request = new AdRequest.Builder().build();
-
-            adView.loadAd(request);
-        }
-
         edtVcc.setText("5");
         edtR1.setText("10");
         edtRfb.setText("10");

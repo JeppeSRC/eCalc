@@ -10,6 +10,8 @@ import android.widget.ImageView;
 import android.widget.Spinner;
 import android.widget.TextView;
 
+import com.google.android.gms.ads.AdRequest;
+import com.google.android.gms.ads.AdView;
 import com.theholyhorse.ecalc.MainActivity;
 import com.theholyhorse.ecalc.R;
 
@@ -162,6 +164,13 @@ public abstract class OpAmp extends Fragment implements AdapterView.OnItemSelect
             spVin.setAdapter(spVinAdapter);
             spVin.setSelection(2);
             spVin.setOnItemSelectedListener(this);
+        }
+
+        if (MainActivity.getSharedPreferences().getBoolean("pref_ads", true) && MainActivity.getSharedPreferences().getBoolean("pref_ads_extra", false)) {
+            AdView adView = view.findViewById(R.id.ad_view);
+            AdRequest request = new AdRequest.Builder().build();
+
+            adView.loadAd(request);
         }
 
     }
