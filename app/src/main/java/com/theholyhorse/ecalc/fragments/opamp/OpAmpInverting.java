@@ -53,12 +53,14 @@ public class OpAmpInverting extends Fragment implements AdapterView.OnItemSelect
 
     private TextView lblVout;
     private TextView lblVccPrefix;
-    private TextView lblOhmPrefix;
+    private TextView lblRfbPrefix;
+    private TextView lblR1Prefix;
     private TextView lblVinPrefix;
     private TextView lblVccSummary;
 
     private Spinner spVcc;
-    private Spinner spOhm;
+    private Spinner spRfb;
+    private Spinner spR1;
     private Spinner spVin;
 
 
@@ -77,7 +79,8 @@ public class OpAmpInverting extends Fragment implements AdapterView.OnItemSelect
     private TextWatcher gain_;
 
     private ArrayAdapter<CharSequence> spVccAdapter;
-    private ArrayAdapter<CharSequence> spOhmAdapter;
+    private ArrayAdapter<CharSequence> spRfbAdapter;
+    private ArrayAdapter<CharSequence> spR1Adapter;
     private ArrayAdapter<CharSequence> spVinAdapter;
 
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstance) {
@@ -87,7 +90,6 @@ public class OpAmpInverting extends Fragment implements AdapterView.OnItemSelect
         imageView.setImageResource(R.drawable.op_amp_inverting);
 
         edtVcc = view.findViewById(R.id.edt_vcc);
-     //   edtGnd = view.findViewById(R.id.edt_gnd);
         edtR1 = view.findViewById(R.id.edt_r1);
         edtRfb = view.findViewById(R.id.edt_rfb);
         edtVin = view.findViewById(R.id.edt_vin);
@@ -96,12 +98,14 @@ public class OpAmpInverting extends Fragment implements AdapterView.OnItemSelect
         lblVout = view.findViewById(R.id.lbl_vout);
 
         lblVccPrefix = view.findViewById(R.id.lbl_vcc_prefix);
-        lblOhmPrefix = view.findViewById(R.id.lbl_ohm_prefix);
+        lblRfbPrefix = view.findViewById(R.id.lbl_rfb_prefix);
+        lblR1Prefix = view.findViewById(R.id.lbl_r1_prefix);
         lblVinPrefix = view.findViewById(R.id.lbl_vin_prefix);
         lblVccSummary = view.findViewById(R.id.lbl_vcc_summary);
 
         spVcc = view.findViewById(R.id.sp_vcc);
-        spOhm = view.findViewById(R.id.sp_ohm);
+        spRfb = view.findViewById(R.id.sp_rfb);
+        spR1 = view.findViewById(R.id.sp_r1);
         spVin = view.findViewById(R.id.sp_vin);
 
         spVccAdapter = ArrayAdapter.createFromResource(MainActivity.get(), R.array.volts, android.R.layout.simple_spinner_item);
@@ -111,12 +115,19 @@ public class OpAmpInverting extends Fragment implements AdapterView.OnItemSelect
         spVcc.setSelection(2);
         spVcc.setOnItemSelectedListener(this);
 
-        spOhmAdapter = ArrayAdapter.createFromResource(MainActivity.get(), R.array.ohms, android.R.layout.simple_spinner_item);
-        spOhmAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        spRfbAdapter = ArrayAdapter.createFromResource(MainActivity.get(), R.array.ohms, android.R.layout.simple_spinner_item);
+        spRfbAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
 
-        spOhm.setAdapter(spOhmAdapter);
-        spOhm.setSelection(1);
-        spOhm.setOnItemSelectedListener(this);
+        spRfb.setAdapter(spRfbAdapter);
+        spRfb.setSelection(1);
+        spRfb.setOnItemSelectedListener(this);
+
+        spR1Adapter = ArrayAdapter.createFromResource(MainActivity.get(), R.array.ohms, android.R.layout.simple_spinner_item);
+        spR1Adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+
+        spR1.setAdapter(spR1Adapter);
+        spR1.setSelection(1);
+        spR1.setOnItemSelectedListener(this);
 
 
         spVinAdapter = ArrayAdapter.createFromResource(MainActivity.get(), R.array.volts, android.R.layout.simple_spinner_item);
@@ -137,7 +148,7 @@ public class OpAmpInverting extends Fragment implements AdapterView.OnItemSelect
 
                 lblVccSummary.setText("Dual (V+ = " + Float.toString(vcc) + ", V- = " + Float.toString(gnd) + ")");
 
-                recalculateStuff();
+                recalculateVout();
             }
 
             public void afterTextChanged(Editable editable) {
@@ -151,18 +162,10 @@ public class OpAmpInverting extends Fragment implements AdapterView.OnItemSelect
             }
 
             public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-                r1 = getFloatFromView(edtR1) * getPrefixMultiplier(lblOhmPrefix);
-                rfb = getFloatFromView(edtRfb) * getPrefixMultiplier(lblOhmPrefix);
+                r1 = getFloatFromView(edtR1) * getPrefixMultiplier(lblR1Prefix);
+                rfb = getFloatFromView(edtRfb) * getPrefixMultiplier(lblRfbPrefix);
 
-
-
-                gain = -r1 / rfb;
-
-                edtGain.removeTextChangedListener(gain_);
-                edtGain.setText(Float.toString(gain));
-                edtGain.addTextChangedListener(gain_);
-
-                recalculateStuff();
+                recalculateGain();
             }
 
             public void afterTextChanged(Editable editable) {
@@ -177,7 +180,7 @@ public class OpAmpInverting extends Fragment implements AdapterView.OnItemSelect
 
             public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
                 vin = getFloatFromView(edtVin) * getPrefixMultiplier(lblVinPrefix);
-                recalculateStuff();
+                recalculateVout();
             }
 
             public void afterTextChanged(Editable editable) {
@@ -195,11 +198,40 @@ public class OpAmpInverting extends Fragment implements AdapterView.OnItemSelect
 
                 r1 = -gain * rfb;
 
+                float tmp = 1;
+
+                int sel = 2;
+
+                if (r1 > 1000000){
+                    tmp = 1000000;
+                    sel = 0;
+                } else if (r1 > 1000) {
+                    tmp = 1000;
+                    sel = 1;
+                } else if (r1 < 0.000000001) {
+                    tmp = 0.000000000001f;
+                    sel = 3;
+                } else if (r1 < 0.000001) {
+                    tmp = 0.000000001f;
+                    sel = 4;
+                } else if (r1 < 0.001) {
+                    tmp = 0.000001f;
+                    sel = 5;
+                } else if (r1 < 1) {
+                    tmp = 0.001f;
+                    sel = 6;
+                }
+
                 edtR1.removeTextChangedListener(r1rfb);
-                edtR1.setText(Float.toString(r1));
+                edtR1.setText(Float.toString(r1 / tmp));
                 edtR1.addTextChangedListener(r1rfb);
 
-                recalculateStuff();
+                AdapterView.OnItemSelectedListener listener = spR1.getOnItemSelectedListener();
+                spR1.setOnItemSelectedListener(null);
+                spR1.setSelection(sel);
+                spR1.setOnItemSelectedListener(listener);
+
+                recalculateVout();
             }
 
             public void afterTextChanged(Editable editable) {
@@ -208,7 +240,6 @@ public class OpAmpInverting extends Fragment implements AdapterView.OnItemSelect
         };
 
         edtVcc.addTextChangedListener(vccgnd);
-      //  edtGnd.addTextChangedListener(vccgnd);
         edtR1.addTextChangedListener(r1rfb);
         edtRfb.addTextChangedListener(r1rfb);
         edtVin.addTextChangedListener(vin_);
@@ -271,7 +302,17 @@ public class OpAmpInverting extends Fragment implements AdapterView.OnItemSelect
         return 0.0f;
     }
 
-    private void recalculateStuff() {
+    private void recalculateGain() {
+        gain = -rfb / r1;
+
+        edtGain.removeTextChangedListener(gain_);
+        edtGain.setText(Float.toString(gain));
+        edtGain.addTextChangedListener(gain_);
+
+        recalculateVout();
+    }
+
+    private void recalculateVout() {
         vout = vin * gain;
 
         if (vout > vcc) {
@@ -318,15 +359,19 @@ public class OpAmpInverting extends Fragment implements AdapterView.OnItemSelect
             lblVccPrefix.setText((CharSequence)adapterView.getItemAtPosition(i));
             vcc = (getFloatFromView(edtVcc) * getPrefixMultiplier(lblVccPrefix)) * 0.5f;
             gnd = -vcc;
-            recalculateStuff();
-        } else if (adapterView.getAdapter() == spOhmAdapter) {
-            lblOhmPrefix.setText((CharSequence)adapterView.getItemAtPosition(i));
-            r1 = getFloatFromView(edtR1) * getPrefixMultiplier(lblOhmPrefix);
-            rfb = getFloatFromView(edtRfb) * getPrefixMultiplier(lblOhmPrefix);
+            recalculateVout();
+        } else if (adapterView.getAdapter() == spRfbAdapter) {
+            lblRfbPrefix.setText((CharSequence)adapterView.getItemAtPosition(i));
+            rfb = getFloatFromView(edtRfb) * getPrefixMultiplier(lblRfbPrefix);
+            recalculateGain();
+        } else if (adapterView.getAdapter() == spR1Adapter) {
+            lblR1Prefix.setText((CharSequence)adapterView.getItemAtPosition(i));
+            r1 = getFloatFromView(edtR1) * getPrefixMultiplier(lblR1Prefix);
+            recalculateGain();
         } else if (adapterView.getAdapter() == spVinAdapter) {
             lblVinPrefix.setText((CharSequence)adapterView.getItemAtPosition(i));
             vin = getFloatFromView(edtVin) * getPrefixMultiplier(lblVinPrefix);
-            recalculateStuff();
+            recalculateVout();
         }
     }
 
