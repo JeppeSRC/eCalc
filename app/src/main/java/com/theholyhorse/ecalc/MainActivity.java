@@ -39,6 +39,7 @@ import com.theholyhorse.ecalc.fragments.*;
 import com.theholyhorse.ecalc.fragments.opamp.OpAmpInverting;
 import com.theholyhorse.ecalc.fragments.opamp.OpAmpNonInverting;
 import com.theholyhorse.ecalc.fragments.opamp.OpAmpSchmittInverting;
+import com.theholyhorse.ecalc.fragments.opamp.OpAmpSchmittNonInverting;
 
 import java.util.ArrayList;
 
@@ -118,7 +119,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
            case R.id.navigation_opamp_schmitt_inverting:
                frag = new OpAmpSchmittInverting();
                break;
-           case R.id.navigation_opamp_differential:
+           case R.id.navigation_opamp_schmitt_noninverting:
+               frag = new OpAmpSchmittNonInverting();
                break;
         }
 

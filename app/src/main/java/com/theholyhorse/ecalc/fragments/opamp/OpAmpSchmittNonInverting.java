@@ -1,31 +1,22 @@
 package com.theholyhorse.ecalc.fragments.opamp;
 
 import android.os.Bundle;
-import android.support.v4.app.Fragment;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
-import android.widget.EditText;
-import android.widget.ImageView;
-import android.widget.Spinner;
-import android.widget.TextView;
 import android.widget.Toast;
 
-import com.google.android.gms.ads.AdRequest;
-import com.google.android.gms.ads.AdView;
 import com.theholyhorse.ecalc.MainActivity;
 import com.theholyhorse.ecalc.R;
 
-public class OpAmpSchmittInverting extends OpAmp {
-
+public class OpAmpSchmittNonInverting extends OpAmp {
 
 
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstance) {
-        init(inflater.inflate(R.layout.opamp_schmitt_inverting_layout, container, false), R.drawable.op_amp_schmitt_inverting);
+        init(inflater.inflate(R.layout.opamp_schmitt_inverting_layout, container, false), R.drawable.op_amp_schmitt_noninverting);
 
 
         vccgnd = new TextWatcher() {
@@ -55,7 +46,7 @@ public class OpAmpSchmittInverting extends OpAmp {
                 r1 = getFloatFromView(edtR1) * getPrefixMultiplier(lblR1Prefix);
                 rfb = getFloatFromView(edtRfb) * getPrefixMultiplier(lblRfbPrefix);
 
-                threshold = r1 / (r1 + rfb);
+                threshold = -r1 / (r1 + rfb);
 
                 edtTh.removeTextChangedListener(th);
                 edtTh.setText(Float.toString(threshold));
@@ -78,12 +69,12 @@ public class OpAmpSchmittInverting extends OpAmp {
             public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
                 threshold = getFloatFromView(edtTh);
 
-                if (threshold > 1.0f || threshold < 0.0f) {
-                    Toast.makeText(MainActivity.get(), "Th must be between 0 -> 1", Toast.LENGTH_LONG).show();
+                if (threshold < -1.0f || threshold > 0.0f) {
+                    Toast.makeText(MainActivity.get(), "Th must be between -1 -> 0", Toast.LENGTH_LONG).show();
                     threshold = 0.0f;
                 }
 
-                r1 = (threshold * rfb) / (1 - threshold);
+                r1 = (-threshold * rfb) / (1 - -threshold);
 
                 float tmp = 1;
 
@@ -139,8 +130,8 @@ public class OpAmpSchmittInverting extends OpAmp {
     }
 
     private void recalculateThSummary() {
-        float vh = threshold * vcc;
-        float vl = threshold * gnd;
+        float vh = threshold * gnd;
+        float vl = threshold * vcc;
 
         float tmp = 1;
         String sTmp = "V";
@@ -165,7 +156,7 @@ public class OpAmpSchmittInverting extends OpAmp {
             sTmp = "mV";
         }
 
-        lblThSummary.setText("VHth: " + Float.toString(vh / tmp) + sTmp +  ", VLth: " + Float.toString(vl / tmp) + sTmp + ", Vhst; " + Float.toString((vh - vl) / tmp) + sTmp);
+        lblThSummary.setText("VHth: " + Float.toString(vh / tmp) + sTmp +  ", VLth: " + Float.toString(vl / tmp) + sTmp);
     }
 
     public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
