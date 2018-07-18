@@ -63,10 +63,24 @@ SOFTWARE.
         android:layout_marginTop="8dp"
         android:inputType="numberDecimal"
         android:text="5"
-        app:layout_constraintEnd_toStartOf="@+id/lbl_gnd"
+        app:layout_constraintEnd_toEndOf="@id/edt_r1"
         app:layout_constraintStart_toEndOf="@id/lbl_vcc"
         app:layout_constraintTop_toBottomOf="@id/opamp_image" />
 
+    <TextView
+        android:id="@+id/lbl_vcc_summary"
+        android:layout_width="0dp"
+        android:layout_height="50dp"
+        android:layout_marginStart="4dp"
+        android:layout_marginTop="8dp"
+        android:gravity="center_vertical"
+        android:textSize="@dimen/text_size"
+        android:text="Summary"
+        app:layout_constraintEnd_toStartOf="@id/lbl_vcc_prefix"
+        app:layout_constraintStart_toEndOf="@id/edt_vcc"
+        app:layout_constraintTop_toBottomOf="@id/opamp_image" />
+
+    <!--
     <TextView
         android:id="@+id/lbl_gnd"
         android:layout_width="@dimen/label_width"
@@ -93,17 +107,18 @@ SOFTWARE.
         app:layout_constraintEnd_toStartOf="@id/lbl_vcc_prefix"
         app:layout_constraintStart_toEndOf="@id/lbl_gnd"
         app:layout_constraintTop_toBottomOf="@id/opamp_image" />
-
+-->
     <TextView
         android:id="@+id/lbl_vcc_prefix"
         android:layout_width="25dp"
         android:layout_height="50dp"
+        android:layout_marginStart="4dp"
         android:layout_marginTop="8dp"
         android:gravity="center_vertical"
         android:text="V"
         android:textSize="@dimen/text_size"
         app:layout_constraintEnd_toStartOf="@id/sp_vcc"
-        app:layout_constraintStart_toEndOf="@id/edt_gnd"
+        app:layout_constraintStart_toEndOf="@id/lbl_vcc_summary"
         app:layout_constraintTop_toBottomOf="@id/opamp_image" />
 
     <Spinner
@@ -147,7 +162,6 @@ SOFTWARE.
         android:id="@+id/lbl_rfb"
         android:layout_width="@dimen/label_width"
         android:layout_height="50dp"
-        android:layout_marginEnd="4dp"
         android:layout_marginStart="4dp"
         android:layout_marginTop="8dp"
         android:gravity="center_vertical"
@@ -155,31 +169,31 @@ SOFTWARE.
         android:textSize="@dimen/text_size"
         app:layout_constraintEnd_toStartOf="@id/edt_rfb"
         app:layout_constraintStart_toEndOf="@id/edt_r1"
-        app:layout_constraintTop_toBottomOf="@id/lbl_gnd" />
+        app:layout_constraintTop_toBottomOf="@id/lbl_vcc" />
 
     <EditText
         android:id="@+id/edt_rfb"
         android:layout_width="0dp"
         android:layout_height="50dp"
-        android:layout_marginEnd="4dp"
         android:layout_marginStart="4dp"
         android:layout_marginTop="8dp"
         android:inputType="numberDecimal"
         app:layout_constraintEnd_toStartOf="@id/lbl_ohm_prefix"
-        app:layout_constraintStart_toEndOf="@id/lbl_gnd"
-        app:layout_constraintTop_toBottomOf="@id/edt_gnd" />
+        app:layout_constraintStart_toEndOf="@id/lbl_rfb"
+        app:layout_constraintTop_toBottomOf="@id/lbl_vcc" />
 
     <TextView
         android:id="@+id/lbl_ohm_prefix"
         android:layout_width="25dp"
         android:layout_height="50dp"
+        android:layout_marginStart="4dp"
         android:layout_marginTop="8dp"
         android:gravity="center_vertical"
         android:text="K\u2126"
         android:textSize="@dimen/text_size"
-        app:layout_constraintEnd_toStartOf="@id/sp_vcc"
-        app:layout_constraintStart_toEndOf="@id/edt_gnd"
-        app:layout_constraintTop_toBottomOf="@id/edt_gnd" />
+        app:layout_constraintEnd_toStartOf="@id/sp_ohm"
+        app:layout_constraintStart_toEndOf="@id/edt_rfb"
+        app:layout_constraintTop_toBottomOf="@id/lbl_vcc" />
 
     <Spinner
         android:id="@+id/sp_ohm"
@@ -190,7 +204,7 @@ SOFTWARE.
         android:layout_marginTop="8dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@id/lbl_ohm_prefix"
-        app:layout_constraintTop_toBottomOf="@id/edt_gnd" />
+        app:layout_constraintTop_toBottomOf="@id/lbl_vcc" />
 
     <!-- Third Row -->
 

@@ -50,7 +50,7 @@ public class OpAmpNonInverting extends Fragment implements AdapterView.OnItemSel
     private View view;
     private ImageView imageView;
     private EditText edtVcc;
-    private EditText edtGnd;
+   // private EditText edtGnd;
     private EditText edtR1;
     private EditText edtRfb;
     private EditText edtVin;
@@ -61,6 +61,7 @@ public class OpAmpNonInverting extends Fragment implements AdapterView.OnItemSel
     private TextView lblOhmPrefix;
     private TextView lblVinPrefix;
     private TextView lblVoutPrefix;
+    private TextView lblVccSummary;
 
     private Spinner spVcc;
     private Spinner spOhm;
@@ -94,7 +95,7 @@ public class OpAmpNonInverting extends Fragment implements AdapterView.OnItemSel
         imageView.setImageResource(R.drawable.op_amp_noninverting);
 
         edtVcc = view.findViewById(R.id.edt_vcc);
-        edtGnd = view.findViewById(R.id.edt_gnd);
+       // edtGnd = view.findViewById(R.id.edt_gnd);
         edtR1 = view.findViewById(R.id.edt_r1);
         edtRfb = view.findViewById(R.id.edt_rfb);
         edtVin = view.findViewById(R.id.edt_vin);
@@ -106,6 +107,7 @@ public class OpAmpNonInverting extends Fragment implements AdapterView.OnItemSel
         lblOhmPrefix = view.findViewById(R.id.lbl_ohm_prefix);
         lblVinPrefix = view.findViewById(R.id.lbl_vin_prefix);
         lblVoutPrefix = view.findViewById(R.id.lbl_vout_prefix);
+        lblVccSummary = view.findViewById(R.id.lbl_vcc_summary);
 
         spVcc = view.findViewById(R.id.sp_vcc);
         spOhm = view.findViewById(R.id.sp_ohm);
@@ -149,6 +151,9 @@ public class OpAmpNonInverting extends Fragment implements AdapterView.OnItemSel
             public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
                 vcc = getFloatFromView(edtVcc) * getPrefixMultiplier(lblVccPrefix);
                 gnd = 0.0f;//getFloatFromView(edtGnd);
+
+                lblVccSummary.setText("Single (V+ = " + Float.toString(vcc) + ", V- = 0)");
+
                 recalculateStuff();
             }
 
@@ -220,13 +225,12 @@ public class OpAmpNonInverting extends Fragment implements AdapterView.OnItemSel
         };
 
         edtVcc.addTextChangedListener(vccgnd);
-        edtGnd.addTextChangedListener(vccgnd);
+       // edtGnd.addTextChangedListener(vccgnd);
         edtR1.addTextChangedListener(r1rfb);
         edtRfb.addTextChangedListener(r1rfb);
         edtVin.addTextChangedListener(vin_);
         edtGain.addTextChangedListener(gain_);
 
-        recalculateStuff();
 
         if (MainActivity.getSharedPreferences().getBoolean("pref_ads", true) && MainActivity.getSharedPreferences().getBoolean("pref_ads_extra", false)) {
             AdView adView = view.findViewById(R.id.ad_view_noninverting);
@@ -234,6 +238,11 @@ public class OpAmpNonInverting extends Fragment implements AdapterView.OnItemSel
 
             adView.loadAd(request);
         }
+
+        edtVcc.setText("5");
+        edtR1.setText("10");
+        edtRfb.setText("10");
+        edtVin.setText("1");
 
         return view;
     }
@@ -300,7 +309,7 @@ public class OpAmpNonInverting extends Fragment implements AdapterView.OnItemSel
            rfb = getFloatFromView(edtRfb) * getPrefixMultiplier(lblOhmPrefix);
        } else if (adapterView.getAdapter() == spVinAdapter) {
            lblVinPrefix.setText((CharSequence)adapterView.getItemAtPosition(i));
-           vin = getFloatFromView(edtVcc) * getPrefixMultiplier(lblVinPrefix);
+           vin = getFloatFromView(edtVin) * getPrefixMultiplier(lblVinPrefix);
            recalculateStuff();
        } else if (adapterView.getAdapter() == spVoutAdapter) {
            lblVoutPrefix.setText((CharSequence)adapterView.getItemAtPosition(i));
