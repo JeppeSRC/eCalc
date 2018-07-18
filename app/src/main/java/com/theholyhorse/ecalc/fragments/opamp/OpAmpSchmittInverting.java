@@ -20,85 +20,11 @@ import com.google.android.gms.ads.AdView;
 import com.theholyhorse.ecalc.MainActivity;
 import com.theholyhorse.ecalc.R;
 
-public class OpAmpSchmittInverting extends Fragment implements AdapterView.OnItemSelectedListener {
-
-    private View view;
-    private ImageView imageView;
-    private EditText edtVcc;
-    private EditText edtR1;
-    private EditText edtRfb;
-    private EditText edtTh;
-
-    private TextView lblVout;
-    private TextView lblVccPrefix;
-    private TextView lblOhmPrefix;
-    private TextView lblThPrefix;
-    private TextView lblVccSummary;
-    private TextView lblThSummary;
+public class OpAmpSchmittInverting extends OpAmp {
 
 
-    private Spinner spVcc;
-    private Spinner spOhm;
-    private Spinner spTh;
-
-    private float vcc = 0.0f;
-    private float gnd = 0.0f;
-    private float r1 = 0.0f;
-    private float rfb = 0.0f;
-    private float threshold = 0.0f;
-
-    private TextWatcher vccgnd;
-    private TextWatcher r1rfb;
-    private TextWatcher th;
-
-    private ArrayAdapter<CharSequence> spVccAdapter;
-    private ArrayAdapter<CharSequence> spRfbAdapter;
-    private ArrayAdapter<CharSequence> spR1Adapter;
-    private ArrayAdapter<CharSequence> spThAdapter;
 
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstance) {
-        view = inflater.inflate(R.layout.opamp_noninverting_layout, container, false);
-
-        imageView = view.findViewById(R.id.opamp_image);
-        imageView.setImageResource(R.drawable.op_amp_noninverting);
-
-        edtVcc = view.findViewById(R.id.edt_vcc);
-        edtR1 = view.findViewById(R.id.edt_r1);
-        edtRfb = view.findViewById(R.id.edt_rfb);
-        edtTh = view.findViewById(R.id.edt_th);
-
-        lblVout = view.findViewById(R.id.lbl_vout);
-
-        lblVccPrefix = view.findViewById(R.id.lbl_vcc_prefix);
-        lblRfbPrefix = view.findViewById(R.id.lbl_rfb_prefix);
-        lblR1Prefix = view.findViewById(R.id.lbl_r1_prefix);
-        lblThPrefix = view.findViewById(R.id.lbl_th_prefix);
-        lblVccSummary = view.findViewById(R.id.lbl_vcc_summary);
-        lblThSummary = view.findViewById(R.id.lbl_th_summary);
-
-        spVcc = view.findViewById(R.id.sp_vcc);
-        spRfb = view.findViewById(R.id.sp_rfb);
-
-        spVccAdapter = ArrayAdapter.createFromResource(MainActivity.get(), R.array.volts, android.R.layout.simple_spinner_item);
-        spVccAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-
-        spVcc.setAdapter(spVccAdapter);
-        spVcc.setSelection(2);
-        spVcc.setOnItemSelectedListener(this);
-
-        spOhmAdapter = ArrayAdapter.createFromResource(MainActivity.get(), R.array.ohms, android.R.layout.simple_spinner_item);
-        spOhmAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-
-        spOhm.setAdapter(spOhmAdapter);
-        spOhm.setSelection(1);
-        spOhm.setOnItemSelectedListener(this);
-
-        spThAdapter = ArrayAdapter.createFromResource(MainActivity.get(), R.array.ohms, android.R.layout.simple_spinner_item);
-        spThAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-
-        spTh.setAdapter(spOhmAdapter);
-        spTh.setSelection(1);
-        spTh.setOnItemSelectedListener(this);
 
         vccgnd = new TextWatcher() {
             public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
@@ -125,8 +51,8 @@ public class OpAmpSchmittInverting extends Fragment implements AdapterView.OnIte
             }
 
             public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-                r1 = getFloatFromView(edtR1) * getPrefixMultiplier(lblOhmPrefix);
-                rfb = getFloatFromView(edtRfb) * getPrefixMultiplier(lblOhmPrefix);
+                r1 = getFloatFromView(edtR1) * getPrefixMultiplier(lblR1Prefix);
+                rfb = getFloatFromView(edtRfb) * getPrefixMultiplier(lblRfbPrefix);
 
                 threshold = r1 / (r1 + rfb);
 
@@ -189,56 +115,17 @@ public class OpAmpSchmittInverting extends Fragment implements AdapterView.OnIte
         return view;
     }
 
-    private float getFloatFromView(EditText view) {
-        String s = view.getText().toString();
-
-        if (s.isEmpty()) return 0.0f;
-
-        float res = 0.0f;
-
-        try {
-            res = Float.parseFloat(s);
-        } catch (NumberFormatException e) {
-            res = -0.123f;
-        }
-
-
-        return res;
-    }
-
-    private float getPrefixMultiplier(TextView prefixView) {
-        return getPrefixMultiplier(prefixView.getText().toString());
-    }
-
-    private float getPrefixMultiplier(String string) {
-        if (string.equals("MV") || string.equals("M\u2126")) {
-            return 1000000.0f;
-        } else if (string.equals("KV") || string.equals("K\u2126")) {
-            return 1000.0f;
-        } else if (string.equals("V") || string.equals("\u2126")) {
-            return 1.0f;
-        } else if (string.equals("mV") || string.equals("m\u2126")) {
-            return 0.001f;
-        } else if (string.equals("µV") || string.equals("µ\u2126")) {
-            return 0.000001f;
-        } else if (string.equals("nV") || string.equals("n\u2126")) {
-            return 0.000000001f;
-        } else if (string.equals("pV") || string.equals("p\u2126")) {
-            return 0.000000000001f;
-        }
-
-        return 0.0f;
-    }
-
     public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
         if (adapterView.getAdapter() == spVccAdapter) {
             lblVccPrefix.setText((CharSequence)adapterView.getItemAtPosition(i));
             vcc = getFloatFromView(edtVcc) * getPrefixMultiplier(lblVccPrefix);
             edtTh.setText(Float.toString(threshold / getPrefixMultiplier(lblThPrefix)));
-        } else if (adapterView.getAdapter() == spOhmAdapter) {
-            lblOhmPrefix.setText((CharSequence)adapterView.getItemAtPosition(i));
-            r1 = getFloatFromView(edtR1) * getPrefixMultiplier(lblOhmPrefix);
-            rfb = getFloatFromView(edtRfb) * getPrefixMultiplier(lblOhmPrefix);
+        } else if (adapterView.getAdapter() == spRfbAdapter) {
+            lblRfbPrefix.setText((CharSequence)adapterView.getItemAtPosition(i));
+            rfb = getFloatFromView(edtRfb) * getPrefixMultiplier(lblRfbPrefix);
+        } else if (adapterView.getAdapter() == spR1Adapter) {
+            lblR1Prefix.setText((CharSequence)adapterView.getItemAtPosition(i));
+            rfb = getFloatFromView(edtR1) * getPrefixMultiplier(lblR1Prefix);
         }
     }
 
