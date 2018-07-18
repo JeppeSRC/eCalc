@@ -74,6 +74,7 @@ SOFTWARE.
         android:layout_marginTop="8dp"
         android:gravity="center_vertical"
         android:textSize="@dimen/text_size"
+        android:text="Summary"
         app:layout_constraintEnd_toStartOf="@id/lbl_vcc_prefix"
         app:layout_constraintStart_toEndOf="@id/edt_vcc"
         app:layout_constraintTop_toBottomOf="@id/opamp_image" />
