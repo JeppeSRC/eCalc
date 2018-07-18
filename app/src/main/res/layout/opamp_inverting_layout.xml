@@ -61,7 +61,6 @@ SOFTWARE.
         android:layout_marginStart="4dp"
         android:layout_marginTop="8dp"
         android:inputType="numberDecimal"
-        android:text="5"
         app:layout_constraintEnd_toEndOf="@+id/edt_r1"
         app:layout_constraintStart_toEndOf="@id/lbl_vcc"
         app:layout_constraintTop_toBottomOf="@id/opamp_image" />

@@ -49,7 +49,7 @@ SOFTWARE.
         android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
         android:gravity="center_vertical"
-        android:text="V+"
+        android:text="Vcc"
         android:textSize="@dimen/text_size"
         app:layout_constraintEnd_toStartOf="@id/edt_vcc"
         app:layout_constraintStart_toStartOf="parent"
@@ -62,7 +62,6 @@ SOFTWARE.
         android:layout_marginStart="4dp"
         android:layout_marginTop="8dp"
         android:inputType="numberDecimal"
-        android:text="5"
         app:layout_constraintEnd_toEndOf="@id/edt_r1"
         app:layout_constraintStart_toEndOf="@id/lbl_vcc"
         app:layout_constraintTop_toBottomOf="@id/opamp_image" />
