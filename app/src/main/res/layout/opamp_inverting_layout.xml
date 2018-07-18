@@ -287,16 +287,17 @@ SOFTWARE.
         android:id="@+id/lbl_vout"
         android:layout_width="0dp"
         android:layout_height="50dp"
-        android:layout_marginEnd="4dp"
+        android:layout_marginEnd="0dp"
         android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
         android:gravity="center_vertical"
         android:text="Vout: "
         android:textSize="20sp"
-        app:layout_constraintEnd_toStartOf="@id/lbl_vout_prefix"
+        app:layout_constraintEnd_toEndOf="@id/edt_vin"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/lbl_vin" />
 
+    <!--
     <TextView
         android:id="@+id/lbl_vout_prefix"
         android:layout_width="25dp"
@@ -320,6 +321,7 @@ SOFTWARE.
         app:layout_constraintStart_toEndOf="@id/lbl_vout_prefix"
         app:layout_constraintTop_toBottomOf="@id/lbl_vin" />
 
+       -->
     <!-- Status View -->
     <!--
     <TextView

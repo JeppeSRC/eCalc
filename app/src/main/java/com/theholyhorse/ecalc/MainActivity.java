@@ -114,7 +114,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
            case R.id.navigation_opamp_inverting:
                frag = new OpAmpInverting();
                break;
-           case R.id.navigation_opamp_schmitt:
+           case R.id.navigation_opamp_schmitt_inverting:
                break;
            case R.id.navigation_opamp_differential:
                break;

@@ -1,43 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
-<!--
-
-MIT License
-
-Copyright (c) 2018 TheHolyHorse
-
-Permission is hereby granted, free of charge, to any person obtaining a copy
-of this software and associated documentation files (the "Software"), to deal
-in the Software without restriction, including without limitation the rights
-to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
-copies of the Software, and to permit persons to whom the Software is
-furnished to do so, subject to the following conditions:
-
-The above copyright notice and this permission notice shall be included in all
-copies or substantial portions of the Software.
-
-THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
-AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
-OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
-SOFTWARE.
-
--->
-
-<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:ads="http://schemas.android.com/apk/res-auto"
+<android.support.constraint.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:ads="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:orientation="vertical">
+    android:layout_height="match_parent">
 
     <ImageView
         android:id="@+id/opamp_image"
         android:layout_width="match_parent"
         android:layout_height="145dp"
-        android:layout_alignParentTop="true"
-        android:layout_centerHorizontal="true" />
+        android:layout_centerHorizontal="true"
+        android:layout_alignParentTop="true"/>
 
 
     <!-- First row -->
@@ -61,7 +35,7 @@ SOFTWARE.
         android:layout_marginStart="4dp"
         android:layout_marginTop="8dp"
         android:inputType="numberDecimal"
-        app:layout_constraintEnd_toEndOf="@id/edt_r1"
+        app:layout_constraintEnd_toEndOf="@+id/edt_r1"
         app:layout_constraintStart_toEndOf="@id/lbl_vcc"
         app:layout_constraintTop_toBottomOf="@id/opamp_image" />
 
@@ -72,8 +46,8 @@ SOFTWARE.
         android:layout_marginStart="4dp"
         android:layout_marginTop="8dp"
         android:gravity="center_vertical"
-        android:text="Summary"
         android:textSize="@dimen/text_size"
+        android:text="Summary"
         app:layout_constraintEnd_toStartOf="@id/lbl_vcc_prefix"
         app:layout_constraintStart_toEndOf="@id/edt_vcc"
         app:layout_constraintTop_toBottomOf="@id/opamp_image" />
@@ -99,13 +73,14 @@ SOFTWARE.
         android:layout_marginEnd="4dp"
         android:layout_marginStart="4dp"
         android:layout_marginTop="8dp"
-        android:enabled="false"
         android:inputType="numberDecimal"
-        android:text="GND"
+        android:text="-5"
         app:layout_constraintEnd_toStartOf="@id/lbl_vcc_prefix"
         app:layout_constraintStart_toEndOf="@id/lbl_gnd"
         app:layout_constraintTop_toBottomOf="@id/opamp_image" />
--->
+
+        -->
+
     <TextView
         android:id="@+id/lbl_vcc_prefix"
         android:layout_width="25dp"
@@ -154,12 +129,13 @@ SOFTWARE.
         android:inputType="numberDecimal"
         app:layout_constraintEnd_toStartOf="@+id/lbl_rfb"
         app:layout_constraintStart_toEndOf="@id/lbl_r1"
-        app:layout_constraintTop_toBottomOf="@id/edt_vcc" />
+        app:layout_constraintTop_toBottomOf="@id/lbl_vcc" />
 
     <TextView
         android:id="@+id/lbl_rfb"
         android:layout_width="@dimen/label_width"
         android:layout_height="50dp"
+        android:layout_marginEnd="4dp"
         android:layout_marginStart="4dp"
         android:layout_marginTop="8dp"
         android:gravity="center_vertical"
@@ -173,7 +149,7 @@ SOFTWARE.
         android:id="@+id/edt_rfb"
         android:layout_width="0dp"
         android:layout_height="50dp"
-        android:layout_marginStart="4dp"
+        android:layout_marginEnd="4dp"
         android:layout_marginTop="8dp"
         android:inputType="numberDecimal"
         app:layout_constraintEnd_toStartOf="@id/lbl_ohm_prefix"
@@ -184,7 +160,7 @@ SOFTWARE.
         android:id="@+id/lbl_ohm_prefix"
         android:layout_width="25dp"
         android:layout_height="50dp"
-        android:layout_marginStart="4dp"
+        android:layout_marginEnd="4dp"
         android:layout_marginTop="8dp"
         android:gravity="center_vertical"
         android:text="K\u2126"
@@ -198,7 +174,6 @@ SOFTWARE.
         android:layout_width="28dp"
         android:layout_height="50dp"
         android:layout_marginEnd="8dp"
-        android:layout_marginStart="4dp"
         android:layout_marginTop="8dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@id/lbl_ohm_prefix"
@@ -207,144 +182,65 @@ SOFTWARE.
     <!-- Third Row -->
 
     <TextView
-        android:id="@+id/lbl_vin"
+        android:id="@+id/lbl_th_vh"
         android:layout_width="@dimen/label_width"
         android:layout_height="50dp"
         android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
         android:gravity="center_vertical"
-        android:text="Vin"
+        android:text="Th"
         android:textSize="@dimen/text_size"
-        app:layout_constraintEnd_toStartOf="@id/edt_vin"
+        app:layout_constraintEnd_toStartOf="@id/edt_th"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/lbl_gain" />
+        app:layout_constraintTop_toBottomOf="@id/lbl_r1" />
 
     <EditText
-        android:id="@+id/edt_vin"
+        android:id="@+id/edt_th"
+        android:layout_width="0dp"
+        android:layout_height="50dp"
+        android:layout_marginStart="4dp"
+        android:layout_marginTop="8dp"
+        android:inputType="numberDecimal"
+        app:layout_constraintEnd_toEndOf="@+id/edt_r1"
+        app:layout_constraintStart_toEndOf="@id/lbl_th_vh"
+        app:layout_constraintTop_toBottomOf="@id/lbl_r1" />
+
+    <TextView
+        android:id="@+id/lbl_th_summary"
         android:layout_width="0dp"
         android:layout_height="50dp"
         android:layout_marginEnd="4dp"
         android:layout_marginStart="4dp"
         android:layout_marginTop="8dp"
-        android:inputType="numberDecimal"
-        app:layout_constraintEnd_toStartOf="@id/lbl_vin_prefix"
-        app:layout_constraintStart_toEndOf="@id/lbl_vin"
-        app:layout_constraintTop_toBottomOf="@id/lbl_gain" />
-
-    <TextView
-        android:id="@+id/lbl_vin_prefix"
-        android:layout_width="25dp"
-        android:layout_height="50dp"
-        android:layout_marginTop="8dp"
         android:gravity="center_vertical"
-        android:text="K\u2126"
+        android:text="Summary"
         android:textSize="@dimen/text_size"
-        app:layout_constraintEnd_toStartOf="@id/sp_vin"
-        app:layout_constraintStart_toEndOf="@id/edt_vin"
-        app:layout_constraintTop_toBottomOf="@id/lbl_gain" />
-
-    <Spinner
-        android:id="@+id/sp_vin"
-        android:layout_width="28dp"
-        android:layout_height="50dp"
-        android:layout_marginEnd="8dp"
-        android:layout_marginStart="4dp"
-        android:layout_marginTop="8dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@id/lbl_vin_prefix"
-        app:layout_constraintTop_toBottomOf="@id/lbl_gain" />
-
-    <!-- Fourth Row -->
-
-    <TextView
-        android:id="@+id/lbl_gain"
-        android:layout_width="@dimen/label_width"
-        android:layout_height="50dp"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="8dp"
-        android:gravity="center_vertical"
-        android:text="Gain"
-        android:textSize="@dimen/text_size"
-        app:layout_constraintEnd_toStartOf="@id/edt_gain"
-        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toStartOf="@id/lbl_th_prefix"
+        app:layout_constraintStart_toEndOf="@id/edt_th"
         app:layout_constraintTop_toBottomOf="@id/lbl_r1" />
 
-    <EditText
-        android:id="@+id/edt_gain"
-        android:layout_width="0dp"
-        android:layout_height="50dp"
-        android:layout_marginStart="4dp"
-        android:layout_marginTop="8dp"
-        android:inputType="numberDecimal"
-        app:layout_constraintEnd_toEndOf="@id/edt_vin"
-        app:layout_constraintStart_toEndOf="@id/lbl_gain"
-        app:layout_constraintTop_toBottomOf="@id/lbl_r1" />
-
-    <!-- Fifth Row -->
-
     <TextView
-        android:id="@+id/lbl_vout"
-        android:layout_width="0dp"
-        android:layout_height="50dp"
-        android:layout_marginEnd="0dp"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="8dp"
-        android:gravity="center_vertical"
-        android:text="Vout: "
-        android:textSize="20sp"
-        app:layout_constraintEnd_toEndOf="@id/edt_vin"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/lbl_vin" />
-
-    <!--
-    <TextView
-        android:id="@+id/lbl_vout_prefix"
+        android:id="@+id/lbl_th_prefix"
         android:layout_width="25dp"
         android:layout_height="50dp"
+        android:layout_marginEnd="4dp"
         android:layout_marginTop="8dp"
         android:gravity="center_vertical"
         android:text="V"
         android:textSize="@dimen/text_size"
-        app:layout_constraintEnd_toStartOf="@id/sp_vout"
-        app:layout_constraintStart_toEndOf="@id/lbl_vout"
-        app:layout_constraintTop_toBottomOf="@id/lbl_vin" />
+        app:layout_constraintEnd_toStartOf="@id/sp_th"
+        app:layout_constraintStart_toEndOf="@id/lbl_th_prefix"
+        app:layout_constraintTop_toBottomOf="@id/lbl_r1" />
 
     <Spinner
-        android:id="@+id/sp_vout"
+        android:id="@+id/sp_th"
         android:layout_width="28dp"
         android:layout_height="50dp"
         android:layout_marginEnd="8dp"
-        android:layout_marginStart="4dp"
         android:layout_marginTop="8dp"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@id/lbl_vout_prefix"
-        app:layout_constraintTop_toBottomOf="@id/lbl_vin" />
--->
-    <!-- Status View -->
-    <!--
-    <TextView
-        android:id="@+id/tv_status"
-        android:layout_width="0dp"
-        android:layout_height="0dp"
-        android:layout_marginEnd="8dp"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="4dp"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/lbl_vout"
-        app:layout_constraintBottom_toBottomOf="parent" />
+        app:layout_constraintStart_toEndOf="@id/lbl_th_prefix"
+        app:layout_constraintTop_toBottomOf="@id/lbl_r1" />
 
--->
-
-    <!-- Ad View -->
-    <com.google.android.gms.ads.AdView
-        android:id="@+id/ad_view_noninverting"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        ads:adSize="BANNER"
-        ads:adUnitId="ca-app-pub-3940256099942544/6300978111"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent" />
 
 </android.support.constraint.ConstraintLayout>
