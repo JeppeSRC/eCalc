@@ -52,7 +52,8 @@ public class OpAmpSchmittInverting extends Fragment implements AdapterView.OnIte
     private TextWatcher th;
 
     private ArrayAdapter<CharSequence> spVccAdapter;
-    private ArrayAdapter<CharSequence> spOhmAdapter;
+    private ArrayAdapter<CharSequence> spRfbAdapter;
+    private ArrayAdapter<CharSequence> spR1Adapter;
     private ArrayAdapter<CharSequence> spThAdapter;
 
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstance) {
@@ -69,13 +70,14 @@ public class OpAmpSchmittInverting extends Fragment implements AdapterView.OnIte
         lblVout = view.findViewById(R.id.lbl_vout);
 
         lblVccPrefix = view.findViewById(R.id.lbl_vcc_prefix);
-        lblOhmPrefix = view.findViewById(R.id.lbl_ohm_prefix);
+        lblRfbPrefix = view.findViewById(R.id.lbl_rfb_prefix);
+        lblR1Prefix = view.findViewById(R.id.lbl_r1_prefix);
         lblThPrefix = view.findViewById(R.id.lbl_th_prefix);
         lblVccSummary = view.findViewById(R.id.lbl_vcc_summary);
         lblThSummary = view.findViewById(R.id.lbl_th_summary);
 
         spVcc = view.findViewById(R.id.sp_vcc);
-        spOhm = view.findViewById(R.id.sp_ohm);
+        spRfb = view.findViewById(R.id.sp_rfb);
 
         spVccAdapter = ArrayAdapter.createFromResource(MainActivity.get(), R.array.volts, android.R.layout.simple_spinner_item);
         spVccAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);

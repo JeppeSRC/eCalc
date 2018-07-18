@@ -127,56 +127,79 @@
         android:layout_marginStart="4dp"
         android:layout_marginTop="8dp"
         android:inputType="numberDecimal"
-        app:layout_constraintEnd_toStartOf="@+id/lbl_rfb"
+        app:layout_constraintEnd_toStartOf="@+id/lbl_r1_prefix"
         app:layout_constraintStart_toEndOf="@id/lbl_r1"
+        app:layout_constraintTop_toBottomOf="@id/edt_vcc" />
+
+    <TextView
+        android:id="@+id/lbl_r1_prefix"
+        android:layout_width="25dp"
+        android:layout_height="50dp"
+        android:layout_marginStart="4dp"
+        android:layout_marginTop="8dp"
+        android:gravity="center_vertical"
+        android:text="K\u2126"
+        android:textSize="@dimen/text_size"
+        app:layout_constraintEnd_toStartOf="@id/sp_r1"
+        app:layout_constraintStart_toEndOf="@id/edt_r1"
+        app:layout_constraintTop_toBottomOf="@id/lbl_vcc" />
+
+    <Spinner
+        android:id="@+id/sp_r1"
+        android:layout_width="28dp"
+        android:layout_height="50dp"
+        android:layout_marginStart="4dp"
+        android:layout_marginTop="8dp"
+        app:layout_constraintEnd_toStartOf="@id/lbl_rfb"
+        app:layout_constraintStart_toEndOf="@id/lbl_r1_prefix"
         app:layout_constraintTop_toBottomOf="@id/lbl_vcc" />
 
     <TextView
         android:id="@+id/lbl_rfb"
         android:layout_width="@dimen/label_width"
         android:layout_height="50dp"
-        android:layout_marginEnd="4dp"
         android:layout_marginStart="4dp"
         android:layout_marginTop="8dp"
         android:gravity="center_vertical"
         android:text="Rfb"
         android:textSize="@dimen/text_size"
         app:layout_constraintEnd_toStartOf="@id/edt_rfb"
-        app:layout_constraintStart_toEndOf="@id/edt_r1"
+        app:layout_constraintStart_toEndOf="@id/sp_r1"
         app:layout_constraintTop_toBottomOf="@id/lbl_vcc" />
 
     <EditText
         android:id="@+id/edt_rfb"
         android:layout_width="0dp"
         android:layout_height="50dp"
-        android:layout_marginEnd="4dp"
+        android:layout_marginStart="4dp"
         android:layout_marginTop="8dp"
         android:inputType="numberDecimal"
-        app:layout_constraintEnd_toStartOf="@id/lbl_ohm_prefix"
+        app:layout_constraintEnd_toStartOf="@id/lbl_rfb_prefix"
         app:layout_constraintStart_toEndOf="@id/lbl_rfb"
         app:layout_constraintTop_toBottomOf="@id/lbl_vcc" />
 
     <TextView
-        android:id="@+id/lbl_ohm_prefix"
+        android:id="@+id/lbl_rfb_prefix"
         android:layout_width="25dp"
         android:layout_height="50dp"
-        android:layout_marginEnd="4dp"
+        android:layout_marginStart="4dp"
         android:layout_marginTop="8dp"
         android:gravity="center_vertical"
         android:text="K\u2126"
         android:textSize="@dimen/text_size"
-        app:layout_constraintEnd_toStartOf="@id/sp_ohm"
+        app:layout_constraintEnd_toStartOf="@id/sp_rfb"
         app:layout_constraintStart_toEndOf="@id/edt_rfb"
         app:layout_constraintTop_toBottomOf="@id/lbl_vcc" />
 
     <Spinner
-        android:id="@+id/sp_ohm"
+        android:id="@+id/sp_rfb"
         android:layout_width="28dp"
         android:layout_height="50dp"
         android:layout_marginEnd="8dp"
+        android:layout_marginStart="4dp"
         android:layout_marginTop="8dp"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@id/lbl_ohm_prefix"
+        app:layout_constraintStart_toEndOf="@id/lbl_rfb_prefix"
         app:layout_constraintTop_toBottomOf="@id/lbl_vcc" />
 
     <!-- Third Row -->
