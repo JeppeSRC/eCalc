@@ -38,6 +38,7 @@ import android.view.MenuItem;
 import com.theholyhorse.ecalc.fragments.*;
 import com.theholyhorse.ecalc.fragments.opamp.OpAmpInverting;
 import com.theholyhorse.ecalc.fragments.opamp.OpAmpNonInverting;
+import com.theholyhorse.ecalc.fragments.opamp.OpAmpSchmittInverting;
 
 import java.util.ArrayList;
 
@@ -115,6 +116,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                frag = new OpAmpInverting();
                break;
            case R.id.navigation_opamp_schmitt_inverting:
+               frag = new OpAmpSchmittInverting();
                break;
            case R.id.navigation_opamp_differential:
                break;

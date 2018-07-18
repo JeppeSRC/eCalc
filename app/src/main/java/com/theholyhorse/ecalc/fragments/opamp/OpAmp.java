@@ -31,7 +31,6 @@ public abstract class OpAmp extends Fragment implements AdapterView.OnItemSelect
     protected TextView lblRfbPrefix;
     protected TextView lblR1Prefix;
     protected TextView lblVinPrefix;
-    protected TextView lblThPrefix;
     protected TextView lblVccSummary;
     protected TextView lblThSummary;
 
@@ -103,10 +102,10 @@ public abstract class OpAmp extends Fragment implements AdapterView.OnItemSelect
         return 0.0f;
     }
 
-    protected void init(View view) {
+    protected void init(View view, int imageId) {
         this.view = view;
         imageView = view.findViewById(R.id.opamp_image);
-        imageView.setImageResource(R.drawable.op_amp_noninverting);
+        imageView.setImageResource(imageId);
 
         edtVcc = view.findViewById(R.id.edt_vcc);
         edtR1 = view.findViewById(R.id.edt_r1);
@@ -121,7 +120,6 @@ public abstract class OpAmp extends Fragment implements AdapterView.OnItemSelect
         lblRfbPrefix = view.findViewById(R.id.lbl_rfb_prefix);
         lblR1Prefix = view.findViewById(R.id.lbl_r1_prefix);
         lblVinPrefix = view.findViewById(R.id.lbl_vin_prefix);
-        lblThPrefix = view.findViewById(R.id.lbl_th_prefix);
         lblVccSummary = view.findViewById(R.id.lbl_vcc_summary);
         lblThSummary = view.findViewById(R.id.lbl_th_summary);
 
