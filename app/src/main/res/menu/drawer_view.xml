@@ -19,6 +19,7 @@
         -->
     </group>
 
+
     <item android:title="Op-Amps"
         android:checkableBehavior="single">
         <menu>
@@ -30,18 +31,23 @@
                 android:id="@+id/navigation_opamp_inverting"
                 android:title="Inverting"/>
 
+
             <item
                 android:id="@+id/navigation_opamp_schmitt_inverting"
                 android:title="Schmitt Trigger Inverting"/>
 
             <item
+                android:id="@+id/navigation_opamp_schmitt_inverting_single"
+                android:title="Schmitt Trigger Inverting (Single Supply)"/>
+
+            <item
                 android:id="@+id/navigation_opamp_schmitt_noninverting"
                 android:title="Schmitt Trigger Non-Inverting"/>
-
 
             <item
                 android:id="@+id/navigation_opamp_differential"
                 android:title="Differential"/>
+
         </menu>
     </item>
 

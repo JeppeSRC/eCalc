@@ -30,12 +30,28 @@
 
     </LinearLayout>
 
+    <!--
+
     <android.support.design.widget.NavigationView
         android:id="@+id/navigation_view"
         android:layout_width="wrap_content"
         android:layout_height="match_parent"
         android:layout_gravity="left"
         android:fitsSystemWindows="false"
-        app:menu="@menu/drawer_view" />
+        app:menu="@menu/drawer_view"/>
+
+        -->
+
+    <ListView
+        android:id="@+id/lv_menu"
+        android:layout_height="match_parent"
+        android:layout_width="match_parent"
+        android:layout_gravity="left"
+        android:choiceMode="singleChoice"
+        android:divider="#00000000"
+        android:dividerHeight="0dp"
+        android:background="#FFFFFF"/>
+
+
 
 </android.support.v4.widget.DrawerLayout>

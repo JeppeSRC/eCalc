@@ -1,0 +1,341 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:ads="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <ImageView
+        android:id="@+id/opamp_image"
+        android:layout_width="match_parent"
+        android:layout_height="145dp"
+        android:layout_centerHorizontal="true"
+        android:layout_alignParentTop="true"/>
+
+
+    <!-- First row -->
+    <TextView
+        android:id="@+id/lbl_vcc"
+        android:layout_width="@dimen/label_width"
+        android:layout_height="50dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        android:gravity="center_vertical"
+        android:text="Vcc"
+        android:textSize="@dimen/text_size"
+        app:layout_constraintEnd_toStartOf="@id/edt_vcc"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/opamp_image" />
+
+    <EditText
+        android:id="@+id/edt_vcc"
+        android:layout_width="0dp"
+        android:layout_height="50dp"
+        android:layout_marginStart="4dp"
+        android:layout_marginTop="8dp"
+        android:inputType="numberDecimal"
+        app:layout_constraintEnd_toEndOf="@+id/edt_r1"
+        app:layout_constraintStart_toEndOf="@id/lbl_vcc"
+        app:layout_constraintTop_toBottomOf="@id/opamp_image" />
+
+    <TextView
+        android:id="@+id/lbl_vcc_summary"
+        android:layout_width="0dp"
+        android:layout_height="50dp"
+        android:layout_marginStart="4dp"
+        android:layout_marginTop="8dp"
+        android:gravity="center_vertical"
+        android:textSize="@dimen/text_size"
+        app:layout_constraintEnd_toStartOf="@id/lbl_vcc_prefix"
+        app:layout_constraintStart_toEndOf="@id/edt_vcc"
+        app:layout_constraintTop_toBottomOf="@id/opamp_image" />
+
+
+    <TextView
+        android:id="@+id/lbl_vcc_prefix"
+        android:layout_width="25dp"
+        android:layout_height="50dp"
+        android:layout_marginStart="4dp"
+        android:layout_marginTop="8dp"
+        android:gravity="center_vertical"
+        android:text="V"
+        android:textSize="@dimen/text_size"
+        app:layout_constraintEnd_toStartOf="@id/sp_vcc"
+        app:layout_constraintStart_toEndOf="@id/lbl_vcc_summary"
+        app:layout_constraintTop_toBottomOf="@id/opamp_image" />
+
+    <Spinner
+        android:id="@+id/sp_vcc"
+        android:layout_width="28dp"
+        android:layout_height="50dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginStart="4dp"
+        android:layout_marginTop="8dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@id/lbl_vcc_prefix"
+        app:layout_constraintTop_toBottomOf="@id/opamp_image" />
+
+    <!-- Second Row -->
+
+    <TextView
+        android:id="@+id/lbl_r1"
+        android:layout_width="@dimen/label_width"
+        android:layout_height="50dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        android:gravity="center_vertical"
+        android:text="R1"
+        android:textSize="@dimen/text_size"
+        app:layout_constraintEnd_toStartOf="@id/edt_r1"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/lbl_vcc" />
+
+    <EditText
+        android:id="@+id/edt_r1"
+        android:layout_width="0dp"
+        android:layout_height="50dp"
+        android:layout_marginStart="4dp"
+        android:layout_marginTop="8dp"
+        android:inputType="numberDecimal"
+        app:layout_constraintEnd_toStartOf="@+id/lbl_r1_prefix"
+        app:layout_constraintStart_toEndOf="@id/lbl_r1"
+        app:layout_constraintTop_toBottomOf="@id/edt_vcc" />
+
+    <TextView
+        android:id="@+id/lbl_r1_prefix"
+        android:layout_width="25dp"
+        android:layout_height="50dp"
+        android:layout_marginStart="4dp"
+        android:layout_marginTop="8dp"
+        android:gravity="center_vertical"
+        android:text="K\u2126"
+        android:textSize="@dimen/text_size"
+        app:layout_constraintEnd_toStartOf="@id/sp_r1"
+        app:layout_constraintStart_toEndOf="@id/edt_r1"
+        app:layout_constraintTop_toBottomOf="@id/lbl_vcc" />
+
+    <Spinner
+        android:id="@+id/sp_r1"
+        android:layout_width="28dp"
+        android:layout_height="50dp"
+        android:layout_marginStart="4dp"
+        android:layout_marginTop="8dp"
+        app:layout_constraintEnd_toStartOf="@id/lbl_rfb"
+        app:layout_constraintStart_toEndOf="@id/lbl_r1_prefix"
+        app:layout_constraintTop_toBottomOf="@id/lbl_vcc" />
+
+    <TextView
+        android:id="@+id/lbl_rfb"
+        android:layout_width="@dimen/label_width"
+        android:layout_height="50dp"
+        android:layout_marginStart="4dp"
+        android:layout_marginTop="8dp"
+        android:gravity="center_vertical"
+        android:text="Rfb"
+        android:textSize="@dimen/text_size"
+        app:layout_constraintEnd_toStartOf="@id/edt_rfb"
+        app:layout_constraintStart_toEndOf="@id/sp_r1"
+        app:layout_constraintTop_toBottomOf="@id/lbl_vcc" />
+
+    <EditText
+        android:id="@+id/edt_rfb"
+        android:layout_width="0dp"
+        android:layout_height="50dp"
+        android:layout_marginStart="4dp"
+        android:layout_marginTop="8dp"
+        android:inputType="numberDecimal"
+        app:layout_constraintEnd_toStartOf="@id/lbl_rfb_prefix"
+        app:layout_constraintStart_toEndOf="@id/lbl_rfb"
+        app:layout_constraintTop_toBottomOf="@id/lbl_vcc" />
+
+    <TextView
+        android:id="@+id/lbl_rfb_prefix"
+        android:layout_width="25dp"
+        android:layout_height="50dp"
+        android:layout_marginStart="4dp"
+        android:layout_marginTop="8dp"
+        android:gravity="center_vertical"
+        android:text="K\u2126"
+        android:textSize="@dimen/text_size"
+        app:layout_constraintEnd_toStartOf="@id/sp_rfb"
+        app:layout_constraintStart_toEndOf="@id/edt_rfb"
+        app:layout_constraintTop_toBottomOf="@id/lbl_vcc" />
+
+    <Spinner
+        android:id="@+id/sp_rfb"
+        android:layout_width="28dp"
+        android:layout_height="50dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginStart="4dp"
+        android:layout_marginTop="8dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@id/lbl_rfb_prefix"
+        app:layout_constraintTop_toBottomOf="@id/lbl_vcc" />
+
+    <!-- Third Row -->
+
+
+    <TextView
+        android:id="@+id/lbl_r2"
+        android:layout_width="@dimen/label_width"
+        android:layout_height="50dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        android:gravity="center_vertical"
+        android:text="R2"
+        android:textSize="@dimen/text_size"
+        app:layout_constraintEnd_toStartOf="@id/edt_r2"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/lbl_r1" />
+
+    <EditText
+        android:id="@+id/edt_r2"
+        android:layout_width="0dp"
+        android:layout_height="50dp"
+        android:layout_marginStart="4dp"
+        android:layout_marginTop="8dp"
+        android:inputType="numberDecimal"
+        app:layout_constraintEnd_toEndOf="@+id/edt_r1"
+        app:layout_constraintStart_toEndOf="@id/lbl_r2"
+        app:layout_constraintTop_toBottomOf="@id/lbl_r1" />
+
+    <TextView
+        android:id="@+id/lbl_r2_prefix"
+        android:layout_width="25dp"
+        android:layout_height="50dp"
+        android:layout_marginStart="4dp"
+        android:layout_marginTop="8dp"
+        android:gravity="center_vertical"
+        android:text="K\u2126"
+        android:textSize="@dimen/text_size"
+        app:layout_constraintEnd_toStartOf="@id/sp_r2"
+        app:layout_constraintStart_toEndOf="@id/edt_r2"
+        app:layout_constraintTop_toBottomOf="@id/lbl_r1" />
+
+    <Spinner
+        android:id="@+id/sp_r2"
+        android:layout_width="28dp"
+        android:layout_height="50dp"
+        android:layout_marginStart="4dp"
+        android:layout_marginTop="8dp"
+        app:layout_constraintEnd_toStartOf="@id/lbl_lock_r2"
+        app:layout_constraintStart_toEndOf="@id/lbl_r2_prefix"
+        app:layout_constraintTop_toBottomOf="@id/lbl_r1" />
+
+
+    <TextView
+        android:id="@+id/lbl_lock_r2"
+        android:layout_width="44dp"
+        android:layout_height="50dp"
+        android:layout_marginStart="4dp"
+        android:layout_marginTop="8dp"
+        android:gravity="center_vertical"
+        android:text="R1=R2"
+        android:textSize="@dimen/text_size"
+        app:layout_constraintEnd_toStartOf="@id/chb_lock_r2"
+        app:layout_constraintStart_toEndOf="@id/sp_r2"
+        app:layout_constraintTop_toBottomOf="@id/lbl_r1" />
+    
+    <CheckBox
+        android:id="@+id/chb_lock_r2"
+        android:layout_width="30dp"
+        android:layout_height="50dp"
+        android:gravity="center"
+        android:layout_marginStart="0dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="0dp"
+        app:layout_constraintTop_toBottomOf="@id/lbl_r1"
+        app:layout_constraintStart_toEndOf="@id/lbl_lock_r2"
+        app:layout_constraintEnd_toStartOf="@id/lbl_vswitch_summary"/>
+
+    <TextView
+        android:id="@+id/lbl_vswitch_summary"
+        android:layout_width="0dp"
+        android:layout_height="50dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginStart="4dp"
+        android:layout_marginTop="8dp"
+        android:gravity="center_vertical"
+        android:text="Summary"
+        android:textSize="@dimen/text_size"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@id/chb_lock_r2"
+        app:layout_constraintTop_toBottomOf="@id/lbl_r1" />
+
+    <!-- Fourth Row -->
+
+    <TextView
+        android:id="@+id/lbl_th_vh"
+        android:layout_width="@dimen/label_width"
+        android:layout_height="50dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        android:gravity="center_vertical"
+        android:text="Th"
+        android:textSize="@dimen/text_size"
+        app:layout_constraintEnd_toStartOf="@id/edt_th"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/lbl_r2" />
+
+    <EditText
+        android:id="@+id/edt_th"
+        android:layout_width="0dp"
+        android:layout_height="50dp"
+        android:layout_marginStart="4dp"
+        android:layout_marginTop="8dp"
+        android:inputType="numberDecimal"
+        app:layout_constraintEnd_toEndOf="@+id/edt_r1"
+        app:layout_constraintStart_toEndOf="@id/lbl_th_vh"
+        app:layout_constraintTop_toBottomOf="@id/lbl_r2" />
+
+    <TextView
+        android:id="@+id/lbl_th_summary"
+        android:layout_width="0dp"
+        android:layout_height="50dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginStart="4dp"
+        android:layout_marginTop="8dp"
+        android:gravity="center_vertical"
+        android:text="Summary"
+        android:textSize="@dimen/text_size"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@id/edt_th"
+        app:layout_constraintTop_toBottomOf="@id/lbl_r2" />
+
+    <!--
+    <TextView
+        android:id="@+id/lbl_th_prefix"
+        android:layout_width="25dp"
+        android:layout_height="50dp"
+        android:layout_marginEnd="4dp"
+        android:layout_marginTop="8dp"
+        android:gravity="center_vertical"
+        android:text="V"
+        android:textSize="@dimen/text_size"
+        app:layout_constraintEnd_toStartOf="@id/sp_th"
+        app:layout_constraintStart_toEndOf="@id/lbl_th_prefix"
+        app:layout_constraintTop_toBottomOf="@id/lbl_r1" />
+
+    <Spinner
+        android:id="@+id/sp_th"
+        android:layout_width="28dp"
+        android:layout_height="50dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginTop="8dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@id/lbl_th_prefix"
+        app:layout_constraintTop_toBottomOf="@id/lbl_r1" />
+-->
+    <com.google.android.gms.ads.AdView
+        android:id="@+id/ad_view"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        ads:adSize="BANNER"
+        ads:adUnitId="ca-app-pub-3940256099942544/6300978111"/>
+
+
+</android.support.constraint.ConstraintLayout>

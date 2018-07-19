@@ -25,6 +25,7 @@ package com.theholyhorse.ecalc;
 
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.ActionBar;
@@ -33,22 +34,37 @@ import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
+import android.widget.ListView;
+import android.widget.Toast;
 
 import com.theholyhorse.ecalc.fragments.*;
 import com.theholyhorse.ecalc.fragments.opamp.OpAmpInverting;
 import com.theholyhorse.ecalc.fragments.opamp.OpAmpNonInverting;
 import com.theholyhorse.ecalc.fragments.opamp.OpAmpSchmittInverting;
+import com.theholyhorse.ecalc.fragments.opamp.OpAmpSchmittInvertingSingle;
 import com.theholyhorse.ecalc.fragments.opamp.OpAmpSchmittNonInverting;
+import com.theholyhorse.ecalc.menu.HorseBaseMenuItem;
+import com.theholyhorse.ecalc.menu.HorseMenuDivider;
+import com.theholyhorse.ecalc.menu.HorseMenuItem;
+import com.theholyhorse.ecalc.menu.HorseMenuList;
+import com.theholyhorse.ecalc.menu.HorseMenuListItem;
+import com.theholyhorse.ecalc.menu.MenuAdapter;
 
 import java.util.ArrayList;
+import java.util.List;
 
-public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
+public class MainActivity extends AppCompatActivity {
 
     private DrawerLayout drawerLayout;
-    private NavigationView navigationView;
+    // private NavigationView navigationView;
     private static SharedPreferences sharedPreferences;
     private static MainActivity mainActivity;
+
 
     protected void onCreate(Bundle savedInstanceState) {
         mainActivity = this;
@@ -56,7 +72,26 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         setContentView(R.layout.drawer_layout);
 
         drawerLayout = findViewById(R.id.drawer_layout);
-        navigationView = findViewById(R.id.navigation_view);
+        //  navigationView = findViewById(R.id.navigation_view);
+
+        ListView lv = findViewById(R.id.lv_menu);
+
+        List<HorseBaseMenuItem> items = new ArrayList<>();
+
+        items.add(new HorseMenuItem(R.drawable.ic_home_black, "Home"));
+        items.add(new HorseMenuItem(R.drawable.ic_settings, "Settings"));
+        items.add(new HorseMenuDivider("Op-Amps"));
+
+        List<HorseBaseMenuItem> list2 = new ArrayList<>();
+
+        list2.add(new HorseMenuListItem("Inverting"));
+        list2.add(new HorseMenuListItem("Non-Inverting"));
+
+        items.add(new HorseMenuList("Op-Amps", list2));
+
+        MenuAdapter adapter = new MenuAdapter(this, items);
+
+        lv.setAdapter(adapter);
 
         ActionBar actionBar = getSupportActionBar();
         actionBar.setDisplayHomeAsUpEnabled(true);
@@ -66,10 +101,10 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
         transaction.add(R.id.container_layout, new Home()).commit();
 
-        currentItem = navigationView.getMenu().getItem(0);
-        currentItem.setChecked(true);
+        //  currentItem = navigationView.getMenu().getItem(0);
+        // currentItem.setChecked(true);
 
-        navigationView.setNavigationItemSelectedListener(this);
+        // navigationView.setNavigationItemSelectedListener(this);
 
         PreferenceManager.setDefaultValues(this, R.xml.preferences, false);
         sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
@@ -104,24 +139,27 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         Fragment frag = null;
 
         switch (item.getItemId()) {
-           case R.id.navigation_home:
-               frag = new Home();
-               break;
-           case R.id.navigation_settings:
-               frag = new PreferenceFrag();
-               break;
-           case R.id.navigation_opamp_noninverting:
+            case R.id.navigation_home:
+                frag = new Home();
+                break;
+            case R.id.navigation_settings:
+                frag = new PreferenceFrag();
+                break;
+            case R.id.navigation_opamp_noninverting:
                 frag = new OpAmpNonInverting();
-               break;
-           case R.id.navigation_opamp_inverting:
-               frag = new OpAmpInverting();
-               break;
-           case R.id.navigation_opamp_schmitt_inverting:
-               frag = new OpAmpSchmittInverting();
-               break;
-           case R.id.navigation_opamp_schmitt_noninverting:
-               frag = new OpAmpSchmittNonInverting();
-               break;
+                break;
+            case R.id.navigation_opamp_inverting:
+                frag = new OpAmpInverting();
+                break;
+            case R.id.navigation_opamp_schmitt_inverting:
+                frag = new OpAmpSchmittInverting();
+                break;
+            case R.id.navigation_opamp_schmitt_noninverting:
+                frag = new OpAmpSchmittNonInverting();
+                break;
+            case R.id.navigation_opamp_schmitt_inverting_single:
+                frag = new OpAmpSchmittInvertingSingle();
+                break;
         }
 
         FragmentTransaction trans = getSupportFragmentManager().beginTransaction();
@@ -138,9 +176,10 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
     public void onBackPressed() {
         super.onBackPressed();
-        int prevIndex = prevItems.size()-1;
+        int prevIndex = prevItems.size() - 1;
 
-        if (prevIndex < 0) return;
+        if (prevIndex < 0)
+            return;
 
         currentItem.setChecked(false);
         currentItem = prevItems.get(prevIndex);
@@ -155,5 +194,9 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
     public static MainActivity get() {
         return mainActivity;
+    }
+
+    public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+
     }
 }
