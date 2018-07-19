@@ -16,7 +16,7 @@ public class OpAmpSchmittNonInverting extends OpAmp {
 
 
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstance) {
-        init(inflater.inflate(R.layout.opamp_schmitt_inverting_layout, container, false), R.drawable.op_amp_schmitt_noninverting);
+        init(inflater.inflate(R.layout.opamp_schmitt_noninverting_layout, container, false), R.drawable.op_amp_schmitt_noninverting);
 
 
         vccgnd = new TextWatcher() {
@@ -25,11 +25,14 @@ public class OpAmpSchmittNonInverting extends OpAmp {
             }
 
             public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-                vcc = (getFloatFromView(edtVcc) * getPrefixMultiplier(lblVccPrefix)) * 0.5f;
+                vcc = getFloatFromView(edtVcc) * 0.5f;
                 gnd = -vcc;
 
                 lblVccSummary.setText("Dual (V+ = " + Float.toString(vcc) + ", V- = " + Float.toString(gnd) + ")");
                 recalculateThSummary();
+
+                vcc *= getPrefixMultiplier(lblVccPrefix);
+                gnd *= getPrefixMultiplier(lblVccPrefix);
             }
 
             public void afterTextChanged(Editable editable) {

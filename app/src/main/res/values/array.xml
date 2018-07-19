@@ -45,4 +45,9 @@ SOFTWARE.
         <item>p\u2126</item>
     </string-array>
 
+    <string-array name="supply">
+        <item>Dual ()</item>
+        <item>Single ()</item>
+    </string-array>
+
 </resources>

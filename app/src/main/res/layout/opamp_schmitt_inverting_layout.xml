@@ -47,39 +47,10 @@
         android:layout_marginTop="8dp"
         android:gravity="center_vertical"
         android:textSize="@dimen/text_size"
-        android:text="Summary"
         app:layout_constraintEnd_toStartOf="@id/lbl_vcc_prefix"
         app:layout_constraintStart_toEndOf="@id/edt_vcc"
         app:layout_constraintTop_toBottomOf="@id/opamp_image" />
 
-    <!--
-    <TextView
-        android:id="@+id/lbl_gnd"
-        android:layout_width="@dimen/label_width"
-        android:layout_height="50dp"
-        android:layout_marginStart="4dp"
-        android:layout_marginTop="8dp"
-        android:gravity="center_vertical"
-        android:text="V-"
-        android:textSize="@dimen/text_size"
-        app:layout_constraintEnd_toStartOf="@id/edt_gnd"
-        app:layout_constraintStart_toEndOf="@id/edt_vcc"
-        app:layout_constraintTop_toBottomOf="@id/opamp_image" />
-
-    <EditText
-        android:id="@+id/edt_gnd"
-        android:layout_width="0dp"
-        android:layout_height="50dp"
-        android:layout_marginEnd="4dp"
-        android:layout_marginStart="4dp"
-        android:layout_marginTop="8dp"
-        android:inputType="numberDecimal"
-        android:text="-5"
-        app:layout_constraintEnd_toStartOf="@id/lbl_vcc_prefix"
-        app:layout_constraintStart_toEndOf="@id/lbl_gnd"
-        app:layout_constraintTop_toBottomOf="@id/opamp_image" />
-
-        -->
 
     <TextView
         android:id="@+id/lbl_vcc_prefix"

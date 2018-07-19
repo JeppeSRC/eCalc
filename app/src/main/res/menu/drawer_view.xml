@@ -38,6 +38,7 @@
                 android:id="@+id/navigation_opamp_schmitt_noninverting"
                 android:title="Schmitt Trigger Non-Inverting"/>
 
+
             <item
                 android:id="@+id/navigation_opamp_differential"
                 android:title="Differential"/>
