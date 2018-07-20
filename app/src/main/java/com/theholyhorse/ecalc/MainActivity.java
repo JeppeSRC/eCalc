@@ -60,7 +60,7 @@ public class MainActivity extends AppCompatActivity implements HorseList.OnItemC
     // private NavigationView navigationView;
     private static SharedPreferences sharedPreferences;
     private static MainActivity mainActivity;
-
+    private MenuAdapter adapter;
 
     protected void onCreate(Bundle savedInstanceState) {
         mainActivity = this;
@@ -93,7 +93,7 @@ public class MainActivity extends AppCompatActivity implements HorseList.OnItemC
 
         items.add(new HorseMenuList("Schmitt Triggers", list3));
 
-        MenuAdapter adapter = new MenuAdapter(this, items);
+        adapter = new MenuAdapter(this, items);
 
         lv.setAdapter(adapter);
 
@@ -101,14 +101,7 @@ public class MainActivity extends AppCompatActivity implements HorseList.OnItemC
         actionBar.setDisplayHomeAsUpEnabled(true);
         actionBar.setHomeAsUpIndicator(R.drawable.ic_menu_black);
 
-        FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
-
-        transaction.add(R.id.container_layout, new Home()).commit();
-
-        //  currentItem = navigationView.getMenu().getItem(0);
-        // currentItem.setChecked(true);
-
-        // navigationView.setNavigationItemSelectedListener(this);
+        onItemClicked(items.get(0), null);
 
         PreferenceManager.setDefaultValues(this, R.xml.preferences, false);
         sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
@@ -123,7 +116,22 @@ public class MainActivity extends AppCompatActivity implements HorseList.OnItemC
         return super.onOptionsItemSelected(item);
     }
 
+    private List<HorseBaseMenuItem> prevItems = new ArrayList<>();
+    private HorseBaseMenuItem currentItem;
+
     public void onItemClicked(HorseBaseMenuItem item, View v) {
+        if (currentItem == item) {
+            drawerLayout.closeDrawers();
+            return;
+        }
+
+        item.selected = true;
+        if (currentItem != null) {
+            currentItem.selected = false;
+            prevItems.add(currentItem);
+        }
+
+        currentItem = item;
 
         Fragment frag = null;
 
@@ -157,75 +165,24 @@ public class MainActivity extends AppCompatActivity implements HorseList.OnItemC
         trans.commit();
 
         drawerLayout.closeDrawers();
-    }
-
-/*
-    public boolean onNavigationItemSelected(MenuItem item) {
-
-        if (item == null || currentItem == item) {
-            drawerLayout.closeDrawers();
-            return false;
-        }
-
-        item.setChecked(true);
-
-        currentItem.setChecked(false);
-        prevItems.add(currentItem);
-
-        currentItem = item;
-
-        Fragment frag = null;
-
-        switch (item.getItemId()) {
-            case R.id.navigation_home:
-                frag = new Home();
-                break;
-            case R.id.navigation_settings:
-                frag = new PreferenceFrag();
-                break;
-            case R.id.navigation_opamp_noninverting:
-                frag = new OpAmpNonInverting();
-                break;
-            case R.id.navigation_opamp_inverting:
-                frag = new OpAmpInverting();
-                break;
-            case R.id.navigation_opamp_schmitt_inverting:
-                frag = new OpAmpSchmittInverting();
-                break;
-            case R.id.navigation_opamp_schmitt_noninverting:
-                frag = new OpAmpSchmittNonInverting();
-                break;
-            case R.id.navigation_opamp_schmitt_inverting_single:
-                frag = new OpAmpSchmittInvertingSingle();
-                break;
-        }
-
-        FragmentTransaction trans = getSupportFragmentManager().beginTransaction();
-
-        trans.replace(R.id.container_layout, frag);
-        trans.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE);
-        trans.addToBackStack(null);
-        trans.commit();
-
-        drawerLayout.closeDrawers();
-
-        return false;
+        adapter.notifyDataSetChanged();
     }
 
     public void onBackPressed() {
         super.onBackPressed();
-        int prevIndex = prevItems.size() - 1;
 
-        if (prevIndex < 0)
-            return;
+        int lastIndex = prevItems.size() - 1;
 
-        currentItem.setChecked(false);
-        currentItem = prevItems.get(prevIndex);
-        currentItem.setChecked(true);
+        if (lastIndex < 0) return;
 
-        prevItems.remove(prevIndex);
+        currentItem.selected = false;
+        currentItem = prevItems.get(lastIndex);
+        currentItem.selected = true;
+
+        prevItems.remove(lastIndex);
+
+        adapter.notifyDataSetChanged();
     }
-*/
 
     public static SharedPreferences getSharedPreferences() {
         return sharedPreferences;

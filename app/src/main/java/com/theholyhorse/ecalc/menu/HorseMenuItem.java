@@ -5,6 +5,7 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.theholyhorse.ecalc.MainActivity;
 import com.theholyhorse.ecalc.R;
 
 public class HorseMenuItem extends HorseBaseMenuItem {
@@ -33,6 +34,12 @@ public class HorseMenuItem extends HorseBaseMenuItem {
                 listener.onItemClicked(self, view);
             }
         });
+
+        if (selected) {
+            convertView.setBackgroundColor(0xFFDDDDDD);
+        } else {
+            convertView.setBackgroundColor(0xFFFFFFFF);
+        }
 
         return convertView;
     }

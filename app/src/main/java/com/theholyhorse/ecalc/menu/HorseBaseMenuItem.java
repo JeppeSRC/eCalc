@@ -18,6 +18,8 @@ public abstract class HorseBaseMenuItem {
     public int itemId;
     protected HorseBaseMenuItem self;
 
+    public boolean selected;
+
     protected HorseBaseMenuItem(Type type, String title, int itemId) {
         this.type = type;
         this.title = title;

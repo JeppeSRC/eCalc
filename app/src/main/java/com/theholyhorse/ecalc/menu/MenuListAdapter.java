@@ -80,8 +80,16 @@ public class MenuListAdapter extends BaseExpandableListAdapter {
             view = inflater.inflate(R.layout.menu_list_item_layout, null);
         }
 
+        HorseBaseMenuItem item = items.get(i1);
+
         TextView lbl = view.findViewById(R.id.lbl_menu_item);
-        lbl.setText(items.get(i1).getTitle());
+        lbl.setText(item.getTitle());
+
+        if (item.selected) {
+            view.setBackgroundColor(0xFFDDDDDD);
+        } else {
+            view.setBackgroundColor(0xFFFFFFFF);
+        }
 
         return view;
     }
