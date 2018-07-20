@@ -1,5 +1,6 @@
 package com.theholyhorse.ecalc.menu;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.ImageView;
@@ -22,10 +23,17 @@ public class HorseMenuItem extends HorseBaseMenuItem {
         }
 
         ImageView img = convertView.findViewById(R.id.img_menu_item);
-        TextView lbl = convertView.findViewById(R.id.lbl_menu_item);
+        final TextView lbl = convertView.findViewById(R.id.lbl_menu_item);
 
         img.setImageResource(iconId);
         lbl.setText(title);
+
+        convertView.setOnClickListener(new View.OnClickListener() {
+
+            public void onClick(View view) {
+                listener.onItemClicked(view, positionId, -1);
+            }
+        });
 
         return convertView;
     }

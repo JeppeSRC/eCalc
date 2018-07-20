@@ -73,10 +73,7 @@ public class HorseMenuList extends HorseBaseMenuItem {
         lv.setOnChildClickListener(new ExpandableListView.OnChildClickListener() {
 
             public boolean onChildClick(ExpandableListView expandableListView, View view, int i, int i1, long l) {
-                TextView tv = view.findViewById(R.id.lbl_menu_item);
-
-                Log.d("Gay", tv.getText().toString());
-
+                listener.onItemClicked(view, positionId, i1);
                 return false;
             }
         });

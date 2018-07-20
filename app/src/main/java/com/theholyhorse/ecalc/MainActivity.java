@@ -50,6 +50,7 @@ import com.theholyhorse.ecalc.fragments.opamp.OpAmpSchmittInverting;
 import com.theholyhorse.ecalc.fragments.opamp.OpAmpSchmittInvertingSingle;
 import com.theholyhorse.ecalc.fragments.opamp.OpAmpSchmittNonInverting;
 import com.theholyhorse.ecalc.menu.HorseBaseMenuItem;
+import com.theholyhorse.ecalc.menu.HorseList;
 import com.theholyhorse.ecalc.menu.HorseMenuDivider;
 import com.theholyhorse.ecalc.menu.HorseMenuItem;
 import com.theholyhorse.ecalc.menu.HorseMenuList;
@@ -60,7 +61,7 @@ import com.theholyhorse.ecalc.menu.MenuListAdapter;
 import java.util.ArrayList;
 import java.util.List;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity implements HorseList.OnItemClickListener {
 
     private DrawerLayout drawerLayout;
     // private NavigationView navigationView;
@@ -78,7 +79,7 @@ public class MainActivity extends AppCompatActivity {
 
        ListView lv = findViewById(R.id.lv_menu);
 
-        List<HorseBaseMenuItem> items = new ArrayList<>();
+        List<HorseBaseMenuItem> items = new HorseList(this);
 
         items.add(new HorseMenuItem(R.drawable.ic_home_black, "Home"));
         items.add(new HorseMenuItem(R.drawable.ic_settings, "Settings"));
@@ -101,12 +102,6 @@ public class MainActivity extends AppCompatActivity {
         MenuAdapter adapter = new MenuAdapter(this, items);
 
         lv.setAdapter(adapter);
-        lv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-
-            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                Log.d("Gay", "Something: " + i + " SOmthingelse: "+ l);
-            }
-        });
 
         ActionBar actionBar = getSupportActionBar();
         actionBar.setDisplayHomeAsUpEnabled(true);
@@ -134,9 +129,11 @@ public class MainActivity extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 
-    private MenuItem currentItem = null;
-    private ArrayList<MenuItem> prevItems = new ArrayList<>();
+    public void onItemClicked(View v, int positionId, int altPosition) {
+        Log.d("Nice", "Posiiton: " + positionId + " altPositin: " + altPosition);
+    }
 
+/*
     public boolean onNavigationItemSelected(MenuItem item) {
 
         if (item == null || currentItem == item) {
@@ -202,6 +199,7 @@ public class MainActivity extends AppCompatActivity {
 
         prevItems.remove(prevIndex);
     }
+*/
 
     public static SharedPreferences getSharedPreferences() {
         return sharedPreferences;
@@ -209,9 +207,5 @@ public class MainActivity extends AppCompatActivity {
 
     public static MainActivity get() {
         return mainActivity;
-    }
-
-    public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-
     }
 }

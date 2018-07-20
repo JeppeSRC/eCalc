@@ -14,6 +14,8 @@ public abstract class HorseBaseMenuItem {
 
     protected Type type;
     protected String title;
+    protected HorseList.OnItemClickListener listener;
+    public int positionId;
 
     protected HorseBaseMenuItem(Type type, String title) {
         this.type = type;
@@ -26,4 +28,7 @@ public abstract class HorseBaseMenuItem {
 
     public Type getType() { return type; }
     public String getTitle() { return title; }
+
+    public void setOnClickListener(HorseList.OnItemClickListener listener) { this.listener = listener; }
+
 }
