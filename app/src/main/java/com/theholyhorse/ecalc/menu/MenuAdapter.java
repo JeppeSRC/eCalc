@@ -40,6 +40,8 @@ public class MenuAdapter extends ArrayAdapter {
         return items.size();
     }
 
+
+
     public long getItemId(int i) {
         return 0;
     }

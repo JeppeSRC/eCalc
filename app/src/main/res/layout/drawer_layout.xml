@@ -51,7 +51,18 @@
         android:divider="#00000000"
         android:dividerHeight="0dp"
         android:background="#FFFFFF"/>
-
-
+<!--
+    <ExpandableListView
+        android:id="@+id/elv_menu"
+        android:layout_gravity="left"
+        android:layout_margin="10dp"
+        android:divider="#FFFFFF"
+        android:background="#FFFFFF"
+        android:dividerHeight="0dp"
+        android:indicatorRight="?android:attr/expandableListPreferredChildIndicatorRight"
+        android:choiceMode="singleChoice"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"/>
+-->
 
 </android.support.v4.widget.DrawerLayout>

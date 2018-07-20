@@ -39,6 +39,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.ExpandableListView;
 import android.widget.ListView;
 import android.widget.Toast;
 
@@ -54,6 +55,7 @@ import com.theholyhorse.ecalc.menu.HorseMenuItem;
 import com.theholyhorse.ecalc.menu.HorseMenuList;
 import com.theholyhorse.ecalc.menu.HorseMenuListItem;
 import com.theholyhorse.ecalc.menu.MenuAdapter;
+import com.theholyhorse.ecalc.menu.MenuListAdapter;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -74,7 +76,7 @@ public class MainActivity extends AppCompatActivity {
         drawerLayout = findViewById(R.id.drawer_layout);
         //  navigationView = findViewById(R.id.navigation_view);
 
-        ListView lv = findViewById(R.id.lv_menu);
+       ListView lv = findViewById(R.id.lv_menu);
 
         List<HorseBaseMenuItem> items = new ArrayList<>();
 
@@ -87,11 +89,24 @@ public class MainActivity extends AppCompatActivity {
         list2.add(new HorseMenuListItem("Inverting"));
         list2.add(new HorseMenuListItem("Non-Inverting"));
 
-        items.add(new HorseMenuList("Op-Amps", list2));
+        items.add(new HorseMenuList("Amplifiers", list2));
+
+        List<HorseBaseMenuItem> list3 = new ArrayList<>();
+
+        list3.add(new HorseMenuListItem("Schmitt Inverting"));
+        list3.add(new HorseMenuListItem("Schmitt Non-Inverting"));
+
+        items.add(new HorseMenuList("Schmitt Triggers", list3));
 
         MenuAdapter adapter = new MenuAdapter(this, items);
 
         lv.setAdapter(adapter);
+        lv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+
+            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                Log.d("Gay", "Something: " + i + " SOmthingelse: "+ l);
+            }
+        });
 
         ActionBar actionBar = getSupportActionBar();
         actionBar.setDisplayHomeAsUpEnabled(true);

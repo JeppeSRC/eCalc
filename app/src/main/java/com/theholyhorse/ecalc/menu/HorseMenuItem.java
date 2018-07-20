@@ -17,7 +17,7 @@ public class HorseMenuItem extends HorseBaseMenuItem {
     }
 
     public View getView(LayoutInflater inflater, View convertView) {
-        if (convertView == null) {
+        if (convertView == null || (convertView.getId() != R.layout.menu_item_layout)) {
             convertView = inflater.inflate(R.layout.menu_item_layout, null);
         }
 

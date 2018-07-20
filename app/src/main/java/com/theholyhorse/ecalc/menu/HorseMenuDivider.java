@@ -15,7 +15,7 @@ public class HorseMenuDivider extends HorseBaseMenuItem {
 
     public View getView(LayoutInflater inflater, View convertView) {
 
-        if (convertView == null) {
+        if (convertView == null || (convertView.getId() != R.layout.menu_divider_layout)) {
             convertView = inflater.inflate(R.layout.menu_divider_layout, null);
         }
 
@@ -23,8 +23,7 @@ public class HorseMenuDivider extends HorseBaseMenuItem {
 
         lbl.setText(title);
 
-        convertView.setEnabled(false);
-        convertView.setClickable(false);
+        convertView.setOnClickListener(null);
 
         return convertView;
     }

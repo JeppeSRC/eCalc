@@ -3,21 +3,14 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="horizontal"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
-
-
-    <ImageView
-        android:id="@+id/img_menu_item"
-        android:layout_width="25dp"
-        android:layout_height="25dp"
-        android:layout_margin="10dp"/>
+    android:layout_height="wrap_content">
 
     <TextView
         android:id="@+id/lbl_menu_item"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_marginTop="10dp"
-        android:gravity="center_vertical"
+        android:layout_height="25dp"
+        android:gravity="left"
+        android:layout_marginLeft="30dp"
         android:textColor="@color/iconColor"
         android:textSize="18sp"/>
 

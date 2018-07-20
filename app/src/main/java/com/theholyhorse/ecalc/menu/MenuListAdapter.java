@@ -64,31 +64,29 @@ public class MenuListAdapter extends BaseExpandableListAdapter {
     }
 
     public View getGroupView(int i, boolean b, View view, ViewGroup viewGroup) {
-        if (view == null) {
+        if (view == null || (view.getId() != R.layout.menu_list_group_layout)) {
             view = inflater.inflate(R.layout.menu_list_group_layout, null);
         }
 
-        ImageView img = view.findViewById(R.id.img_menu_item);
         TextView lbl = view.findViewById(R.id.lbl_menu_item);
 
-        img.setImageResource(R.drawable.op_amp_icon);
         lbl.setText(title);
 
         return view;
     }
 
     public View getChildView(int i, int i1, boolean b, View view, ViewGroup viewGroup) {
-        if (view == null) {
+        if (view == null || (view.getId() != R.layout.menu_list_item_layout)) {
             view = inflater.inflate(R.layout.menu_list_item_layout, null);
         }
 
         TextView lbl = view.findViewById(R.id.lbl_menu_item);
-        lbl.setText(items.get(i).getTitle());
+        lbl.setText(items.get(i1).getTitle());
 
         return view;
     }
 
     public boolean isChildSelectable(int i, int i1) {
-        return false;
+        return true;
     }
 }
