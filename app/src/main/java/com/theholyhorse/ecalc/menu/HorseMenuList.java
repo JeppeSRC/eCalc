@@ -1,14 +1,9 @@
 package com.theholyhorse.ecalc.menu;
 
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
 import android.view.ViewGroup.LayoutParams;
-import android.widget.BaseExpandableListAdapter;
-import android.widget.ExpandableListAdapter;
 import android.widget.ExpandableListView;
-import android.widget.TextView;
 
 import com.theholyhorse.ecalc.MainActivity;
 import com.theholyhorse.ecalc.R;
@@ -52,7 +47,7 @@ public class HorseMenuList extends HorseBaseMenuItem {
     };
 
     public HorseMenuList(String title, List<HorseBaseMenuItem> items) {
-        super(Type.List, title);
+        super(Type.List, title, -1);
 
         this.items = items;
     }
@@ -73,7 +68,7 @@ public class HorseMenuList extends HorseBaseMenuItem {
         lv.setOnChildClickListener(new ExpandableListView.OnChildClickListener() {
 
             public boolean onChildClick(ExpandableListView expandableListView, View view, int i, int i1, long l) {
-                listener.onItemClicked(view, positionId, i1);
+                listener.onItemClicked(items.get(i1), view);
                 return false;
             }
         });

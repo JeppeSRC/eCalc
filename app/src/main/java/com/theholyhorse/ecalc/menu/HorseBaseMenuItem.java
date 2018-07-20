@@ -15,12 +15,14 @@ public abstract class HorseBaseMenuItem {
     protected Type type;
     protected String title;
     protected HorseList.OnItemClickListener listener;
-    public int positionId;
+    public int itemId;
+    protected HorseBaseMenuItem self;
 
-    protected HorseBaseMenuItem(Type type, String title) {
+    protected HorseBaseMenuItem(Type type, String title, int itemId) {
         this.type = type;
         this.title = title;
-
+        this.itemId = itemId;
+        this.self = this;
     }
 
     public abstract View getView(LayoutInflater inflater, View convertView);

@@ -25,23 +25,16 @@ package com.theholyhorse.ecalc;
 
 import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.ActionBar;
 import android.support.v7.preference.PreferenceManager;
-import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
-import android.widget.ExpandableListView;
 import android.widget.ListView;
-import android.widget.Toast;
 
 import com.theholyhorse.ecalc.fragments.*;
 import com.theholyhorse.ecalc.fragments.opamp.OpAmpInverting;
@@ -56,7 +49,7 @@ import com.theholyhorse.ecalc.menu.HorseMenuItem;
 import com.theholyhorse.ecalc.menu.HorseMenuList;
 import com.theholyhorse.ecalc.menu.HorseMenuListItem;
 import com.theholyhorse.ecalc.menu.MenuAdapter;
-import com.theholyhorse.ecalc.menu.MenuListAdapter;
+import com.theholyhorse.ecalc.menu.MenuItemID;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -81,21 +74,22 @@ public class MainActivity extends AppCompatActivity implements HorseList.OnItemC
 
         List<HorseBaseMenuItem> items = new HorseList(this);
 
-        items.add(new HorseMenuItem(R.drawable.ic_home_black, "Home"));
-        items.add(new HorseMenuItem(R.drawable.ic_settings, "Settings"));
+        items.add(new HorseMenuItem(R.drawable.ic_home_black, "Home", MenuItemID.HOME_ID));
+        items.add(new HorseMenuItem(R.drawable.ic_settings, "Settings", MenuItemID.SETTINGS_ID));
         items.add(new HorseMenuDivider("Op-Amps"));
 
         List<HorseBaseMenuItem> list2 = new ArrayList<>();
 
-        list2.add(new HorseMenuListItem("Inverting"));
-        list2.add(new HorseMenuListItem("Non-Inverting"));
+        list2.add(new HorseMenuListItem("Inverting", MenuItemID.OPAMP_AMP_INVERTING_ID));
+        list2.add(new HorseMenuListItem("Non-Inverting", MenuItemID.OPAMP_AMP_NONINVERTING_ID));
 
         items.add(new HorseMenuList("Amplifiers", list2));
 
         List<HorseBaseMenuItem> list3 = new ArrayList<>();
 
-        list3.add(new HorseMenuListItem("Schmitt Inverting"));
-        list3.add(new HorseMenuListItem("Schmitt Non-Inverting"));
+        list3.add(new HorseMenuListItem("Inverting", MenuItemID.OPAMP_SCHMITT_TRIGGER_INVERTING_ID));
+        list3.add(new HorseMenuListItem("Inverting Single", MenuItemID.OPAMP_SCHMITT_TRIGGER_INVERTING_SINGLE_ID));
+        list3.add(new HorseMenuListItem("Non-Inverting", MenuItemID.OPAMP_SCHMITT_TRIGGER_NONINVERTING_ID));
 
         items.add(new HorseMenuList("Schmitt Triggers", list3));
 
@@ -129,8 +123,40 @@ public class MainActivity extends AppCompatActivity implements HorseList.OnItemC
         return super.onOptionsItemSelected(item);
     }
 
-    public void onItemClicked(View v, int positionId, int altPosition) {
-        Log.d("Nice", "Posiiton: " + positionId + " altPositin: " + altPosition);
+    public void onItemClicked(HorseBaseMenuItem item, View v) {
+
+        Fragment frag = null;
+
+        switch (item.itemId) {
+            case MenuItemID.HOME_ID:
+                frag = new Home();
+                break;
+            case MenuItemID.SETTINGS_ID:
+                frag = new PreferenceFrag();
+                break;
+            case MenuItemID.OPAMP_AMP_INVERTING_ID:
+                frag = new OpAmpInverting();
+                break;
+            case MenuItemID.OPAMP_AMP_NONINVERTING_ID:
+                frag = new OpAmpNonInverting();
+                break;
+            case MenuItemID.OPAMP_SCHMITT_TRIGGER_INVERTING_ID:
+                frag = new OpAmpSchmittInverting();
+                break;
+            case MenuItemID.OPAMP_SCHMITT_TRIGGER_INVERTING_SINGLE_ID:
+                frag = new OpAmpSchmittInvertingSingle();
+                break;
+            case MenuItemID.OPAMP_SCHMITT_TRIGGER_NONINVERTING_ID:
+                frag = new OpAmpSchmittNonInverting();
+                break;
+        }
+
+        FragmentTransaction trans = getSupportFragmentManager().beginTransaction();
+        trans.replace(R.id.container_layout, frag, null);
+        trans.addToBackStack(null);
+        trans.commit();
+
+        drawerLayout.closeDrawers();
     }
 
 /*

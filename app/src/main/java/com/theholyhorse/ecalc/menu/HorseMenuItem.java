@@ -1,6 +1,5 @@
 package com.theholyhorse.ecalc.menu;
 
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.ImageView;
@@ -12,8 +11,8 @@ public class HorseMenuItem extends HorseBaseMenuItem {
 
     private int iconId;
 
-    public HorseMenuItem(int iconId, String title) {
-        super(Type.Item, title);
+    public HorseMenuItem(int iconId, String title, int itemId) {
+        super(Type.Item, title, itemId);
         this.iconId = iconId;
     }
 
@@ -31,7 +30,7 @@ public class HorseMenuItem extends HorseBaseMenuItem {
         convertView.setOnClickListener(new View.OnClickListener() {
 
             public void onClick(View view) {
-                listener.onItemClicked(view, positionId, -1);
+                listener.onItemClicked(self, view);
             }
         });
 

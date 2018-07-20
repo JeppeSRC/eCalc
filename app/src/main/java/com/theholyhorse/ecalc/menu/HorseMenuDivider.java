@@ -9,7 +9,7 @@ import com.theholyhorse.ecalc.R;
 public class HorseMenuDivider extends HorseBaseMenuItem {
 
     public HorseMenuDivider(String title) {
-        super(Type.Divider, title);
+        super(Type.Divider, title, -1);
         this.title = title;
     }
 
