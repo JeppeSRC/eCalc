@@ -56,22 +56,22 @@ public class HorseMenuList extends HorseBaseMenuItem {
 
         if (convertView == null || (convertView.getId() != R.layout.menu_list_layout)) {
             convertView = inflater.inflate(R.layout.menu_list_layout, null);
+
+            ExpandableListView lv = convertView.findViewById(R.id.elv_menu);
+
+            MenuListAdapter adapter = new MenuListAdapter(MainActivity.get(), title, items);
+
+            lv.setAdapter(adapter);
+            lv.setOnGroupClickListener(onGroupClickListener);
+
+            lv.setOnChildClickListener(new ExpandableListView.OnChildClickListener() {
+
+                public boolean onChildClick(ExpandableListView expandableListView, View view, int i, int i1, long l) {
+                    listener.onItemClicked(items.get(i1), view);
+                    return false;
+                }
+            });
         }
-
-        final ExpandableListView lv = convertView.findViewById(R.id.elv_menu);
-
-        MenuListAdapter adapter = new MenuListAdapter(MainActivity.get(), title, items);
-
-        lv.setAdapter(adapter);
-        lv.setOnGroupClickListener(onGroupClickListener);
-
-        lv.setOnChildClickListener(new ExpandableListView.OnChildClickListener() {
-
-            public boolean onChildClick(ExpandableListView expandableListView, View view, int i, int i1, long l) {
-                listener.onItemClicked(items.get(i1), view);
-                return false;
-            }
-        });
 
         return convertView;
     }

@@ -20,20 +20,20 @@ public class HorseMenuItem extends HorseBaseMenuItem {
     public View getView(LayoutInflater inflater, View convertView) {
         if (convertView == null || (convertView.getId() != R.layout.menu_item_layout)) {
             convertView = inflater.inflate(R.layout.menu_item_layout, null);
+
+            ImageView img = convertView.findViewById(R.id.img_menu_item);
+            TextView lbl = convertView.findViewById(R.id.lbl_menu_item);
+
+            img.setImageResource(iconId);
+            lbl.setText(title);
+
+            convertView.setOnClickListener(new View.OnClickListener() {
+
+                public void onClick(View view) {
+                    listener.onItemClicked(self, view);
+                }
+            });
         }
-
-        ImageView img = convertView.findViewById(R.id.img_menu_item);
-        final TextView lbl = convertView.findViewById(R.id.lbl_menu_item);
-
-        img.setImageResource(iconId);
-        lbl.setText(title);
-
-        convertView.setOnClickListener(new View.OnClickListener() {
-
-            public void onClick(View view) {
-                listener.onItemClicked(self, view);
-            }
-        });
 
         if (selected) {
             convertView.setBackgroundColor(0xFFDDDDDD);

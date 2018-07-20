@@ -66,24 +66,25 @@ public class MenuListAdapter extends BaseExpandableListAdapter {
     public View getGroupView(int i, boolean b, View view, ViewGroup viewGroup) {
         if (view == null || (view.getId() != R.layout.menu_list_group_layout)) {
             view = inflater.inflate(R.layout.menu_list_group_layout, null);
+
+            TextView lbl = view.findViewById(R.id.lbl_menu_item);
+
+            lbl.setText(title);
         }
-
-        TextView lbl = view.findViewById(R.id.lbl_menu_item);
-
-        lbl.setText(title);
 
         return view;
     }
 
     public View getChildView(int i, int i1, boolean b, View view, ViewGroup viewGroup) {
-        if (view == null || (view.getId() != R.layout.menu_list_item_layout)) {
-            view = inflater.inflate(R.layout.menu_list_item_layout, null);
-        }
-
         HorseBaseMenuItem item = items.get(i1);
 
-        TextView lbl = view.findViewById(R.id.lbl_menu_item);
-        lbl.setText(item.getTitle());
+        if (view == null || (view.getId() != R.layout.menu_list_item_layout)) {
+            view = inflater.inflate(R.layout.menu_list_item_layout, null);
+
+
+            TextView lbl = view.findViewById(R.id.lbl_menu_item);
+            lbl.setText(item.getTitle());
+        }
 
         if (item.selected) {
             view.setBackgroundColor(0xFFDDDDDD);
