@@ -16,6 +16,8 @@ import com.theholyhorse.ecalc.MainActivity;
 import com.theholyhorse.ecalc.R;
 import com.theholyhorse.ecalc.fragments.HorseBaseFragment;
 
+import java.text.DecimalFormat;
+
 public abstract class OpAmp extends HorseBaseFragment implements AdapterView.OnItemSelectedListener {
 
     protected View view;
@@ -40,15 +42,14 @@ public abstract class OpAmp extends HorseBaseFragment implements AdapterView.OnI
     protected Spinner spR1;
     protected Spinner spVin;
 
-
-    protected float vcc = 5.0f;
-    protected float gnd = 0.0f;
-    protected float r1 = 0.0f;
-    protected float rfb = 0.0f;
-    protected float vin = 0.0f;
-    protected float vout = 0.0f;
-    protected float gain = 0.0f;
-    protected float threshold = 0.0f;
+    protected double vcc = 5.0f;
+    protected double gnd = 0.0f;
+    protected double r1 = 0.0f;
+    protected double rfb = 0.0f;
+    protected double vin = 0.0f;
+    protected double vout = 0.0f;
+    protected double gain = 0.0f;
+    protected double threshold = 0.0f;
 
     protected TextWatcher vccgnd;
     protected TextWatcher r1rfb;
@@ -66,45 +67,52 @@ public abstract class OpAmp extends HorseBaseFragment implements AdapterView.OnI
         super(title);
     }
 
-    protected float getFloatFromView(EditText view) {
+    protected String getDoubleString(double v) {
+        DecimalFormat df = new DecimalFormat("#");
+        df.setMaximumFractionDigits(6);
+        df.setMinimumIntegerDigits(1);
+        return df.format(v);
+    }
+
+    protected double getDoubleFromView(EditText view) {
         String s = view.getText().toString();
 
-        if (s.isEmpty()) return 0.0f;
+        if (s.isEmpty()) return 0.0;
 
-        float res = 0.0f;
+        double res = 0.0;
 
         try {
-            res = Float.parseFloat(s);
+            res = Double.parseDouble(s);
         } catch (NumberFormatException e) {
-            res = -0.123f;
+            res = -0.123;
         }
 
 
         return res;
     }
 
-    protected float getPrefixMultiplier(TextView prefixView) {
+    protected double getPrefixMultiplier(TextView prefixView) {
         return getPrefixMultiplier(prefixView.getText().toString());
     }
 
-    protected float getPrefixMultiplier(String string) {
+    protected double getPrefixMultiplier(String string) {
         if (string.equals("MV") || string.equals("M\u2126")) {
-            return 1000000.0f;
+            return 1000000.0;
         } else if (string.equals("KV") || string.equals("K\u2126")) {
-            return 1000.0f;
+            return 1000.0;
         } else if (string.equals("V") || string.equals("\u2126")) {
-            return 1.0f;
+            return 1.0;
         } else if (string.equals("mV") || string.equals("m\u2126")) {
-            return 0.001f;
+            return 0.001;
         } else if (string.equals("µV") || string.equals("µ\u2126")) {
-            return 0.000001f;
+            return 0.000001;
         } else if (string.equals("nV") || string.equals("n\u2126")) {
-            return 0.000000001f;
+            return 0.000000001;
         } else if (string.equals("pV") || string.equals("p\u2126")) {
-            return 0.000000000001f;
+            return 0.000000000001;
         }
 
-        return 0.0f;
+        return 0.0;
     }
 
     protected void init(View view, int imageId) {

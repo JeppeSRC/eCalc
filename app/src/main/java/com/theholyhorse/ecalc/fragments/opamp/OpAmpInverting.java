@@ -43,6 +43,8 @@ import com.theholyhorse.ecalc.R;
 
 public class OpAmpInverting extends OpAmp {
 
+    private boolean noGainRecalc = false;
+
     public OpAmpInverting() {
         super("OpAmp: Amp Inverting");
     }
@@ -57,10 +59,10 @@ public class OpAmpInverting extends OpAmp {
             }
 
             public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-                vcc = (getFloatFromView(edtVcc) * getPrefixMultiplier(lblVccPrefix)) * 0.5f;
+                vcc = (getDoubleFromView(edtVcc) * getPrefixMultiplier(lblVccPrefix)) * 0.5;
                 gnd = -vcc;
 
-                lblVccSummary.setText("Dual (V+ = " + Float.toString(vcc) + ", V- = " + Float.toString(gnd) + ")");
+                lblVccSummary.setText("Dual (V+ = " + getDoubleString(vcc) + ", V- = " + getDoubleString(gnd) + ")");
 
                 recalculateVout();
             }
@@ -76,8 +78,8 @@ public class OpAmpInverting extends OpAmp {
             }
 
             public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-                r1 = getFloatFromView(edtR1) * getPrefixMultiplier(lblR1Prefix);
-                rfb = getFloatFromView(edtRfb) * getPrefixMultiplier(lblRfbPrefix);
+                r1 = getDoubleFromView(edtR1) * getPrefixMultiplier(lblR1Prefix);
+                rfb = getDoubleFromView(edtRfb) * getPrefixMultiplier(lblRfbPrefix);
 
                 recalculateGain();
             }
@@ -93,7 +95,7 @@ public class OpAmpInverting extends OpAmp {
             }
 
             public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-                vin = getFloatFromView(edtVin) * getPrefixMultiplier(lblVinPrefix);
+                vin = getDoubleFromView(edtVin) * getPrefixMultiplier(lblVinPrefix);
                 recalculateVout();
             }
 
@@ -108,11 +110,11 @@ public class OpAmpInverting extends OpAmp {
             }
 
             public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-                gain = getFloatFromView(edtGain);
+                gain = getDoubleFromView(edtGain);
 
                 r1 = -gain * rfb;
 
-                float tmp = 1;
+                double tmp = 1;
 
                 int sel = 2;
 
@@ -123,27 +125,25 @@ public class OpAmpInverting extends OpAmp {
                     tmp = 1000;
                     sel = 1;
                 } else if (r1 < 0.000000001) {
-                    tmp = 0.000000000001f;
-                    sel = 3;
-                } else if (r1 < 0.000001) {
-                    tmp = 0.000000001f;
-                    sel = 4;
-                } else if (r1 < 0.001) {
-                    tmp = 0.000001f;
-                    sel = 5;
-                } else if (r1 < 1) {
-                    tmp = 0.001f;
+                    tmp = 0.000000000001;
                     sel = 6;
+                } else if (r1 < 0.000001) {
+                    tmp = 0.000000001;
+                    sel = 5;
+                } else if (r1 < 0.001) {
+                    tmp = 0.000001;
+                    sel = 4;
+                } else if (r1 < 1) {
+                    tmp = 0.001;
+                    sel = 3;
                 }
 
                 edtR1.removeTextChangedListener(r1rfb);
-                edtR1.setText(Float.toString(r1 / tmp));
-                edtR1.addTextChangedListener(r1rfb);
+                edtR1.setText(getDoubleString(r1 / tmp));
+                edtR1.removeTextChangedListener(r1rfb);
 
-                AdapterView.OnItemSelectedListener listener = spR1.getOnItemSelectedListener();
-                spR1.setOnItemSelectedListener(null);
+
                 spR1.setSelection(sel);
-                spR1.setOnItemSelectedListener(listener);
 
                 recalculateVout();
             }
@@ -159,6 +159,13 @@ public class OpAmpInverting extends OpAmp {
         edtVin.addTextChangedListener(vin_);
         edtGain.addTextChangedListener(gain_);
 
+        edtGain.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+
+            public void onFocusChange(View view, boolean b) {
+                noGainRecalc = b;
+            }
+        });
+
         edtVcc.setText("5");
         edtR1.setText("10");
         edtRfb.setText("10");
@@ -172,7 +179,7 @@ public class OpAmpInverting extends OpAmp {
         gain = -rfb / r1;
 
         edtGain.removeTextChangedListener(gain_);
-        edtGain.setText(Float.toString(gain));
+        edtGain.setText(getDoubleString(gain));
         edtGain.addTextChangedListener(gain_);
 
         recalculateVout();
@@ -194,7 +201,7 @@ public class OpAmpInverting extends OpAmp {
             vout *= sign;
         }
 
-        float tmp = 1.0f;
+        double tmp = 1.0f;
         String sTmp = "V";
 
         if (vout > 1000000){
@@ -204,39 +211,40 @@ public class OpAmpInverting extends OpAmp {
             tmp = 1000;
             sTmp = "KV";
         } else if (vout < 0.000000001) {
-            tmp = 0.000000000001f;
+            tmp = 0.000000000001;
             sTmp = "pV";
         } else if (vout < 0.000001) {
-            tmp = 0.000000001f;
+            tmp = 0.000000001;
             sTmp = "nV";
         } else if (vout < 0.001) {
-            tmp = 0.000001f;
+            tmp = 0.000001;
             sTmp = "µV";
         } else if (vout < 1) {
-            tmp = 0.001f;
+            tmp = 0.001;
             sTmp = "mV";
         }
 
-        lblVout.setText("Vout: " + Float.toString((vout * sign) / tmp) + sTmp);
+        lblVout.setText("Vout: " + getDoubleString((vout * sign) / tmp) + sTmp);
     }
 
     public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
         if (adapterView.getAdapter() == spVccAdapter) {
             lblVccPrefix.setText((CharSequence)adapterView.getItemAtPosition(i));
-            vcc = (getFloatFromView(edtVcc) * getPrefixMultiplier(lblVccPrefix)) * 0.5f;
+            vcc = (getDoubleFromView(edtVcc) * getPrefixMultiplier(lblVccPrefix)) * 0.5;
             gnd = -vcc;
             recalculateVout();
         } else if (adapterView.getAdapter() == spRfbAdapter) {
             lblRfbPrefix.setText((CharSequence)adapterView.getItemAtPosition(i));
-            rfb = getFloatFromView(edtRfb) * getPrefixMultiplier(lblRfbPrefix);
+            rfb = getDoubleFromView(edtRfb) * getPrefixMultiplier(lblRfbPrefix);
             recalculateGain();
         } else if (adapterView.getAdapter() == spR1Adapter) {
             lblR1Prefix.setText((CharSequence)adapterView.getItemAtPosition(i));
-            r1 = getFloatFromView(edtR1) * getPrefixMultiplier(lblR1Prefix);
+            if (noGainRecalc) return;
+            r1 = getDoubleFromView(edtR1) * getPrefixMultiplier(lblR1Prefix);
             recalculateGain();
         } else if (adapterView.getAdapter() == spVinAdapter) {
             lblVinPrefix.setText((CharSequence)adapterView.getItemAtPosition(i));
-            vin = getFloatFromView(edtVin) * getPrefixMultiplier(lblVinPrefix);
+            vin = getDoubleFromView(edtVin) * getPrefixMultiplier(lblVinPrefix);
             recalculateVout();
         }
     }

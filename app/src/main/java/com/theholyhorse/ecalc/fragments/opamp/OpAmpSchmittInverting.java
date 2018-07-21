@@ -22,6 +22,8 @@ import com.theholyhorse.ecalc.R;
 
 public class OpAmpSchmittInverting extends OpAmp {
 
+    private boolean noThRecalc = false;
+
     public OpAmpSchmittInverting() {
         super("OpAmp: Schmitt Inverting");
     }
@@ -37,10 +39,10 @@ public class OpAmpSchmittInverting extends OpAmp {
             }
 
             public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-                vcc = getFloatFromView(edtVcc)* 0.5f;
+                vcc = getDoubleFromView(edtVcc)* 0.5;
                 gnd = -vcc;
 
-                lblVccSummary.setText("V+ = " + Float.toString(vcc) + ", V- = " + Float.toString(gnd));
+                lblVccSummary.setText("V+ = " + getDoubleString(vcc) + ", V- = " + getDoubleString(gnd));
 
                 vcc *= getPrefixMultiplier(lblVccPrefix);
                 gnd *= getPrefixMultiplier(lblVccPrefix);
@@ -59,16 +61,10 @@ public class OpAmpSchmittInverting extends OpAmp {
             }
 
             public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-                r1 = getFloatFromView(edtR1) * getPrefixMultiplier(lblR1Prefix);
-                rfb = getFloatFromView(edtRfb) * getPrefixMultiplier(lblRfbPrefix);
+                r1 = getDoubleFromView(edtR1) * getPrefixMultiplier(lblR1Prefix);
+                rfb = getDoubleFromView(edtRfb) * getPrefixMultiplier(lblRfbPrefix);
 
-                threshold = r1 / (r1 + rfb);
-
-                edtTh.removeTextChangedListener(th);
-                edtTh.setText(Float.toString(threshold));
-                edtTh.addTextChangedListener(th);
-
-                recalculateThSummary();
+                recalculateTh();
             }
 
             public void afterTextChanged(Editable editable) {
@@ -83,17 +79,17 @@ public class OpAmpSchmittInverting extends OpAmp {
             }
 
             public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-                threshold = getFloatFromView(edtTh);
+                threshold = getDoubleFromView(edtTh);
 
 
-                if (threshold > 1.0f || threshold < 0.0f) {
+                if (threshold >= 1.0 || threshold <= 0.0) {
                     Toast.makeText(MainActivity.get(), "Th must be between 0 -> 1", Toast.LENGTH_LONG).show();
-                    threshold = 0.0f;
+                    threshold = 0.0;
                 }
 
                 r1 = (threshold * rfb) / (1 - threshold);
 
-                float tmp = 1;
+                double tmp = 1;
 
                 int sel = 2;
 
@@ -104,27 +100,24 @@ public class OpAmpSchmittInverting extends OpAmp {
                     tmp = 1000;
                     sel = 1;
                 } else if (r1 < 0.000000001) {
-                    tmp = 0.000000000001f;
-                    sel = 3;
-                } else if (r1 < 0.000001) {
-                    tmp = 0.000000001f;
-                    sel = 4;
-                } else if (r1 < 0.001) {
-                    tmp = 0.000001f;
-                    sel = 5;
-                } else if (r1 < 1) {
-                    tmp = 0.001f;
+                    tmp = 0.000000000001;
                     sel = 6;
+                } else if (r1 < 0.000001) {
+                    tmp = 0.000000001;
+                    sel = 5;
+                } else if (r1 < 0.001) {
+                    tmp = 0.000001;
+                    sel = 4;
+                } else if (r1 < 1) {
+                    tmp = 0.001;
+                    sel = 3;
                 }
 
                 edtR1.removeTextChangedListener(r1rfb);
-                edtR1.setText(Float.toString(r1 / tmp));
+                edtR1.setText(getDoubleString(r1 / tmp));
                 edtR1.addTextChangedListener(r1rfb);
 
-                AdapterView.OnItemSelectedListener listener = spR1.getOnItemSelectedListener();
-                spR1.setOnItemSelectedListener(null);
                 spR1.setSelection(sel);
-                spR1.setOnItemSelectedListener(listener);
 
                 recalculateThSummary();
             }
@@ -139,6 +132,13 @@ public class OpAmpSchmittInverting extends OpAmp {
         edtRfb.addTextChangedListener(r1rfb);
         edtTh.addTextChangedListener(th);
 
+        edtTh.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+
+            public void onFocusChange(View view, boolean b) {
+                noThRecalc = b;
+            }
+        });
+
         edtVcc.setText("5");
         edtR1.setText("10");
         edtRfb.setText("10");
@@ -146,11 +146,21 @@ public class OpAmpSchmittInverting extends OpAmp {
         return view;
     }
 
-    private void recalculateThSummary() {
-            float vh = threshold * vcc;
-            float vl = threshold * gnd;
+    private void recalculateTh() {
+        threshold = r1 / (r1 + rfb);
 
-            float tmp = 1;
+        edtTh.removeTextChangedListener(th);
+        edtTh.setText(getDoubleString(threshold));
+        edtTh.addTextChangedListener(th);
+
+        recalculateThSummary();
+    }
+
+    private void recalculateThSummary() {
+            double vh = threshold * vcc;
+            double vl = threshold * gnd;
+
+            double tmp = 1;
             String sTmp = "V";
 
             if (vh > 1000000) {
@@ -160,20 +170,20 @@ public class OpAmpSchmittInverting extends OpAmp {
                 tmp = 1000;
                 sTmp = "KV";
             } else if (vh < 0.000000001) {
-                tmp = 0.000000000001f;
+                tmp = 0.000000000001;
                 sTmp = "pV";
             } else if (vh < 0.000001) {
-                tmp = 0.000000001f;
+                tmp = 0.000000001;
                 sTmp = "nV";
             } else if (vh < 0.001) {
-                tmp = 0.000001f;
+                tmp = 0.000001;
                 sTmp = "µV";
             } else if (vh < 1) {
-                tmp = 0.001f;
+                tmp = 0.001;
                 sTmp = "mV";
             }
 
-            lblThSummary.setText("VHth: " + Float.toString(vh / tmp) + sTmp +  ", VLth: " + Float.toString(vl / tmp) + sTmp + ", Vhst: " + Float.toString((vh - vl) / tmp) + sTmp);
+            lblThSummary.setText("VHth: " + getDoubleString(vh / tmp) + sTmp +  ", VLth: " + getDoubleString(vl / tmp) + sTmp + ", Vhst: " + getDoubleString((vh - vl) / tmp) + sTmp);
     }
 
     public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
@@ -182,10 +192,13 @@ public class OpAmpSchmittInverting extends OpAmp {
             vccgnd.onTextChanged(null, 0, 0, 0);
         } else if (adapterView.getAdapter() == spRfbAdapter) {
             lblRfbPrefix.setText((CharSequence)adapterView.getItemAtPosition(i));
-            r1rfb.onTextChanged(null, 0, 0, 0);
+            rfb = getDoubleFromView(edtRfb) * getPrefixMultiplier(lblRfbPrefix);
+            recalculateTh();
         } else if (adapterView.getAdapter() == spR1Adapter) {
             lblR1Prefix.setText((CharSequence)adapterView.getItemAtPosition(i));
-            r1rfb.onTextChanged(null, 0, 0, 0);
+            if (noThRecalc) return;
+            r1 = getDoubleFromView(edtR1) * getPrefixMultiplier(lblR1Prefix);
+            recalculateTh();
         }
     }
 
