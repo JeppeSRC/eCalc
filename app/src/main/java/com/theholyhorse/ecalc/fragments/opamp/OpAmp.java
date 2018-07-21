@@ -14,8 +14,9 @@ import com.google.android.gms.ads.AdRequest;
 import com.google.android.gms.ads.AdView;
 import com.theholyhorse.ecalc.MainActivity;
 import com.theholyhorse.ecalc.R;
+import com.theholyhorse.ecalc.fragments.HorseBaseFragment;
 
-public abstract class OpAmp extends Fragment implements AdapterView.OnItemSelectedListener {
+public abstract class OpAmp extends HorseBaseFragment implements AdapterView.OnItemSelectedListener {
 
     protected View view;
     protected ImageView imageView;
@@ -60,6 +61,10 @@ public abstract class OpAmp extends Fragment implements AdapterView.OnItemSelect
     protected ArrayAdapter<CharSequence> spRfbAdapter;
     protected ArrayAdapter<CharSequence> spR1Adapter;
     protected ArrayAdapter<CharSequence> spVinAdapter;
+
+    protected OpAmp(String title) {
+        super(title);
+    }
 
     protected float getFloatFromView(EditText view) {
         String s = view.getText().toString();

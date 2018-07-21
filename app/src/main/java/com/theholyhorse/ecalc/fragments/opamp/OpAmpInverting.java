@@ -43,6 +43,10 @@ import com.theholyhorse.ecalc.R;
 
 public class OpAmpInverting extends OpAmp {
 
+    public OpAmpInverting() {
+        super("OpAmp: Amp Inverting");
+    }
+
 
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstance) {
         init(inflater.inflate(R.layout.opamp_inverting_layout, container, false), R.drawable.op_amp_inverting);

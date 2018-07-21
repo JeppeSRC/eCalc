@@ -43,6 +43,9 @@ import com.theholyhorse.ecalc.R;
 
 public class OpAmpNonInverting extends OpAmp {
 
+    public OpAmpNonInverting() {
+        super("OpAmp: Amp NonInverting");
+    }
 
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstance) {
         init(inflater.inflate(R.layout.opamp_noninverting_layout, container, false), R.drawable.op_amp_noninverting);

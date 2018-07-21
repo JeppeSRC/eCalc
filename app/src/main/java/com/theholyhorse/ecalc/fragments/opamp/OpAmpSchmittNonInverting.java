@@ -14,6 +14,9 @@ import com.theholyhorse.ecalc.R;
 
 public class OpAmpSchmittNonInverting extends OpAmp {
 
+    public OpAmpSchmittNonInverting() {
+        super("OpAmp: Schmitt NonInverting");
+    }
 
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstance) {
         init(inflater.inflate(R.layout.opamp_schmitt_noninverting_layout, container, false), R.drawable.op_amp_schmitt_noninverting);
@@ -178,5 +181,6 @@ public class OpAmpSchmittNonInverting extends OpAmp {
     }
 
     public void onNothingSelected(AdapterView<?> adapterView) { }
+
 
 }

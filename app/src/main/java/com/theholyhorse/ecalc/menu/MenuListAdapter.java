@@ -84,6 +84,8 @@ public class MenuListAdapter extends BaseExpandableListAdapter {
 
             TextView lbl = view.findViewById(R.id.lbl_menu_item);
             lbl.setText(item.getTitle());
+
+            view.setPadding(40,0 ,0 ,0);
         }
 
         if (item.selected) {

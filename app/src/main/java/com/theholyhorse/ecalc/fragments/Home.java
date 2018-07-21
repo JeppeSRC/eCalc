@@ -35,11 +35,15 @@ import com.google.android.gms.ads.AdView;
 import com.theholyhorse.ecalc.MainActivity;
 import com.theholyhorse.ecalc.R;
 
-public class Home extends Fragment {
+public class Home extends HorseBaseFragment {
 
     private AdRequest adRequest;
     private AdView adView;
     private View homeView;
+
+    public Home() {
+        super("Home");
+    }
 
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstance) {
         homeView = inflater.inflate(R.layout.home_layout, container, false);

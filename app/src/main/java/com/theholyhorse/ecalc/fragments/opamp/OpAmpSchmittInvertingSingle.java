@@ -14,6 +14,10 @@ import com.theholyhorse.ecalc.R;
 
 public class OpAmpSchmittInvertingSingle extends OpAmp {
 
+    public OpAmpSchmittInvertingSingle() {
+        super("OpAmp: Schmitt Inverting Single");
+    }
+
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstance) {
         init(inflater.inflate(R.layout.opamp_schmitt_inverting_single_layout, container, false), R.drawable.op_amp_schmitt_inverting);
 

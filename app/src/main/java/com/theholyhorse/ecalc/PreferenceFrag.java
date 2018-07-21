@@ -28,7 +28,13 @@ import android.preference.PreferenceManager;
 import android.support.v7.preference.Preference;
 import android.support.v7.preference.PreferenceFragmentCompat;
 
-public class PreferenceFrag extends PreferenceFragmentCompat implements SharedPreferences.OnSharedPreferenceChangeListener {
+import com.theholyhorse.ecalc.fragments.HorseBaseFragment;
+
+public class PreferenceFrag extends HorseBaseFragment implements SharedPreferences.OnSharedPreferenceChangeListener {
+
+    public PreferenceFrag() {
+        super("Settings");
+    }
 
     public void onCreatePreferences(Bundle savedInstance, String rootKey) {
         setPreferencesFromResource(R.xml.preferences, rootKey);

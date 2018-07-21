@@ -100,6 +100,7 @@ public class MainActivity extends AppCompatActivity implements HorseList.OnItemC
         ActionBar actionBar = getSupportActionBar();
         actionBar.setDisplayHomeAsUpEnabled(true);
         actionBar.setHomeAsUpIndicator(R.drawable.ic_menu_black);
+        actionBar.setTitle("Dank");
 
         onItemClicked(items.get(0), null);
 
@@ -133,7 +134,7 @@ public class MainActivity extends AppCompatActivity implements HorseList.OnItemC
 
         currentItem = item;
 
-        Fragment frag = null;
+        HorseBaseFragment frag = null;
 
         switch (item.itemId) {
             case MenuItemID.HOME_ID:
@@ -159,6 +160,10 @@ public class MainActivity extends AppCompatActivity implements HorseList.OnItemC
                 break;
         }
 
+        if (frag == null) return;
+
+        getSupportActionBar().setTitle(frag.getTitle());
+
         FragmentTransaction trans = getSupportFragmentManager().beginTransaction();
         trans.replace(R.id.container_layout, frag, null);
         trans.addToBackStack(null);
@@ -178,6 +183,8 @@ public class MainActivity extends AppCompatActivity implements HorseList.OnItemC
         currentItem.selected = false;
         currentItem = prevItems.get(lastIndex);
         currentItem.selected = true;
+
+        getSupportActionBar().setTitle(currentItem.getTitle());
 
         prevItems.remove(lastIndex);
 

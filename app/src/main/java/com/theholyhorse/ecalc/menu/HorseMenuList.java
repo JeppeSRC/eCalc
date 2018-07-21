@@ -71,6 +71,7 @@ public class HorseMenuList extends HorseBaseMenuItem {
                     return false;
                 }
             });
+
         }
 
         return convertView;
