@@ -1,22 +1,14 @@
 package com.theholyhorse.ecalc.fragments.opamp;
 
 import android.os.Bundle;
-import android.support.v4.app.Fragment;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
-import android.widget.EditText;
-import android.widget.ImageView;
-import android.widget.Spinner;
-import android.widget.TextView;
 import android.widget.Toast;
 
-import com.google.android.gms.ads.AdRequest;
-import com.google.android.gms.ads.AdView;
 import com.theholyhorse.ecalc.MainActivity;
 import com.theholyhorse.ecalc.R;
 
@@ -47,7 +39,7 @@ public class OpAmpSchmittInverting extends OpAmp {
                 vcc *= getPrefixMultiplier(lblVccPrefix);
                 gnd *= getPrefixMultiplier(lblVccPrefix);
 
-                recalculateThSummary();
+                recalculateTh();
             }
 
             public void afterTextChanged(Editable editable) {
@@ -72,54 +64,16 @@ public class OpAmpSchmittInverting extends OpAmp {
             }
         };
 
-        th = new TextWatcher() {
+        hyst_ = new TextWatcher() {
 
             public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
 
             }
 
             public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-                threshold = getDoubleFromView(edtTh);
+                hyst = getDoubleFromView(edtHyst) * getPrefixMultiplier(lblHystPrefix);
 
-
-                if (threshold >= 1.0 || threshold <= 0.0) {
-                    Toast.makeText(MainActivity.get(), "Th must be between 0 -> 1", Toast.LENGTH_LONG).show();
-                    threshold = 0.0;
-                }
-
-                r1 = (threshold * rfb) / (1 - threshold);
-
-                double tmp = 1;
-
-                int sel = 2;
-
-                if (r1 > 1000000){
-                    tmp = 1000000;
-                    sel = 0;
-                } else if (r1 > 1000) {
-                    tmp = 1000;
-                    sel = 1;
-                } else if (r1 < 0.000000001) {
-                    tmp = 0.000000000001;
-                    sel = 6;
-                } else if (r1 < 0.000001) {
-                    tmp = 0.000000001;
-                    sel = 5;
-                } else if (r1 < 0.001) {
-                    tmp = 0.000001;
-                    sel = 4;
-                } else if (r1 < 1) {
-                    tmp = 0.001;
-                    sel = 3;
-                }
-
-                edtR1.removeTextChangedListener(r1rfb);
-                edtR1.setText(getDoubleString(r1 / tmp));
-                edtR1.addTextChangedListener(r1rfb);
-
-                spR1.setSelection(sel);
-
-                recalculateThSummary();
+                calculateR1();
             }
 
             public void afterTextChanged(Editable editable) {
@@ -130,9 +84,9 @@ public class OpAmpSchmittInverting extends OpAmp {
         edtVcc.addTextChangedListener(vccgnd);
         edtR1.addTextChangedListener(r1rfb);
         edtRfb.addTextChangedListener(r1rfb);
-        edtTh.addTextChangedListener(th);
+        edtHyst.addTextChangedListener(hyst_);
 
-        edtTh.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+        edtHyst.setOnFocusChangeListener(new View.OnFocusChangeListener() {
 
             public void onFocusChange(View view, boolean b) {
                 noThRecalc = b;
@@ -146,44 +100,42 @@ public class OpAmpSchmittInverting extends OpAmp {
         return view;
     }
 
+    protected void calculateR1() {
+        vth = hyst * 0.5f;
+        vtl = hyst * -0.5f;
+
+        threshold = vth / vcc;
+
+        r1 = (threshold * rfb) / (1 - threshold);
+
+        edtR1.removeTextChangedListener(r1rfb);
+        edtR1.setText(getDoubleStringWithPrefix(r1, true));
+        edtR1.addTextChangedListener(r1rfb);
+
+        spR1.setSelection(getPrefixIndex(r1));
+
+        recalculateThSummary();
+    }
+
     private void recalculateTh() {
         threshold = r1 / (r1 + rfb);
 
-        edtTh.removeTextChangedListener(th);
-        edtTh.setText(getDoubleString(threshold));
-        edtTh.addTextChangedListener(th);
+        vth = threshold * vcc;
+        vtl = threshold * gnd;
+
+        hyst = vth - vtl;
+
+        edtHyst.removeTextChangedListener(hyst_);
+        edtHyst.setText(getDoubleStringWithPrefix(hyst, true));
+        edtHyst.addTextChangedListener(hyst_);
+
+        spHyst.setSelection(getPrefixIndex(hyst));
 
         recalculateThSummary();
     }
 
     private void recalculateThSummary() {
-            double vh = threshold * vcc;
-            double vl = threshold * gnd;
-
-            double tmp = 1;
-            String sTmp = "V";
-
-            if (vh > 1000000) {
-                tmp = 1000000;
-                sTmp = "MV";
-            } else if (vh > 1000) {
-                tmp = 1000;
-                sTmp = "KV";
-            } else if (vh < 0.000000001) {
-                tmp = 0.000000000001;
-                sTmp = "pV";
-            } else if (vh < 0.000001) {
-                tmp = 0.000000001;
-                sTmp = "nV";
-            } else if (vh < 0.001) {
-                tmp = 0.000001;
-                sTmp = "µV";
-            } else if (vh < 1) {
-                tmp = 0.001;
-                sTmp = "mV";
-            }
-
-            lblThSummary.setText("VHth: " + getDoubleString(vh / tmp) + sTmp +  ", VLth: " + getDoubleString(vl / tmp) + sTmp + ", Vhst: " + getDoubleString((vh - vl) / tmp) + sTmp);
+        lblThSummary.setText("VHth: " + getDoubleStringWithPrefix(vth, false) +  ", VLth: " + getDoubleStringWithPrefix(-vtl, false));
     }
 
     public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
@@ -196,9 +148,14 @@ public class OpAmpSchmittInverting extends OpAmp {
             recalculateTh();
         } else if (adapterView.getAdapter() == spR1Adapter) {
             lblR1Prefix.setText((CharSequence)adapterView.getItemAtPosition(i));
-            if (noThRecalc) return;
+            if (edtHyst.isFocused()) return;
             r1 = getDoubleFromView(edtR1) * getPrefixMultiplier(lblR1Prefix);
             recalculateTh();
+        }else if (adapterView.getAdapter() == spHystAdapter) {
+            lblHystPrefix.setText((CharSequence)adapterView.getItemAtPosition(i));
+            if (edtR1.isFocused()) return;
+            hyst = getDoubleFromView(edtHyst) * getPrefixMultiplier(lblHystPrefix);
+            calculateR1();
         }
     }
 

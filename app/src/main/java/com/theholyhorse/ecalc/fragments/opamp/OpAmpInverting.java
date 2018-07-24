@@ -43,8 +43,6 @@ import com.theholyhorse.ecalc.R;
 
 public class OpAmpInverting extends OpAmp {
 
-    private boolean noGainRecalc = false;
-
     public OpAmpInverting() {
         super("OpAmp: Amp Inverting");
     }
@@ -159,13 +157,6 @@ public class OpAmpInverting extends OpAmp {
         edtVin.addTextChangedListener(vin_);
         edtGain.addTextChangedListener(gain_);
 
-        edtGain.setOnFocusChangeListener(new View.OnFocusChangeListener() {
-
-            public void onFocusChange(View view, boolean b) {
-                noGainRecalc = b;
-            }
-        });
-
         edtVcc.setText("5");
         edtR1.setText("10");
         edtRfb.setText("10");
@@ -239,7 +230,7 @@ public class OpAmpInverting extends OpAmp {
             recalculateGain();
         } else if (adapterView.getAdapter() == spR1Adapter) {
             lblR1Prefix.setText((CharSequence)adapterView.getItemAtPosition(i));
-            if (noGainRecalc) return;
+            //if (noRecalc) return;
             r1 = getDoubleFromView(edtR1) * getPrefixMultiplier(lblR1Prefix);
             recalculateGain();
         } else if (adapterView.getAdapter() == spVinAdapter) {
