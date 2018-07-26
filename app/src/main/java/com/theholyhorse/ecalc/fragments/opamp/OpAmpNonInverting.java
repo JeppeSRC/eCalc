@@ -112,39 +112,11 @@ public class OpAmpNonInverting extends OpAmp {
 
                 r1 = rfb / (gain - 1);
 
-                double tmp = 1;
-
-                int sel = 2;
-
-                if (r1 > 1000000){
-                    tmp = 1000000;
-                    sel = 0;
-                } else if (r1 > 1000) {
-                    tmp = 1000;
-                    sel = 1;
-                } else if (r1 < 0.000000001) {
-                    tmp = 0.000000000001;
-                    sel = 6;
-                } else if (r1 < 0.000001) {
-                    tmp = 0.000000001;
-                    sel = 5;
-                } else if (r1 < 0.001) {
-                    tmp = 0.000001;
-                    sel = 4;
-                } else if (r1 < 1) {
-                    tmp = 0.001;
-                    sel = 3;
-                }
-
                 edtR1.removeTextChangedListener(r1rfb);
-                edtR1.setText(getDoubleString(r1 / tmp));
+                edtR1.setText(getDoubleStringWithPrefix(r1, true));
                 edtR1.addTextChangedListener(r1rfb);
 
-                AdapterView.OnItemSelectedListener listener = spR1.getOnItemSelectedListener();
-                spR1.setOnItemSelectedListener(null);
-                spR1.setSelection(sel);
-                spR1.setOnItemSelectedListener(listener);
-
+                spR1.setSelection(getPrefixIndex(r1));
 
                 recalculateVout();
             }
@@ -186,30 +158,7 @@ public class OpAmpNonInverting extends OpAmp {
             vout = vcc;
         }
 
-        double tmp = 1.0;
-        String sTmp = "V";
-
-        if (vout > 1000000){
-            tmp = 1000000;
-            sTmp = "MV";
-        } else if (vout > 1000) {
-            tmp = 1000;
-            sTmp = "KV";
-        } else if (vout < 0.000000001) {
-            tmp = 0.000000000001;
-            sTmp = "pV";
-        } else if (vout < 0.000001) {
-            tmp = 0.000000001;
-            sTmp = "nV";
-        } else if (vout < 0.001) {
-            tmp = 0.000001;
-            sTmp = "µV";
-        } else if (vout < 1) {
-            tmp = 0.001;
-            sTmp = "mV";
-        }
-
-        lblVout.setText("Vout: " + getDoubleString(vout / tmp) + sTmp);
+        lblVout.setText("Vout: " + getDoubleStringWithPrefix(vout, false));
     }
 
     public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
@@ -223,7 +172,7 @@ public class OpAmpNonInverting extends OpAmp {
            recalculateGain();
        } else if (adapterView.getAdapter() == spR1Adapter) {
            lblR1Prefix.setText((CharSequence)adapterView.getItemAtPosition(i));
-           //if (noRecalc) return;
+           if (edtGain.isFocused()) return;
            r1 = getDoubleFromView(edtR1) * getPrefixMultiplier(lblR1Prefix);
            recalculateGain();
        } else if (adapterView.getAdapter() == spVinAdapter) {
