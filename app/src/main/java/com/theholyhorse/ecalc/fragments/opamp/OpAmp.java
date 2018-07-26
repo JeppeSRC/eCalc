@@ -205,7 +205,7 @@ public abstract class OpAmp extends HorseBaseFragment implements AdapterView.OnI
         edtRfb = view.findViewById(R.id.edt_rfb);
         edtVin = view.findViewById(R.id.edt_vin);
         edtGain = view.findViewById(R.id.edt_gain);
-        edtHyst = view.findViewById(R.id.edt_th);
+        edtHyst = view.findViewById(R.id.edt_hyst);
         edtVswitch = view.findViewById(R.id.edt_vswitch);
 
         lblVout = view.findViewById(R.id.lbl_vout);
@@ -226,6 +226,7 @@ public abstract class OpAmp extends HorseBaseFragment implements AdapterView.OnI
         spR2 = view.findViewById(R.id.sp_r2);
         spHyst = view.findViewById(R.id.sp_hyst);
         spVin = view.findViewById(R.id.sp_vin);
+        spVswitch = view.findViewById(R.id.sp_vswitch);
 
         spVccAdapter = ArrayAdapter.createFromResource(MainActivity.get(), R.array.volts, android.R.layout.simple_spinner_item);
         spVccAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
