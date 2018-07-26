@@ -250,7 +250,7 @@ SOFTWARE.
         android:layout_marginRight="4dp"
         android:layout_marginLeft="4dp"
         android:layout_marginTop="8dp"
-        android:inputType="numberDecimal"
+        android:inputType="numberDecimal|numberSigned"
         app:layout_constraintEnd_toStartOf="@id/lbl_vin_prefix"
         app:layout_constraintStart_toEndOf="@id/lbl_vin"
         app:layout_constraintTop_toBottomOf="@id/lbl_gain" />
@@ -299,7 +299,7 @@ SOFTWARE.
         android:layout_height="50dp"
         android:layout_marginLeft="4dp"
         android:layout_marginTop="8dp"
-        android:inputType="numberDecimal"
+        android:inputType="numberDecimal|numberSigned"
         app:layout_constraintEnd_toEndOf="@id/edt_vin"
         app:layout_constraintStart_toEndOf="@id/lbl_gain"
         app:layout_constraintTop_toBottomOf="@id/lbl_r1" />

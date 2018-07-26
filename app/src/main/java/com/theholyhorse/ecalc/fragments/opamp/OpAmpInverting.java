@@ -47,7 +47,6 @@ public class OpAmpInverting extends OpAmp {
         super("OpAmp: Amp Inverting");
     }
 
-
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstance) {
         init(inflater.inflate(R.layout.opamp_inverting_layout, container, false), R.drawable.op_amp_inverting);
 
@@ -102,6 +101,7 @@ public class OpAmpInverting extends OpAmp {
             }
         };
 
+
         gain_ = new TextWatcher() {
             public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
 
@@ -110,38 +110,13 @@ public class OpAmpInverting extends OpAmp {
             public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
                 gain = getDoubleFromView(edtGain);
 
-                r1 = -gain * rfb;
-
-                double tmp = 1;
-
-                int sel = 2;
-
-                if (r1 > 1000000){
-                    tmp = 1000000;
-                    sel = 0;
-                } else if (r1 > 1000) {
-                    tmp = 1000;
-                    sel = 1;
-                } else if (r1 < 0.000000001) {
-                    tmp = 0.000000000001;
-                    sel = 6;
-                } else if (r1 < 0.000001) {
-                    tmp = 0.000000001;
-                    sel = 5;
-                } else if (r1 < 0.001) {
-                    tmp = 0.000001;
-                    sel = 4;
-                } else if (r1 < 1) {
-                    tmp = 0.001;
-                    sel = 3;
-                }
+                r1 = -rfb / gain;
 
                 edtR1.removeTextChangedListener(r1rfb);
-                edtR1.setText(getDoubleString(r1 / tmp));
-                edtR1.removeTextChangedListener(r1rfb);
+                edtR1.setText(getDoubleStringWithPrefix(r1, true));
+                edtR1.addTextChangedListener(r1rfb);
 
-
-                spR1.setSelection(sel);
+                spR1.setSelection(getPrefixIndex(r1));
 
                 recalculateVout();
             }
@@ -185,37 +160,7 @@ public class OpAmpInverting extends OpAmp {
             vout = gnd;
         }
 
-        float sign = 1.0f;
-
-        if (vout < 0.0f) {
-            sign = -1.0f;
-            vout *= sign;
-        }
-
-        double tmp = 1.0f;
-        String sTmp = "V";
-
-        if (vout > 1000000){
-            tmp = 1000000;
-            sTmp = "MV";
-        } else if (vout > 1000) {
-            tmp = 1000;
-            sTmp = "KV";
-        } else if (vout < 0.000000001) {
-            tmp = 0.000000000001;
-            sTmp = "pV";
-        } else if (vout < 0.000001) {
-            tmp = 0.000000001;
-            sTmp = "nV";
-        } else if (vout < 0.001) {
-            tmp = 0.000001;
-            sTmp = "µV";
-        } else if (vout < 1) {
-            tmp = 0.001;
-            sTmp = "mV";
-        }
-
-        lblVout.setText("Vout: " + getDoubleString((vout * sign) / tmp) + sTmp);
+        lblVout.setText("Vout: " + getDoubleStringWithPrefix(vout, false));
     }
 
     public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
@@ -230,7 +175,7 @@ public class OpAmpInverting extends OpAmp {
             recalculateGain();
         } else if (adapterView.getAdapter() == spR1Adapter) {
             lblR1Prefix.setText((CharSequence)adapterView.getItemAtPosition(i));
-            //if (noRecalc) return;
+            if (edtGain.isFocused()) return;
             r1 = getDoubleFromView(edtR1) * getPrefixMultiplier(lblR1Prefix);
             recalculateGain();
         } else if (adapterView.getAdapter() == spVinAdapter) {
