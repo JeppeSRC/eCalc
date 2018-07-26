@@ -140,7 +140,7 @@ public abstract class OpAmp extends HorseBaseFragment implements AdapterView.OnI
         double tmp = 1;
         String sTmp = "V";
 
-        switch (getPrefixIndex(v)) {
+        switch (getPrefixIndex(Math.abs(v))) {
             case 0:
                 tmp = 1000000;
                 sTmp = "MV";

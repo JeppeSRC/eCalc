@@ -108,13 +108,6 @@ public class OpAmpSchmittInverting extends OpAmp {
         edtRfb.addTextChangedListener(r1rfb);
         edtHyst.addTextChangedListener(hyst_);
 
-        edtHyst.setOnFocusChangeListener(new View.OnFocusChangeListener() {
-
-            public void onFocusChange(View view, boolean b) {
-                noThRecalc = b;
-            }
-        });
-
         edtVcc.setText("5");
         edtR1.setText("10");
         edtRfb.setText("10");

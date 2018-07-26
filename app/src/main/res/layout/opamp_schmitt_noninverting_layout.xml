@@ -227,27 +227,50 @@
     <!-- Third Row -->
 
     <TextView
-        android:id="@+id/lbl_th_vh"
+        android:id="@+id/lbl_hyst"
         android:layout_width="@dimen/label_width"
         android:layout_height="50dp"
         android:layout_marginLeft="8dp"
         android:layout_marginTop="8dp"
         android:gravity="center_vertical"
-        android:text="Th"
+        android:text="Vhst"
         android:textSize="@dimen/text_size"
-        app:layout_constraintEnd_toStartOf="@id/edt_th"
+        app:layout_constraintEnd_toStartOf="@id/edt_hyst"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/lbl_r1" />
 
     <EditText
-        android:id="@+id/edt_th"
+        android:id="@+id/edt_hyst"
         android:layout_width="0dp"
         android:layout_height="50dp"
         android:layout_marginLeft="4dp"
         android:layout_marginTop="8dp"
         android:inputType="numberDecimal"
         app:layout_constraintEnd_toEndOf="@+id/edt_r1"
-        app:layout_constraintStart_toEndOf="@id/lbl_th_vh"
+        app:layout_constraintStart_toEndOf="@id/lbl_hyst"
+        app:layout_constraintTop_toBottomOf="@id/lbl_r1" />
+
+    <TextView
+        android:id="@+id/lbl_hyst_prefix"
+        android:layout_width="25dp"
+        android:layout_height="50dp"
+        android:layout_marginLeft="4dp"
+        android:layout_marginTop="8dp"
+        android:gravity="center_vertical"
+        android:text="V"
+        android:textSize="@dimen/text_size"
+        app:layout_constraintEnd_toStartOf="@id/sp_hyst"
+        app:layout_constraintStart_toEndOf="@id/edt_hyst"
+        app:layout_constraintTop_toBottomOf="@id/lbl_r1" />
+
+    <Spinner
+        android:id="@+id/sp_hyst"
+        android:layout_width="28dp"
+        android:layout_height="50dp"
+        android:layout_marginLeft="4dp"
+        android:layout_marginTop="8dp"
+        app:layout_constraintEnd_toStartOf="@id/lbl_th_summary"
+        app:layout_constraintStart_toEndOf="@id/lbl_hyst_prefix"
         app:layout_constraintTop_toBottomOf="@id/lbl_r1" />
 
     <TextView
@@ -261,7 +284,7 @@
         android:text="Summary"
         android:textSize="@dimen/text_size"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@id/edt_th"
+        app:layout_constraintStart_toEndOf="@id/sp_hyst"
         app:layout_constraintTop_toBottomOf="@id/lbl_r1" />
 
     <!--
