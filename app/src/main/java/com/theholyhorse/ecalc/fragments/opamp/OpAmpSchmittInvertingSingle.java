@@ -56,8 +56,23 @@ public class OpAmpSchmittInvertingSingle extends OpAmp {
 
                 vcc *= getPrefixMultiplier(lblVccPrefix);
 
-                if (vcc > 0.0)
-                    recalculateR1R2Rfb();
+                if (vcc <= 0.0) return;
+
+                double halfHyst = hyst * 0.5;
+
+                if (vswitch >= vcc) {
+                    Toast.makeText(MainActivity.get(), "vswitch must < supply voltage", Toast.LENGTH_SHORT).show();
+                    edtVswitch.setText("");
+                    return;
+                }
+
+                if (vswitch + halfHyst >= vcc || vswitch - halfHyst <= gnd) {
+                    edtHyst.setText("");
+                    return;
+                }
+
+
+                recalculateR1R2Rfb();
             }
 
             public void afterTextChanged(Editable editable) { }
@@ -91,13 +106,13 @@ public class OpAmpSchmittInvertingSingle extends OpAmp {
 
                 if (vswitch >= vcc) {
                     Toast.makeText(MainActivity.get(), "vswitch must < supply voltage", Toast.LENGTH_SHORT).show();
-                    edtVswitch.setText(getDoubleStringWithPrefix(oldVswitch, true));
+                    edtVswitch.setText("");
+                    return;
                 }
 
-                if (vswitch + halfHyst >= vcc) {
-                    edtHyst.setText(getDoubleStringWithPrefix(0.0, true));
-                } else if (vswitch - halfHyst <= gnd) {
-                    edtHyst.setText(getDoubleStringWithPrefix(0.0, true));
+                if (vswitch + halfHyst >= vcc || vswitch - halfHyst <= gnd) {
+                    edtHyst.setText("");
+                    return;
                 }
 
 
@@ -115,15 +130,17 @@ public class OpAmpSchmittInvertingSingle extends OpAmp {
                 oldHyst = hyst;
                 hyst = getDoubleFromView(edtHyst) * getPrefixMultiplier(lblHystPrefix);
 
+                if (hyst <= 0.0) return;
+
                 double halfHyst = hyst * 0.5;
 
                 if (vswitch + halfHyst >= vcc || vswitch - halfHyst <= gnd) {
                     Toast.makeText(MainActivity.get(), "VHth and VLth must be within supply voltage", Toast.LENGTH_SHORT).show();
-                    edtHyst.setText(getDoubleStringWithPrefix(oldHyst, true));
+                    edtHyst.setText("");
+                    return;
                 }
 
-                if (hyst > 0.0)
-                    recalculateR1R2Rfb();
+                recalculateR1R2Rfb();
              }
 
             public void afterTextChanged(Editable editable) { }
@@ -189,8 +206,14 @@ public class OpAmpSchmittInvertingSingle extends OpAmp {
         double thH = vth / vcc;
         double thL = vtl / vcc;
 
-        r2 = (thH * resistorParallel(r1, rfb)) / (1.0 - thH);
-        r1 = resistorParallel(r2, rfb) * (1 - thL) / thL;
+        double tmpR2 = 0.0;
+
+        for (int i = 0; i < 100 && tmpR2 != r2; i++) {
+            tmpR2 = r2;
+            r2 = (thH * resistorParallel(r1, rfb)) / (1.0 - thH);
+            r1 = resistorParallel(r2, rfb) * (1 - thL) / thL;
+        }
+
 
         edtR2.removeTextChangedListener(r1rfb);
         edtR2.setText(getDoubleStringWithPrefix(r2, true));
@@ -213,6 +236,7 @@ public class OpAmpSchmittInvertingSingle extends OpAmp {
             noCalc++;
             spR1.setSelection(newIndex);
         }
+
 
         lblThSummary.setText("VHth: " + getDoubleStringWithPrefix(vth, false) +  ", VLth: " + getDoubleStringWithPrefix(vtl, false));
     }
@@ -261,6 +285,7 @@ public class OpAmpSchmittInvertingSingle extends OpAmp {
                 noCalc--;
                 return;
             }
+
             vswitch = getDoubleFromView(edtVswitch) * getPrefixMultiplier(lblVswitchPrefix);
 
             double halfHyst = hyst * 0.5;
