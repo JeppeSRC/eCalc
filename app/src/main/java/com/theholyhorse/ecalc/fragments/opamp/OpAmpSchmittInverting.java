@@ -36,8 +36,6 @@ import com.theholyhorse.ecalc.R;
 
 public class OpAmpSchmittInverting extends OpAmp {
 
-    private boolean noThRecalc = false;
-
     public OpAmpSchmittInverting() {
         super("OpAmp: Schmitt Inverting");
     }
@@ -61,7 +59,8 @@ public class OpAmpSchmittInverting extends OpAmp {
                 vcc *= getPrefixMultiplier(lblVccPrefix);
                 gnd *= getPrefixMultiplier(lblVccPrefix);
 
-                recalculateTh();
+                if (vcc > 0.0)
+                    recalculateR1();
             }
 
             public void afterTextChanged(Editable editable) {
@@ -75,6 +74,8 @@ public class OpAmpSchmittInverting extends OpAmp {
             }
 
             public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+                oldR1 = r1;
+                oldRfb = rfb;
                 r1 = getDoubleFromView(edtR1) * getPrefixMultiplier(lblR1Prefix);
                 rfb = getDoubleFromView(edtRfb) * getPrefixMultiplier(lblRfbPrefix);
 
@@ -93,9 +94,15 @@ public class OpAmpSchmittInverting extends OpAmp {
             }
 
             public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+                oldHyst = hyst;
                 hyst = getDoubleFromView(edtHyst) * getPrefixMultiplier(lblHystPrefix);
 
-                calculateR1();
+                if (hyst >= vcc - gnd) {
+                    Toast.makeText(MainActivity.get(), "hyst must be < to supply voltage", Toast.LENGTH_SHORT).show();
+                    edtHyst.setText(getDoubleStringWithPrefix(oldHyst, true));
+                }
+
+                recalculateR1();
             }
 
             public void afterTextChanged(Editable editable) {
@@ -115,7 +122,7 @@ public class OpAmpSchmittInverting extends OpAmp {
         return view;
     }
 
-    protected void calculateR1() {
+    protected void recalculateR1() {
         vth = hyst * 0.5f;
         vtl = hyst * -0.5f;
 
@@ -127,7 +134,13 @@ public class OpAmpSchmittInverting extends OpAmp {
         edtR1.setText(getDoubleStringWithPrefix(r1, true));
         edtR1.addTextChangedListener(r1rfb);
 
-        spR1.setSelection(getPrefixIndex(r1));
+        int newIndex = getPrefixIndex(r1);
+
+        if (newIndex != spR1.getSelectedItemPosition()) {
+            noCalc++;
+            spR1.setSelection(newIndex);
+        }
+
 
         recalculateThSummary();
     }
@@ -144,7 +157,14 @@ public class OpAmpSchmittInverting extends OpAmp {
         edtHyst.setText(getDoubleStringWithPrefix(hyst, true));
         edtHyst.addTextChangedListener(hyst_);
 
-        spHyst.setSelection(getPrefixIndex(hyst));
+        int newIndex = getPrefixIndex(hyst);
+
+        if (newIndex != spHyst.getSelectedItemPosition()) {
+            noCalc++;
+            spHyst.setSelection(newIndex);
+        }
+
+
 
         recalculateThSummary();
     }
@@ -163,14 +183,20 @@ public class OpAmpSchmittInverting extends OpAmp {
             recalculateTh();
         } else if (adapterView.getAdapter() == spR1Adapter) {
             lblR1Prefix.setText((CharSequence)adapterView.getItemAtPosition(i));
-            if (edtHyst.isFocused()) return;
+            if (noCalc > 0){
+                noCalc--;
+                return;
+            }
             r1 = getDoubleFromView(edtR1) * getPrefixMultiplier(lblR1Prefix);
             recalculateTh();
         }else if (adapterView.getAdapter() == spHystAdapter) {
             lblHystPrefix.setText((CharSequence)adapterView.getItemAtPosition(i));
-            if (edtR1.isFocused()) return;
+            if (noCalc > 0){
+                noCalc--;
+                return;
+            }
             hyst = getDoubleFromView(edtHyst) * getPrefixMultiplier(lblHystPrefix);
-            calculateR1();
+            recalculateR1();
         }
     }
 

@@ -85,6 +85,11 @@ public abstract class OpAmp extends HorseBaseFragment implements AdapterView.OnI
     protected double vth = 0.0;
     protected double vtl = 0.0;
     protected double vswitch = 0.0;
+    protected double oldR1 = 0.0;
+    protected double oldR2 = 0.0;
+    protected double oldRfb = 0.0;
+    protected double oldVswitch = 0.0;
+    protected double oldHyst = 0.0;
 
     protected TextWatcher vccgnd;
     protected TextWatcher r1rfb;
@@ -102,6 +107,8 @@ public abstract class OpAmp extends HorseBaseFragment implements AdapterView.OnI
     protected ArrayAdapter<CharSequence> spVinAdapter;
     protected ArrayAdapter<CharSequence> spHystAdapter;
     protected ArrayAdapter<CharSequence> spVswitchAdapter;
+
+    protected int noCalc = 0;
 
     protected OpAmp(String title) {
         super(title);
@@ -308,7 +315,7 @@ public abstract class OpAmp extends HorseBaseFragment implements AdapterView.OnI
         }
 
         if (spVswitch != null) {
-            spVswitch.setAdapter(spHystAdapter);
+            spVswitch.setAdapter(spVswitchAdapter);
             spVswitch.setSelection(2);
             spVswitch.setOnItemSelectedListener(this);
         }

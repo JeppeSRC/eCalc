@@ -56,7 +56,8 @@ public class OpAmpSchmittInvertingSingle extends OpAmp {
 
                 vcc *= getPrefixMultiplier(lblVccPrefix);
 
-                recalculateTh();
+                if (vcc > 0.0)
+                    recalculateR1R2Rfb();
             }
 
             public void afterTextChanged(Editable editable) { }
@@ -70,7 +71,8 @@ public class OpAmpSchmittInvertingSingle extends OpAmp {
                 rfb = getDoubleFromView(edtRfb) * getPrefixMultiplier(lblRfbPrefix);
                 r2 = getDoubleFromView(edtR2) * getPrefixMultiplier(lblR2Prefix);
 
-                recalculateTh();
+                if (r1 > 0.0 && r2 > 0.0 && rfb > 0.0)
+                    recalculateTh();
             }
 
             public void afterTextChanged(Editable editable) { }
@@ -80,10 +82,26 @@ public class OpAmpSchmittInvertingSingle extends OpAmp {
             public void beforeTextChanged(CharSequence s, int start, int count, int after) { }
 
             public void onTextChanged(CharSequence s, int start, int before, int count) {
+                oldVswitch = vswitch;
                 vswitch = getDoubleFromView(edtVswitch) * getPrefixMultiplier(lblVswitchPrefix);
 
-                if (vswitch > 0.0)
-                    recalculateR1R2Rfb();
+                if (vswitch <= 0.0) return;
+
+                double halfHyst = hyst * 0.5;
+
+                if (vswitch >= vcc) {
+                    Toast.makeText(MainActivity.get(), "vswitch must < supply voltage", Toast.LENGTH_SHORT).show();
+                    edtVswitch.setText(getDoubleStringWithPrefix(oldVswitch, true));
+                }
+
+                if (vswitch + halfHyst >= vcc) {
+                    edtHyst.setText(getDoubleStringWithPrefix(0.0, true));
+                } else if (vswitch - halfHyst <= gnd) {
+                    edtHyst.setText(getDoubleStringWithPrefix(0.0, true));
+                }
+
+
+                recalculateR1R2Rfb();
             }
 
             public void afterTextChanged(Editable s) { }
@@ -94,7 +112,15 @@ public class OpAmpSchmittInvertingSingle extends OpAmp {
             public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) { }
 
             public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+                oldHyst = hyst;
                 hyst = getDoubleFromView(edtHyst) * getPrefixMultiplier(lblHystPrefix);
+
+                double halfHyst = hyst * 0.5;
+
+                if (vswitch + halfHyst >= vcc || vswitch - halfHyst <= gnd) {
+                    Toast.makeText(MainActivity.get(), "VHth and VLth must be within supply voltage", Toast.LENGTH_SHORT).show();
+                    edtHyst.setText(getDoubleStringWithPrefix(oldHyst, true));
+                }
 
                 if (hyst > 0.0)
                     recalculateR1R2Rfb();
@@ -111,8 +137,8 @@ public class OpAmpSchmittInvertingSingle extends OpAmp {
         edtVswitch.addTextChangedListener(vswitch_);
 
         edtVcc.setText("5");
-        edtR1.setText("10");
         edtRfb.setText("10");
+        edtR1.setText("10");
         edtR2.setText("10");
 
         return view;
@@ -133,13 +159,23 @@ public class OpAmpSchmittInvertingSingle extends OpAmp {
         edtVswitch.setText(getDoubleStringWithPrefix(vswitch, true));
         edtVswitch.addTextChangedListener(vswitch_);
 
-        spVswitch.setSelection(getPrefixIndex(vswitch));
+        int newIndex = getPrefixIndex(vswitch);
+
+        if (newIndex != spVswitch.getSelectedItemPosition()) {
+            noCalc++;
+            spVswitch.setSelection(newIndex);
+        }
 
         edtHyst.removeTextChangedListener(hyst_);
         edtHyst.setText(getDoubleStringWithPrefix(hyst, true));
         edtHyst.addTextChangedListener(hyst_);
 
-        spHyst.setSelection(getPrefixIndex(hyst));
+        newIndex = getPrefixIndex(hyst);
+
+        if (newIndex != spHyst.getSelectedItemPosition()) {
+            noCalc++;
+            spHyst.setSelection(newIndex);
+        }
 
         lblThSummary.setText("VHth: " + getDoubleStringWithPrefix(vth, false) +  ", VLth: " + getDoubleStringWithPrefix(vtl, false));
     }
@@ -160,13 +196,23 @@ public class OpAmpSchmittInvertingSingle extends OpAmp {
         edtR2.setText(getDoubleStringWithPrefix(r2, true));
         edtR2.addTextChangedListener(r1rfb);
 
-        spR2.setSelection(getPrefixIndex(r2));
+        int newIndex = getPrefixIndex(r2);
+
+        if (newIndex != spR2.getSelectedItemPosition()) {
+            noCalc++;
+            spR2.setSelection(newIndex);
+        }
 
         edtR1.removeTextChangedListener(r1rfb);
         edtR1.setText(getDoubleStringWithPrefix(r1, true));
         edtR1.addTextChangedListener(r1rfb);
 
-        spR1.setSelection(getPrefixIndex(r1));
+        newIndex = getPrefixIndex(r1);
+
+        if (newIndex != spR1.getSelectedItemPosition()) {
+            noCalc++;
+            spR1.setSelection(newIndex);
+        }
 
         lblThSummary.setText("VHth: " + getDoubleStringWithPrefix(vth, false) +  ", VLth: " + getDoubleStringWithPrefix(vtl, false));
     }
@@ -180,23 +226,49 @@ public class OpAmpSchmittInvertingSingle extends OpAmp {
             rfb = getDoubleFromView(edtRfb) * getPrefixMultiplier(lblRfbPrefix);
         } else if (adapterView.getAdapter() == spR1Adapter) {
             lblR1Prefix.setText((CharSequence)adapterView.getItemAtPosition(i));
-            if (edtHyst.isFocused() || edtVswitch.isFocused()) return;
+            if (noCalc > 0){
+                noCalc--;
+                return;
+            }
             r1 = getDoubleFromView(edtR1) * getPrefixMultiplier(lblR1Prefix);
             recalculateTh();
         } else if (adapterView.getAdapter() == spR2Adapter) {
             lblR2Prefix.setText((CharSequence)adapterView.getItemAtPosition(i));
-            if (edtHyst.isFocused() || edtVswitch.isFocused()) return;
+            if (noCalc > 0){
+                noCalc--;
+                return;
+            }
             r2 = getDoubleFromView(edtR2) * getPrefixMultiplier(lblR2Prefix);
             recalculateTh();
         } else if (adapterView.getAdapter() == spHystAdapter) {
             lblHystPrefix.setText((CharSequence)adapterView.getItemAtPosition(i));
-            if (edtR1.isFocused() || edtR2.isFocused() || edtRfb.isFocused()) return;
+            if (noCalc > 0 ){
+                noCalc--;
+                return;
+            }
             hyst = getDoubleFromView(edtHyst) * getPrefixMultiplier(lblHystPrefix);
+
+            double halfHyst = hyst * 0.5;
+
+            if (vswitch + halfHyst >= vcc || vswitch - halfHyst <= gnd) {
+                edtHyst.setText(getDoubleStringWithPrefix(0, true));
+            }
+
             recalculateR1R2Rfb();
         } else if (adapterView.getAdapter() == spVswitchAdapter) {
             lblVswitchPrefix.setText((CharSequence)adapterView.getItemAtPosition(i));
-            if (edtR1.isFocused() || edtR2.isFocused() || edtRfb.isFocused()) return;
+            if (noCalc > 0){
+                noCalc--;
+                return;
+            }
             vswitch = getDoubleFromView(edtVswitch) * getPrefixMultiplier(lblVswitchPrefix);
+
+            double halfHyst = hyst * 0.5;
+
+            if (vswitch + halfHyst >= vcc || vswitch - halfHyst <= gnd) {
+                edtHyst.setText(getDoubleStringWithPrefix(0, true));
+            }
+
             recalculateR1R2Rfb();
         }
     }

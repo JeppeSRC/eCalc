@@ -55,10 +55,12 @@ public class OpAmpSchmittNonInverting extends OpAmp {
                 gnd = -vcc;
 
                 lblVccSummary.setText("Dual (V+ = " + getDoubleString(vcc) + ", V- = " + getDoubleString(gnd) + ")");
-                recalculateThSummary();
 
                 vcc *= getPrefixMultiplier(lblVccPrefix);
                 gnd *= getPrefixMultiplier(lblVccPrefix);
+
+                if (vcc > 0.0)
+                    recalculateR1();
             }
 
             public void afterTextChanged(Editable editable) {
@@ -90,7 +92,13 @@ public class OpAmpSchmittNonInverting extends OpAmp {
             }
 
             public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+                oldHyst = hyst;
                 hyst = getDoubleFromView(edtHyst) * getPrefixMultiplier(lblHystPrefix);
+
+                if (hyst >= vcc - gnd) {
+                    Toast.makeText(MainActivity.get(), "hyst must be < to supply voltage", Toast.LENGTH_SHORT).show();
+                    edtHyst.setText(getDoubleStringWithPrefix(oldHyst, true));
+                }
 
                 recalculateR1();
             }
@@ -124,7 +132,13 @@ public class OpAmpSchmittNonInverting extends OpAmp {
         edtR1.setText(getDoubleStringWithPrefix(r1, true));
         edtR1.addTextChangedListener(r1rfb);
 
-        spR1.setSelection(getPrefixIndex(r1));
+
+        int newIndex = getPrefixIndex(r1);
+
+        if (newIndex != spR1.getSelectedItemPosition()) {
+            noCalc++;
+            spR1.setSelection(newIndex);
+        }
 
         recalculateThSummary();
     }
@@ -141,7 +155,12 @@ public class OpAmpSchmittNonInverting extends OpAmp {
         edtHyst.setText(getDoubleStringWithPrefix(hyst, true));
         edtHyst.addTextChangedListener(hyst_);
 
-        spHyst.setSelection(getPrefixIndex(hyst));
+        int newIndex = getPrefixIndex(hyst);
+
+        if (newIndex != spHyst.getSelectedItemPosition()) {
+            noCalc++;
+            spHyst.setSelection(newIndex);
+        }
 
         recalculateThSummary();
     }
@@ -155,19 +174,25 @@ public class OpAmpSchmittNonInverting extends OpAmp {
             lblVccPrefix.setText((CharSequence)adapterView.getItemAtPosition(i));
             vcc = (getDoubleFromView(edtVcc) * getPrefixMultiplier(lblVccPrefix)) * 0.5f;
             gnd = -vcc;
-            recalculateThSummary();
+            recalculateR1();
         } else if (adapterView.getAdapter() == spRfbAdapter) {
             lblRfbPrefix.setText((CharSequence)adapterView.getItemAtPosition(i));
             rfb = getDoubleFromView(edtRfb) * getPrefixMultiplier(lblRfbPrefix);
             recalculateTh();
         } else if (adapterView.getAdapter() == spR1Adapter) {
             lblR1Prefix.setText((CharSequence)adapterView.getItemAtPosition(i));
-            if (edtHyst.isFocused()) return;
+            if (noCalc > 0) {
+                noCalc--;
+                return;
+            }
             r1 = getDoubleFromView(edtR1) * getPrefixMultiplier(lblR1Prefix);
             recalculateTh();
         } else if (adapterView.getAdapter() == spHystAdapter) {
             lblHystPrefix.setText((CharSequence)adapterView.getItemAtPosition(i));
-            if (edtR1.isFocused()) return;
+            if (noCalc > 0) {
+                noCalc--;
+                return;
+            }
             hyst = getDoubleFromView(edtHyst) * getPrefixMultiplier(lblHystPrefix);
             recalculateR1();
         }
