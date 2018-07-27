@@ -33,7 +33,7 @@
         android:layout_height="25dp"
         android:gravity="left"
         android:layout_marginLeft="30dp"
-        android:textColor="@color/iconColor"
+        android:textColor="@color/menuTextColor"
         android:textSize="18sp"/>
 
 </LinearLayout>
