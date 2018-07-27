@@ -59,8 +59,12 @@ public class OpAmpSchmittNonInverting extends OpAmp {
                 vcc *= getPrefixMultiplier(lblVccPrefix);
                 gnd *= getPrefixMultiplier(lblVccPrefix);
 
-                if (vcc > 0.0)
-                    recalculateR1();
+                if (vcc <= 0.0) return;
+
+                if (hyst >= vcc - gnd) {
+                    edtHyst.setText("");
+                    return;
+                }
             }
 
             public void afterTextChanged(Editable editable) {
