@@ -210,16 +210,10 @@ public class OpAmpSchmittInvertingSingle extends OpAmp {
         double tmpR2 = 0.0;
         double tmpR1 = 0.0;
 
-        int i;
-
-        long start = System.currentTimeMillis();
-
-        for (i = 0; i < 200000; i++) {
+        for (int i = 0; i < 200000; i++) {
             r2 = (thH * resistorParallel(r1, rfb)) / (1.0 - thH);
             r1 = resistorParallel(r2, rfb) * (1 - thL) / thL;
         }
-
-        Log.i("Nice", "Num: "+ i + " Duration: " + (System.currentTimeMillis() - start) / 1000);
 
         edtR2.removeTextChangedListener(r1rfb);
         edtR2.setText(getDoubleStringWithPrefix(r2, true));
