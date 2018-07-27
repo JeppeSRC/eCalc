@@ -25,5 +25,5 @@ SOFTWARE.
 -->
 <resources>
     <string name="app_name">eCalc</string>
-    <string name="home_text">eCalc is tool to simplify common calculations in the world of electronics.\n</string>
+    <string name="home_text">eCalc is tool to simplify common OpAmp circuit calculations.\n</string>
 </resources>
