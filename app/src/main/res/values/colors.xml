@@ -29,4 +29,5 @@ SOFTWARE.
     <color name="colorPrimaryDark">#303F9F</color>
     <color name="colorAccent">#FF4081</color>
     <color name="iconColor">#575757</color>
+    <color name="menuTextColor">@color/colorPrimary</color>
 </resources>
