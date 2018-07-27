@@ -25,6 +25,7 @@ package com.theholyhorse.ecalc.fragments.opamp;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -207,13 +208,18 @@ public class OpAmpSchmittInvertingSingle extends OpAmp {
         double thL = vtl / vcc;
 
         double tmpR2 = 0.0;
+        double tmpR1 = 0.0;
 
-        for (int i = 0; i < 100 && tmpR2 != r2; i++) {
-            tmpR2 = r2;
+        int i;
+
+        long start = System.currentTimeMillis();
+
+        for (i = 0; i < 200000; i++) {
             r2 = (thH * resistorParallel(r1, rfb)) / (1.0 - thH);
             r1 = resistorParallel(r2, rfb) * (1 - thL) / thL;
         }
 
+        Log.i("Nice", "Num: "+ i + " Duration: " + (System.currentTimeMillis() - start) / 1000);
 
         edtR2.removeTextChangedListener(r1rfb);
         edtR2.setText(getDoubleStringWithPrefix(r2, true));
@@ -248,6 +254,7 @@ public class OpAmpSchmittInvertingSingle extends OpAmp {
         } else if (adapterView.getAdapter() == spRfbAdapter) {
             lblRfbPrefix.setText((CharSequence)adapterView.getItemAtPosition(i));
             rfb = getDoubleFromView(edtRfb) * getPrefixMultiplier(lblRfbPrefix);
+            recalculateTh();
         } else if (adapterView.getAdapter() == spR1Adapter) {
             lblR1Prefix.setText((CharSequence)adapterView.getItemAtPosition(i));
             if (noCalc > 0){
