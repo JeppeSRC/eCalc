@@ -37,7 +37,7 @@ SOFTWARE.
         android:layout_alignParentTop="true"
         android:text="eCalc"
         android:textSize="50sp"
-        android:textColor="#af00fa"
+        android:textColor="@color/colorPrimary"
         android:gravity="center_horizontal"/>
 
     <TextView
