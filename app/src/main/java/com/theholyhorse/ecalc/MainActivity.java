@@ -61,6 +61,7 @@ public class MainActivity extends AppCompatActivity implements HorseList.OnItemC
     private static SharedPreferences sharedPreferences;
     private static MainActivity mainActivity;
     private MenuAdapter adapter;
+    private HorseBaseFragment frag = null;
 
     protected void onCreate(Bundle savedInstanceState) {
         mainActivity = this;
@@ -107,7 +108,7 @@ public class MainActivity extends AppCompatActivity implements HorseList.OnItemC
         PreferenceManager.setDefaultValues(this, R.xml.preferences, false);
         sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
     }
-
+/*
     public boolean onOptionsItemSelected(MenuItem item) {
 
         if (item.getItemId() == android.R.id.home) {
@@ -115,7 +116,7 @@ public class MainActivity extends AppCompatActivity implements HorseList.OnItemC
         }
 
         return super.onOptionsItemSelected(item);
-    }
+    }*/
 
     private List<HorseBaseMenuItem> prevItems = new ArrayList<>();
     private HorseBaseMenuItem currentItem;
@@ -134,7 +135,7 @@ public class MainActivity extends AppCompatActivity implements HorseList.OnItemC
 
         currentItem = item;
 
-        HorseBaseFragment frag = null;
+        frag = null;
 
         switch (item.itemId) {
             case MenuItemID.HOME_ID:
