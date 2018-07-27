@@ -23,6 +23,7 @@ SOFTWARE.
 package com.theholyhorse.ecalc.fragments.opamp;
 
 import android.text.TextWatcher;
+import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -192,7 +193,7 @@ public abstract class OpAmp extends HorseBaseFragment implements AdapterView.OnI
         try {
             res = Double.parseDouble(s);
         } catch (NumberFormatException e) {
-            res = -0.123;
+
         }
 
 
