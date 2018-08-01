@@ -25,6 +25,8 @@ package com.theholyhorse.ecalc;
 
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.support.design.widget.CoordinatorLayout;
+import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.ActionBar;
@@ -32,8 +34,11 @@ import android.support.v7.preference.PreferenceManager;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.ListView;
 
 import com.theholyhorse.ecalc.fragments.*;
@@ -62,6 +67,7 @@ public class MainActivity extends AppCompatActivity implements HorseList.OnItemC
     private static MainActivity mainActivity;
     private MenuAdapter adapter;
     private HorseBaseFragment frag = null;
+    private FloatingActionButton fabInfo = null;
 
     protected void onCreate(Bundle savedInstanceState) {
         mainActivity = this;
@@ -107,8 +113,20 @@ public class MainActivity extends AppCompatActivity implements HorseList.OnItemC
 
         PreferenceManager.setDefaultValues(this, R.xml.preferences, false);
         sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
+
+        CoordinatorLayout lay = findViewById(R.id.frame_layout);
+
+        fabInfo = lay.findViewById(R.id.fab_info);
+        fabInfo.setVisibility(View.INVISIBLE);
+
+        fabInfo.setOnClickListener(new View.OnClickListener() {
+
+            public void onClick(View v) {
+                Log.i("Yeah", "dank");
+            }
+        });
     }
-/*
+
     public boolean onOptionsItemSelected(MenuItem item) {
 
         if (item.getItemId() == android.R.id.home) {
@@ -116,7 +134,7 @@ public class MainActivity extends AppCompatActivity implements HorseList.OnItemC
         }
 
         return super.onOptionsItemSelected(item);
-    }*/
+    }
 
     private List<HorseBaseMenuItem> prevItems = new ArrayList<>();
     private HorseBaseMenuItem currentItem;
@@ -163,6 +181,8 @@ public class MainActivity extends AppCompatActivity implements HorseList.OnItemC
 
         if (frag == null) return;
 
+        setFabVisibility(item);
+
         getSupportActionBar().setTitle(frag.getTitle());
 
         FragmentTransaction trans = getSupportFragmentManager().beginTransaction();
@@ -190,6 +210,8 @@ public class MainActivity extends AppCompatActivity implements HorseList.OnItemC
         prevItems.remove(lastIndex);
 
         adapter.notifyDataSetChanged();
+
+        setFabVisibility(currentItem);
     }
 
     public static SharedPreferences getSharedPreferences() {
@@ -198,5 +220,17 @@ public class MainActivity extends AppCompatActivity implements HorseList.OnItemC
 
     public static MainActivity get() {
         return mainActivity;
+    }
+
+    private void setFabVisibility(HorseBaseMenuItem item) {
+        if (item == null || fabInfo == null) return;
+
+        int visible = View.VISIBLE;
+
+        if (item.itemId == MenuItemID.HOME_ID || item.itemId == MenuItemID.SETTINGS_ID) {
+            visible = View.INVISIBLE;
+        }
+
+        fabInfo.setVisibility(visible);
     }
 }
