@@ -26,4 +26,10 @@ SOFTWARE.
 <resources>
     <string name="app_name">eCalc</string>
     <string name="home_text">eCalc is tool to simplify common OpAmp circuit calculations.\n</string>
+
+    <string name="opamp_inverting_help">Vcc: this is the input voltage to the chip in a dual supply configuration.\n\nVin: the input signal.\n\nR1: the R1 resistor.\n\nRfb: the feedback resistor.\n\nGain: the gain of the amplifier. Vin * Gain = Vout\n\nVout: the amplified output</string>
+    <string name="opamp_noninverting_help">Vcc: this is the input voltage to the chip in a single supply configuration.\n\nVin: the input signal.\n\nR1: the R1 resistor.\n\nRfb: the feedback resistor.\n\nGain: the gain of the amplifier. Vin * Gain = Vout\n\nVout: the amplified output</string>
+    <string name="opamp_schmitt_inverting_help">Vcc: The input voltage to the chip in a dual supply configuration.\n\nR1: the R1 resistor.\n\nRfb: the feedback resistor.\n\nVhyst: is the hysteresis.\n\nVHth: is the upper switching threshold.\n\nVLth: is the lower switching threshold.</string>
+    <string name="opamp_schmitt_noninverting_help">Vcc: The input voltage to the chip in a dual supply configuration.\n\nR1: the R1 resistor.\n\nRfb: the feedback resistor.\n\nVhyst: is the hysteresis.\n\nVHth: is the upper switching threshold.\n\nVLth: is the lower switching threshold.</string>
+    <string name="opamp_schmitt_inverting_single_help">Vcc: The input voltage to the chip in a single supply configuration.\n\nR1: the R1 resistor.\n\nR2: the R2 resistor.\n\nRfb: the feedback resistor.\n\nVhyst: is the hysteresis.\n\nVsw: is the switching voltage\n\nVHth: is the upper switching threshold.\n\nVLth: is the lower switching threshold.</string>
 </resources>

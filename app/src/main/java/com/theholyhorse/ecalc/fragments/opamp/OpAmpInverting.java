@@ -40,6 +40,7 @@ import com.google.android.gms.ads.AdRequest;
 import com.google.android.gms.ads.AdView;
 import com.theholyhorse.ecalc.MainActivity;
 import com.theholyhorse.ecalc.R;
+import com.theholyhorse.ecalc.fragments.opamp.info.BaseHelpDialog;
 
 public class OpAmpInverting extends OpAmp {
 
@@ -186,4 +187,5 @@ public class OpAmpInverting extends OpAmp {
     }
 
     public void onNothingSelected(AdapterView<?> adapterView) { }
+
 }

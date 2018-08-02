@@ -30,6 +30,7 @@ import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.ActionBar;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.preference.PreferenceManager;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
@@ -47,6 +48,7 @@ import com.theholyhorse.ecalc.fragments.opamp.OpAmpNonInverting;
 import com.theholyhorse.ecalc.fragments.opamp.OpAmpSchmittInverting;
 import com.theholyhorse.ecalc.fragments.opamp.OpAmpSchmittInvertingSingle;
 import com.theholyhorse.ecalc.fragments.opamp.OpAmpSchmittNonInverting;
+import com.theholyhorse.ecalc.fragments.opamp.info.BaseHelpDialog;
 import com.theholyhorse.ecalc.menu.HorseBaseMenuItem;
 import com.theholyhorse.ecalc.menu.HorseList;
 import com.theholyhorse.ecalc.menu.HorseMenuDivider;
@@ -59,7 +61,7 @@ import com.theholyhorse.ecalc.menu.MenuItemID;
 import java.util.ArrayList;
 import java.util.List;
 
-public class MainActivity extends AppCompatActivity implements HorseList.OnItemClickListener {
+public class MainActivity extends AppCompatActivity implements HorseList.OnItemClickListener, View.OnClickListener {
 
     private DrawerLayout drawerLayout;
     // private NavigationView navigationView;
@@ -118,13 +120,8 @@ public class MainActivity extends AppCompatActivity implements HorseList.OnItemC
 
         fabInfo = lay.findViewById(R.id.fab_info);
         fabInfo.setVisibility(View.INVISIBLE);
+        fabInfo.setOnClickListener(this);
 
-        fabInfo.setOnClickListener(new View.OnClickListener() {
-
-            public void onClick(View v) {
-                Log.i("Yeah", "dank");
-            }
-        });
     }
 
     public boolean onOptionsItemSelected(MenuItem item) {
@@ -192,6 +189,42 @@ public class MainActivity extends AppCompatActivity implements HorseList.OnItemC
 
         drawerLayout.closeDrawers();
         adapter.notifyDataSetChanged();
+    }
+
+    public void onClick(View v) {
+        if (v.getId() == R.id.fab_info) {
+            if (currentItem.itemId == MenuItemID.OPAMP_AMP_INVERTING_ID) {
+                AlertDialog.Builder builder = new AlertDialog.Builder(this);
+                builder.setTitle("Info");
+                builder.setPositiveButton("OK", null);
+                builder.setMessage(R.string.opamp_inverting_help);
+                builder.show();
+            } else if (currentItem.itemId == MenuItemID.OPAMP_AMP_NONINVERTING_ID) {
+                AlertDialog.Builder builder = new AlertDialog.Builder(this);
+                builder.setTitle("Info");
+                builder.setPositiveButton("OK", null);
+                builder.setMessage(R.string.opamp_noninverting_help);
+                builder.show();
+            } else if (currentItem.itemId == MenuItemID.OPAMP_SCHMITT_TRIGGER_INVERTING_ID) {
+                AlertDialog.Builder builder = new AlertDialog.Builder(this);
+                builder.setTitle("Info");
+                builder.setPositiveButton("OK", null);
+                builder.setMessage(R.string.opamp_schmitt_inverting_help);
+                builder.show();
+            } else if (currentItem.itemId == MenuItemID.OPAMP_SCHMITT_TRIGGER_NONINVERTING_ID) {
+                AlertDialog.Builder builder = new AlertDialog.Builder(this);
+                builder.setTitle("Info");
+                builder.setPositiveButton("OK", null);
+                builder.setMessage(R.string.opamp_schmitt_noninverting_help);
+                builder.show();
+            } else if (currentItem.itemId == MenuItemID.OPAMP_SCHMITT_TRIGGER_INVERTING_SINGLE_ID) {
+                AlertDialog.Builder builder = new AlertDialog.Builder(this);
+                builder.setTitle("Info");
+                builder.setPositiveButton("OK", null);
+                builder.setMessage(R.string.opamp_schmitt_inverting_single_help);
+                builder.show();
+            }
+        }
     }
 
     public void onBackPressed() {
