@@ -147,6 +147,8 @@ public class OpAmpSchmittInvertingSingle extends OpAmp {
             public void afterTextChanged(Editable editable) { }
         };
 
+        noCalc = 4;
+
         edtVcc.addTextChangedListener(vccgnd);
         edtR1.addTextChangedListener(r1rfb);
         edtR2.addTextChangedListener(r1rfb);
@@ -158,6 +160,7 @@ public class OpAmpSchmittInvertingSingle extends OpAmp {
         edtRfb.setText("10");
         edtR1.setText("10");
         edtR2.setText("10");
+
 
         return view;
     }
@@ -237,7 +240,6 @@ public class OpAmpSchmittInvertingSingle extends OpAmp {
             spR1.setSelection(newIndex);
         }
 
-
         lblThSummary.setText("VHth: " + getDoubleStringWithPrefix(vth, false) +  ", VLth: " + getDoubleStringWithPrefix(vtl, false));
     }
 
@@ -271,6 +273,7 @@ public class OpAmpSchmittInvertingSingle extends OpAmp {
                 noCalc--;
                 return;
             }
+
             hyst = getDoubleFromView(edtHyst) * getPrefixMultiplier(lblHystPrefix);
 
             double halfHyst = hyst * 0.5;
