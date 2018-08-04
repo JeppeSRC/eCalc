@@ -140,7 +140,6 @@ public class MainActivity extends AppCompatActivity implements HorseList.OnItemC
     private HorseBaseMenuItem currentItem;
 
     public void onItemClicked(HorseBaseMenuItem item, View v) {
-        Log.i("Test", v == null ? "Shits null" : "Not null");
         if (currentItem == item) {
             drawerLayout.closeDrawers();
             return;
