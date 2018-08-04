@@ -23,24 +23,13 @@ SOFTWARE.
 package com.theholyhorse.ecalc.fragments.opamp;
 
 import android.os.Bundle;
-import android.support.v4.app.Fragment;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
-import android.widget.EditText;
-import android.widget.ImageView;
-import android.widget.Spinner;
-import android.widget.TextView;
-
-import com.google.android.gms.ads.AdRequest;
-import com.google.android.gms.ads.AdView;
-import com.theholyhorse.ecalc.MainActivity;
 import com.theholyhorse.ecalc.R;
-import com.theholyhorse.ecalc.fragments.opamp.info.BaseHelpDialog;
 
 public class OpAmpInverting extends OpAmp {
 

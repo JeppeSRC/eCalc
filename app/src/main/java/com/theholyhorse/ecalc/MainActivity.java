@@ -48,7 +48,6 @@ import com.theholyhorse.ecalc.fragments.opamp.OpAmpNonInverting;
 import com.theholyhorse.ecalc.fragments.opamp.OpAmpSchmittInverting;
 import com.theholyhorse.ecalc.fragments.opamp.OpAmpSchmittInvertingSingle;
 import com.theholyhorse.ecalc.fragments.opamp.OpAmpSchmittNonInverting;
-import com.theholyhorse.ecalc.fragments.opamp.info.BaseHelpDialog;
 import com.theholyhorse.ecalc.menu.HorseBaseMenuItem;
 import com.theholyhorse.ecalc.menu.HorseList;
 import com.theholyhorse.ecalc.menu.HorseMenuDivider;
