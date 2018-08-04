@@ -32,4 +32,6 @@ public class MenuItemID {
     public static final int OPAMP_SCHMITT_TRIGGER_INVERTING_SINGLE_ID = 0x06;
     public static final int OPAMP_SCHMITT_TRIGGER_NONINVERTING_ID = 0x07;
 
+    public static final int LICENSES_ID = 0x100;
+
 }

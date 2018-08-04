@@ -27,6 +27,7 @@ SOFTWARE.
 <RelativeLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:ads="http://schemas.android.com/apk/res-auto"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
@@ -36,10 +37,11 @@ SOFTWARE.
         android:layout_height="70dp"
         android:layout_alignParentTop="true"
         android:text="eCalc"
+        app:fontFamily="@font/belgrano_regular"
         android:textSize="50sp"
         android:textColor="#FFFFFFFF"
         android:background="@color/colorPrimary"
-        android:gravity="center_horizontal"/>
+        android:gravity="center_horizontal" />
 
     <TextView
         android:layout_width="match_parent"

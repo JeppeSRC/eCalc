@@ -42,6 +42,7 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.ListView;
 
+import com.google.android.gms.ads.MobileAds;
 import com.theholyhorse.ecalc.fragments.*;
 import com.theholyhorse.ecalc.fragments.opamp.OpAmpInverting;
 import com.theholyhorse.ecalc.fragments.opamp.OpAmpNonInverting;
@@ -71,6 +72,7 @@ public class MainActivity extends AppCompatActivity implements HorseList.OnItemC
     private FloatingActionButton fabInfo = null;
 
     protected void onCreate(Bundle savedInstanceState) {
+        MobileAds.initialize(this, "");
         mainActivity = this;
         super.onCreate(savedInstanceState);
         setContentView(R.layout.drawer_layout);
@@ -84,6 +86,7 @@ public class MainActivity extends AppCompatActivity implements HorseList.OnItemC
 
         items.add(new HorseMenuItem(R.drawable.ic_home_black, "Home", MenuItemID.HOME_ID));
         items.add(new HorseMenuItem(R.drawable.ic_settings, "Settings", MenuItemID.SETTINGS_ID));
+        items.add(new HorseMenuItem(R.drawable.ic_about, "License(s)", MenuItemID.LICENSES_ID));
         items.add(new HorseMenuDivider("Op-Amps"));
 
         List<HorseBaseMenuItem> list2 = new ArrayList<>();
@@ -120,6 +123,7 @@ public class MainActivity extends AppCompatActivity implements HorseList.OnItemC
         fabInfo = lay.findViewById(R.id.fab_info);
         fabInfo.setVisibility(View.INVISIBLE);
         fabInfo.setOnClickListener(this);
+
 
     }
 
@@ -158,6 +162,9 @@ public class MainActivity extends AppCompatActivity implements HorseList.OnItemC
                 break;
             case MenuItemID.SETTINGS_ID:
                 frag = new PreferenceFrag();
+                break;
+            case MenuItemID.LICENSES_ID:
+                frag = new License();
                 break;
             case MenuItemID.OPAMP_AMP_INVERTING_ID:
                 frag = new OpAmpInverting();
@@ -261,7 +268,7 @@ public class MainActivity extends AppCompatActivity implements HorseList.OnItemC
 
         int visible = View.VISIBLE;
 
-        if (item.itemId == MenuItemID.HOME_ID || item.itemId == MenuItemID.SETTINGS_ID) {
+        if (item.itemId == MenuItemID.HOME_ID || item.itemId == MenuItemID.SETTINGS_ID || item.itemId == MenuItemID.LICENSES_ID) {
             visible = View.INVISIBLE;
         }
 
