@@ -5,7 +5,7 @@
 /.idea/modules.xml
 /.idea/workspace.xml
 /.idea/caches
-
+/app/release
 .DS_Store
 /build
 /captures
