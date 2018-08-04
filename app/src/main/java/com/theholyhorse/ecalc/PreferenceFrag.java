@@ -68,9 +68,9 @@ public class PreferenceFrag extends HorseBaseFragment implements SharedPreferenc
             }
         } else if (key.equals("pref_ads_extra")) {
             if (sharedPreferences.getBoolean(key, false)) {
-                pref.setSummary("Ads will be shown in the calculator!");
+                pref.setSummary("Ads will be shown!");
             } else {
-                pref.setSummary("Ads will only be shown at the home menu");
+                pref.setSummary("Ads will only be shown in the home menu");
             }
 
         }

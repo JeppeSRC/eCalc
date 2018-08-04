@@ -28,6 +28,7 @@ SOFTWARE.
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
 
     <CheckBoxPreference
+        android:enabled="false"
         android:title="Enable Ads"
         android:defaultValue="true"
         android:summary="Ads will be shown!"
@@ -35,8 +36,8 @@ SOFTWARE.
 
     <CheckBoxPreference
         android:title="Enable Ads In Calculator"
-        android:defaultValue="false"
-        android:summary="Ads will only be shown at the home menu"
+        android:defaultValue="true"
+        android:summary="Ads will be shown!"
         android:key="pref_ads_extra"/>
 
 </PreferenceScreen>
