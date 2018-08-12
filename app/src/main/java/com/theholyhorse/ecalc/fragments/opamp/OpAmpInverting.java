@@ -98,7 +98,7 @@ public class OpAmpInverting extends OpAmp {
             }
 
             public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-                gain = getDoubleFromView(edtGain);
+                gain = -getDoubleFromView(edtGain);
 
                 r1 = -rfb / gain;
 
@@ -135,7 +135,7 @@ public class OpAmpInverting extends OpAmp {
         gain = -rfb / r1;
 
         edtGain.removeTextChangedListener(gain_);
-        edtGain.setText(getDoubleString(gain));
+        edtGain.setText(getDoubleString(-gain));
         edtGain.addTextChangedListener(gain_);
 
         recalculateVout();
