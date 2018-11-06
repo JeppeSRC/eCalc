@@ -80,7 +80,7 @@ public class MainActivity extends AppCompatActivity implements HorseList.OnItemC
         drawerLayout = findViewById(R.id.drawer_layout);
         //  navigationView = findViewById(R.id.navigation_view);
 
-       ListView lv = findViewById(R.id.lv_menu);
+        ListView lv = findViewById(R.id.lv_menu);
 
         List<HorseBaseMenuItem> items = new HorseList(this);
 
